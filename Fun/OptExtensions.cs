@@ -6,44 +6,23 @@ namespace Fun
 {
     public static class OptExtensions
     {
-
         #region Projections
 
-        public static Opt<T2> Map<T1, T2>(
+        public static Opt<T2> OptMap<T1, T2>(
             this Opt<T1> @this,
-            Func<T1, T2> projection)
-        {
-            if (Equals(@this, null))
-                throw new ArgumentNullException(nameof(@this));
+            Func<T1, T2> projection) =>
+            @this.Map1<T1, Unit, T2, Opt<T1>, Opt<T2>>(projection);
 
-            if (Equals(projection, null))
-                throw new ArgumentNullException(nameof(projection));
-
-            return @this.HasValue
-                ? Opt.Some(projection(@this.Value))
-                : Opt.None<T2>();
-        }
-
-        public static Opt<T2> Map<T1, T2>(
+        public static Opt<T2> OptMap<T1, T2>(
             this Opt<T1> @this,
-            Func<T1, Opt<T2>> projection)
-        {
-            if (Equals(@this, null))
-                throw new ArgumentNullException(nameof(@this));
-
-            if (Equals(projection, null))
-                throw new ArgumentNullException(nameof(projection));
-
-            return @this.HasValue
-                ? projection(@this.Value)
-                : Opt.None<T2>();
-        }
+            Func<T1, Opt<T2>> projection) =>
+            @this.Map1<T1, Unit, T2, Opt<T1>, Opt<T2>>(projection);
 
         #endregion
 
         #region Side effects
 
-        public static Opt<T> Do<T>(
+        public static Opt<T> OptDo<T>(
             this Opt<T> @this,
             Func<Unit> action)
         {
@@ -61,7 +40,7 @@ namespace Fun
             return @this;
         }
 
-        public static Opt<T> Do<T>(
+        public static Opt<T> OptDo<T>(
             this Opt<T> @this,
             Func<T, Unit> action)
         {
@@ -79,7 +58,7 @@ namespace Fun
             return @this;
         }
 
-        public static Opt<T> Do<T>(
+        public static Opt<T> OptDo<T>(
             this Opt<T> @this,
             Action action)
         {
@@ -97,7 +76,7 @@ namespace Fun
             return @this;
         }
 
-        public static Opt<T> Do<T>(
+        public static Opt<T> OptDo<T>(
             this Opt<T> @this,
           Action<T> action)
         {
