@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8D0F4562-7734-4AA6-8552-ED64C9EE465A}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Fun.TestConsole</RootNamespace>
-    <AssemblyName>Fun.TestConsole</AssemblyName>
+    <RootNamespace>TestApp</RootNamespace>
+    <AssemblyName>TestApp</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -37,7 +37,11 @@
       <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Common, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.Common.4.3.0\lib\net451\System.Data.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,14 +50,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\IStuffController.cs" />
+    <Compile Include="Core\IStuffRepository.cs" />
+    <Compile Include="Core\IStuffService.cs" />
+    <Compile Include="DataLayer\StuffRepository.cs" />
+    <Compile Include="DomainLayer\StuffService.cs" />
+    <Compile Include="DomainLayer\ValidationException.cs" />
+    <Compile Include="Model\Stuff.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceLayer\StuffController.cs" />
+    <Compile Include="ServiceLayer\TryExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Fun.Dapper\Fun.Dapper.csproj">
+      <Project>{7a40c25d-3383-43ff-a019-25153c91b443}</Project>
+      <Name>Fun.Dapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Fun\Fun.csproj">
       <Project>{a957c2b6-cb4d-4900-91c6-2859bcd9f70e}</Project>
       <Name>Fun</Name>

@@ -5,10 +5,10 @@ using Microsoft.FSharp.Core;
 
 namespace Fun.FSharp
 {
-    public static class MaybeExtensions
+    public static class OptExtensions
     {
         public static FSharpOption<T> AsOption<T>(
-            this Maybe<T> @this) =>
+            this Opt<T> @this) =>
             @this.HasValue
                 ? FSharpOption<T>.Some(@this.Value)
                 : FSharpOption<T>.None;

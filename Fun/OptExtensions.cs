@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace Fun
 {
-    public static class MaybeExtensions
+    public static class OptExtensions
     {
 
         #region Projections
 
-        public static Maybe<T2> Map<T1, T2>(
-            this Maybe<T1> @this,
+        public static Opt<T2> Map<T1, T2>(
+            this Opt<T1> @this,
             Func<T1, T2> projection)
         {
             if (Equals(@this, null))
@@ -20,13 +20,13 @@ namespace Fun
                 throw new ArgumentNullException(nameof(projection));
 
             return @this.HasValue
-                ? Maybe.Some(projection(@this.Value))
-                : Maybe.None<T2>();
+                ? Opt.Some(projection(@this.Value))
+                : Opt.None<T2>();
         }
 
-        public static Maybe<T2> Map<T1, T2>(
-            this Maybe<T1> @this,
-            Func<T1, Maybe<T2>> projection)
+        public static Opt<T2> Map<T1, T2>(
+            this Opt<T1> @this,
+            Func<T1, Opt<T2>> projection)
         {
             if (Equals(@this, null))
                 throw new ArgumentNullException(nameof(@this));
@@ -36,15 +36,15 @@ namespace Fun
 
             return @this.HasValue
                 ? projection(@this.Value)
-                : Maybe.None<T2>();
+                : Opt.None<T2>();
         }
 
         #endregion
 
         #region Side effects
 
-        public static Maybe<T> Do<T>(
-            this Maybe<T> @this,
+        public static Opt<T> Do<T>(
+            this Opt<T> @this,
             Func<Unit> action)
         {
             if (Equals(@this, null))
@@ -61,8 +61,8 @@ namespace Fun
             return @this;
         }
 
-        public static Maybe<T> Do<T>(
-            this Maybe<T> @this,
+        public static Opt<T> Do<T>(
+            this Opt<T> @this,
             Func<T, Unit> action)
         {
             if (Equals(@this, null))
@@ -79,8 +79,8 @@ namespace Fun
             return @this;
         }
 
-        public static Maybe<T> Do<T>(
-            this Maybe<T> @this,
+        public static Opt<T> Do<T>(
+            this Opt<T> @this,
             Action action)
         {
             if (Equals(@this, null))
@@ -97,8 +97,8 @@ namespace Fun
             return @this;
         }
 
-        public static Maybe<T> Do<T>(
-            this Maybe<T> @this,
+        public static Opt<T> Do<T>(
+            this Opt<T> @this,
           Action<T> action)
         {
             if (Equals(@this, null))
@@ -115,13 +115,13 @@ namespace Fun
             return @this;
         }
 
-        public static Maybe<Unit> Ignore<T>(
-            this Maybe<T> @this)
+        public static Opt<Unit> Ignore<T>(
+            this Opt<T> @this)
         {
             if (Equals(@this, null))
                 throw new ArgumentNullException(nameof(@this));
 
-            return Maybe.Some(Unit.Value);
+            return Opt.Some(Unit.Value);
         }
 
         #endregion
@@ -129,36 +129,36 @@ namespace Fun
         #region Conversions
 
         public static Nullable<T> AsNullable<T>(
-            this Maybe<T> @this)
+            this Opt<T> @this)
             where T : struct =>
             @this.HasValue
                 ? @this.Value
                 : default(T?);
 
         public static IEnumerable<T> AsSingleOrEmptySeq<T>(
-            this Maybe<T> @this)
+            this Opt<T> @this)
             where T : struct =>
             @this.HasValue
                 ? Enumerable.Repeat(@this.Value, 1)
                 : Enumerable.Empty<T>();
 
-        public static Result<T> AsResult<T>(
-            this Maybe<T> @this,
+        public static Try<T> AsTry<T>(
+            this Opt<T> @this,
             Func<Exception> errorGenerator)
         {
             if (@this.HasValue)
             {
-                return Result.Some(@this.Value);
+                return Try.Some(@this.Value);
             }
             else
             {
                 try
                 {
-                    return Result.Error<T>(errorGenerator());
+                    return Try.Error<T>(errorGenerator());
                 }
                 catch (Exception e)
                 {
-                    return Result.Error<T>(e);
+                    return Try.Error<T>(e);
                 }
             }
         }

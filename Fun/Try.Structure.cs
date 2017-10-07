@@ -2,8 +2,8 @@
 
 namespace Fun
 {
-    public class Result<T> : 
-        IEquatable<Result<T>>
+    public class Try<T> : 
+        IEquatable<Try<T>>
     {
         private readonly T _value;
 
@@ -16,15 +16,15 @@ namespace Fun
             HasValue
                 ? _value
                 : throw new InvalidOperationException(
-                    $"Cannot get {nameof(Value)} of {nameof(Result<T>)} when {nameof(HasValue)} is false.");
+                    $"Cannot get {nameof(Value)} of {nameof(Try<T>)} when {nameof(HasValue)} is false.");
 
         public Exception Error =>
             HasValue
                 ? throw new InvalidOperationException(
-                    $"Cannot get {nameof(Error)} of {nameof(Result<T>)} when {nameof(HasValue)} is false.")
+                    $"Cannot get {nameof(Error)} of {nameof(Try<T>)} when {nameof(HasValue)} is false.")
                 : _error;
 
-        internal Result(T value, Exception error)
+        internal Try(T value, Exception error)
         {
             _value = value;
             _error = error;
@@ -33,7 +33,7 @@ namespace Fun
         #region Equality
         
         public bool Equals(
-            Result<T> other)
+            Try<T> other)
         {
             if (Equals(other, null))
             {
@@ -54,7 +54,7 @@ namespace Fun
 
         public override bool Equals(
             object obj) =>
-            Equals(obj as Result<T>);
+            Equals(obj as Try<T>);
 
         public override int GetHashCode() =>
             HasValue
@@ -62,15 +62,15 @@ namespace Fun
                 : _error?.GetHashCode() ?? 0;
 
         public static bool operator ==(
-            Result<T> a, 
-            Result<T> b) =>
+            Try<T> a, 
+            Try<T> b) =>
             Equals(a, null)
                 ? Equals(b, null)
                 : a.Equals(b);
 
         public static bool operator !=(
-            Result<T> a, 
-            Result<T> b) =>
+            Try<T> a, 
+            Try<T> b) =>
             Equals(a, null)
                 ? !Equals(b, null)
                 : !a.Equals(b);

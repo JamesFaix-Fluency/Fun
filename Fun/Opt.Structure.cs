@@ -2,8 +2,8 @@
 
 namespace Fun
 {
-    public class Maybe<T> :
-        IEquatable<Maybe<T>>
+    public class Opt<T> :
+        IEquatable<Opt<T>>
     {
         private readonly bool _hasValue;
 
@@ -15,9 +15,9 @@ namespace Fun
             _hasValue
                 ? _value
                 : throw new InvalidOperationException(
-                    $"Cannot get {nameof(Value)} of {nameof(Maybe<T>)} when {nameof(HasValue)} is false.");
+                    $"Cannot get {nameof(Value)} of {nameof(Opt<T>)} when {nameof(HasValue)} is false.");
 
-        internal Maybe(
+        internal Opt(
             bool hasValue, 
             T value)
         {
@@ -28,7 +28,7 @@ namespace Fun
         #region Equality
 
         public bool Equals(
-            Maybe<T> other)
+            Opt<T> other)
         {
             if (Equals(other, null))
             {
@@ -48,21 +48,21 @@ namespace Fun
 
         public override bool Equals(
             object obj) =>
-            Equals(obj as Maybe<T>);
+            Equals(obj as Opt<T>);
 
         public override int GetHashCode() =>
             _value?.GetHashCode() ?? 0;
 
         public static bool operator ==(
-            Maybe<T> a, 
-            Maybe<T> b) =>
+            Opt<T> a, 
+            Opt<T> b) =>
             Equals(a, null)
                 ? Equals(b, null)
                 : a.Equals(b);
 
         public static bool operator !=(
-            Maybe<T> a, 
-            Maybe<T> b) =>
+            Opt<T> a, 
+            Opt<T> b) =>
             Equals(a, null)
                 ? !Equals(b, null)
                 : !a.Equals(b);
@@ -75,7 +75,7 @@ namespace Fun
                 : $"Nothing{{{typeof(T)}}}";
 
         //Only ever create one None per type
-        internal static Maybe<T> None { get; } = 
-            new Maybe<T>(false, default(T));
+        internal static Opt<T> None { get; } = 
+            new Opt<T>(false, default(T));
     }
 }
