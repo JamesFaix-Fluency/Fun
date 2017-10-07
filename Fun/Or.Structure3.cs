@@ -13,6 +13,8 @@ namespace Fun
 
         protected readonly T3 _item3;
 
+        private static Or3Factory _factory = new Or3Factory();
+
         internal Or(int option, T1 item1, T2 item2, T3 item3)
         {
             if (option < 1 || option > 3)
@@ -23,7 +25,7 @@ namespace Fun
             _item2 = item2;
             _item3 = item3;
         }
-
+        
         public int Option => _option;
 
         public T1 Item1 =>
@@ -40,6 +42,8 @@ namespace Fun
             _option != 3
                 ? throw new InvalidOperationException(GetInvalidItemErrorMessage(3))
                 : _item3;
+
+        internal virtual IOr3Factory Factory => _factory;
 
         #region Equality
 

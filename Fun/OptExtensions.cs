@@ -11,12 +11,12 @@ namespace Fun
         public static Opt<T2> OptMap<T1, T2>(
             this Opt<T1> @this,
             Func<T1, T2> projection) =>
-            @this.Map1<T1, Unit, T2, Opt<T1>, Opt<T2>>(projection);
+            @this.Map1<T1, T2, Unit, Opt<T1>, Opt<T2>>(projection);
 
         public static Opt<T2> OptMap<T1, T2>(
             this Opt<T1> @this,
             Func<T1, Opt<T2>> projection) =>
-            @this.Map1<T1, Unit, T2, Opt<T1>, Opt<T2>>(projection);
+            @this.Map1<T1, T2, Unit, Opt<T1>, Opt<T2>>(projection);
 
         #endregion
 

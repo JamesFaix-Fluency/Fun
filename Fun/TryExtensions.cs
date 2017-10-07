@@ -13,18 +13,18 @@ namespace Fun
         public static Try<T2> TryMap<T1, T2>(
             this Try<T1> @this,
             Func<T1, T2> projection) =>
-            Try.Get(() => @this.Map1<T1, Exception, T2, Try<T1>, Try<T2>>(projection));
+            Try.Get(() => @this.Map1<T1, T2, Exception, Try<T1>, Try<T2>>(projection));
 
         public static Try<T2> TryMap<T1, T2>(
             this Try<T1> @this,
             Func<T1, Try<T2>> projection) =>
-            Try.Get(() => @this.Map1<T1, Exception, T2, Try<T1>, Try<T2>>(projection));
+            Try.Get(() => @this.Map1<T1, T2, Exception, Try<T1>, Try<T2>>(projection));
 
         public static Try<T2> TryMap<T1, T2>(
             this Try<T1> @this,
             Func<T1, Try<T2>> valueProjection,
             Func<Exception, Try<T2>> errorProjection) =>
-            Try.Get(() => @this.Map<T1, Exception, T2, Exception, Try<T1>, Try<T2>>(valueProjection, errorProjection));
+            Try.Get(() => @this.Map<T1, T2, Exception, Exception, Try<T1>, Try<T2>>(valueProjection, errorProjection));
 
         public static Task<Try<T2>> TryMapAsync<T1, T2>(
            this Try<T1> @this,
@@ -163,18 +163,18 @@ namespace Fun
         public static Try<T> Catch<T>(
             this Try<T> @this,
             Func<Exception, T> projection) =>
-            @this.Map<T, Exception, T, Exception, Try<T>, Try<T>>(Try.Some, ex => Try.Some(projection(ex)));
+            @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(Try.Some, ex => Try.Some(projection(ex)));
 
         public static Try<T> Catch<T>(
             this Try<T> @this,
             Func<Exception, Try<T>> projection) =>
-            @this.Map<T, Exception, T, Exception, Try<T>, Try<T>>(Try.Some, projection);
+            @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(Try.Some, projection);
 
         public static Try<T> Catch<T>(
             this Try<T> @this,
             Type exceptionType,
             Func<Exception, Try<T>> projection) =>
-            @this.Map<T, Exception, T, Exception, Try<T>, Try<T>>(Try.Some, ex =>
+            @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(Try.Some, ex =>
                 ex.GetType().IsAssignableFrom(exceptionType)
                     ? Try.Get(() => projection(@this.Error))
                     : @this);
@@ -183,7 +183,7 @@ namespace Fun
             this Try<T> @this,
             Func<Exception, bool> errorPredicate,
             Func<Exception, Try<T>> projection) =>
-            @this.Map<T, Exception, T, Exception, Try<T>, Try<T>>(Try.Some, ex =>
+            @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(Try.Some, ex =>
                 errorPredicate(ex)
                     ? Try.Get(() => projection(@this.Error))
                     : @this);
@@ -196,7 +196,7 @@ namespace Fun
             this Try<T> @this,
             Func<T, bool> predicate,
             Func<Exception> errorGenerator) =>
-            @this.Map<T, Exception, T, Exception, Try<T>, Try<T>>(
+            @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(
                 t => predicate(t)
                     ? Try.Error<T>(errorGenerator())
                     : @this,
@@ -206,7 +206,7 @@ namespace Fun
             this Try<T> @this,
             Func<T, bool> predicate,
             Func<Exception> errorGenerator) =>
-            @this.Map<T, Exception, T, Exception, Try<T>, Try<T>>(
+            @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(
                 t => !predicate(t)
                     ? Try.Error<T>(errorGenerator())
                     : @this,
