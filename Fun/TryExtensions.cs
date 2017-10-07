@@ -157,9 +157,7 @@ namespace Fun
                 return Try.Error<IEnumerable<T2>>(e);
             }
         }
-
-        #endregion
-
+       
         #region Error handling
 
         public static Try<T> Catch<T>(
@@ -215,108 +213,30 @@ namespace Fun
                 _ => @this);
 
         #endregion
-
+        
+        #endregion
+        
         #region Side effects
 
-        public static Try<T> Do<T>(
+        public static Try<T> TryDo<T>(
             this Try<T> @this,
-            Func<Unit> action)
-        {
-            if (Equals(@this, null))
-                throw new ArgumentNullException(nameof(@this));
+            Func<Unit> action) =>
+            Try.Get(() => @this.Do1<T, Exception, Try<T>>(action));
 
-            if (Equals(action, null))
-                throw new ArgumentNullException(nameof(action));
-
-            if (@this.HasValue)
-            {
-                try
-                {
-                    action();
-                }
-                catch (Exception e)
-                {
-                    return Try.Error<T>(e);
-                }
-            }
-
-            return @this;
-        }
-
-        public static Try<T> Do<T>(
+        public static Try<T> TryDo<T>(
             this Try<T> @this,
-            Func<T, Unit> action)
-        {
-            if (Equals(@this, null))
-                throw new ArgumentNullException(nameof(@this));
+            Func<T, Unit> action) =>
+            Try.Get(() => @this.Do1<T, Exception, Try<T>>(action));
 
-            if (Equals(action, null))
-                throw new ArgumentNullException(nameof(action));
-
-            if (@this.HasValue)
-            {
-                try
-                {
-                    action(@this.Value);
-                }
-                catch (Exception e)
-                {
-                    return Try.Error<T>(e);
-                }
-            }
-
-            return @this;
-        }
-
-        public static Try<T> Do<T>(
+        public static Try<T> TryDo<T>(
             this Try<T> @this,
-            Action action)
-        {
-            if (Equals(@this, null))
-                throw new ArgumentNullException(nameof(@this));
+            Action action) =>
+            Try.Get(() => @this.Do1<T, Exception, Try<T>>(action));
 
-            if (Equals(action, null))
-                throw new ArgumentNullException(nameof(action));
-
-            if (@this.HasValue)
-            {
-                try
-                {
-                    action();
-                }
-                catch (Exception e)
-                {
-                    return Try.Error<T>(e);
-                }
-            }
-
-            return @this;
-        }
-
-        public static Try<T> Do<T>(
+        public static Try<T> TryDo<T>(
             this Try<T> @this,
-            Action<T> action)
-        {
-            if (Equals(@this, null))
-                throw new ArgumentNullException(nameof(@this));
-
-            if (Equals(action, null))
-                throw new ArgumentNullException(nameof(action));
-
-            if (@this.HasValue)
-            {
-                try
-                {
-                    action(@this.Value);
-                }
-                catch (Exception e)
-                {
-                    return Try.Error<T>(e);
-                }
-            }
-
-            return @this;
-        }
+            Action<T> action) =>
+            Try.Get(() => @this.Do1<T, Exception, Try<T>>(action));
 
         public static Try<Unit> Ignore<T>(
             this Try<T> @this)

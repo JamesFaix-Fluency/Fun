@@ -16,7 +16,7 @@ namespace TestApp
             var x = Try.Get(() => File.ReadAllText("file.txt"))
                 .ThrowIf(String.IsNullOrEmpty, () => new InvalidOperationException("Requires non-empty string."))
                 .TryMap(text => text.ToUpper())
-                .Do(text => Console.Write(text));
+                .TryDo(text => Console.Write(text));
 
 
             var y = Try.Using(() => new SqlConnection("asdfas"),

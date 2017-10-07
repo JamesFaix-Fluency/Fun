@@ -167,5 +167,150 @@ namespace Fun
         }
 
         #endregion
+
+        #region 2 Side effects
+
+        public static TOr Do1<T1, T2, TOr>(this TOr @this, Action action)
+            where TOr : Or<T1, T2>
+        {
+            if (Equals(@this, null))
+                throw new ArgumentNullException(nameof(@this));
+
+            if (Equals(action, null))
+                throw new ArgumentNullException(nameof(action));
+
+            if (@this.Option == 1)
+            {
+                action();
+            }
+
+            return @this;
+        }
+
+        public static TOr Do1<T1, T2, TOr>(this TOr @this, Action<T1> action)
+            where TOr : Or<T1, T2>
+        {
+            if (Equals(@this, null))
+                throw new ArgumentNullException(nameof(@this));
+
+            if (Equals(action, null))
+                throw new ArgumentNullException(nameof(action));
+
+            if (@this.Option == 1)
+            {
+                action(@this.Item1);
+            }
+
+            return @this;
+        }
+
+        public static TOr Do1<T1, T2, TOr>(this TOr @this, Func<Unit> action)
+            where TOr : Or<T1, T2>
+        {
+            if (Equals(@this, null))
+                throw new ArgumentNullException(nameof(@this));
+
+            if (Equals(action, null))
+                throw new ArgumentNullException(nameof(action));
+
+            if (@this.Option == 1)
+            {
+                action();
+            }
+
+            return @this;
+        }
+
+
+        public static TOr Do1<T1, T2, TOr>(this TOr @this, Func<T1, Unit> action)
+            where TOr : Or<T1, T2>
+        {
+            if (Equals(@this, null))
+                throw new ArgumentNullException(nameof(@this));
+
+            if (Equals(action, null))
+                throw new ArgumentNullException(nameof(action));
+
+            if (@this.Option == 1)
+            {
+                action(@this.Item1);
+            }
+
+            return @this;
+        }
+        
+        public static TOr Do2<T1, T2, TOr>(this TOr @this, Action action)
+            where TOr : Or<T1, T2>
+        {
+            if (Equals(@this, null))
+                throw new ArgumentNullException(nameof(@this));
+
+            if (Equals(action, null))
+                throw new ArgumentNullException(nameof(action));
+
+            if (@this.Option == 2)
+            {
+                action();
+            }
+
+            return @this;
+        }
+
+        public static TOr Do2<T1, T2, TOr>(this TOr @this, Action<T2> action)
+            where TOr : Or<T1, T2>
+        {
+            if (Equals(@this, null))
+                throw new ArgumentNullException(nameof(@this));
+
+            if (Equals(action, null))
+                throw new ArgumentNullException(nameof(action));
+
+            if (@this.Option == 2)
+            {
+                action(@this.Item2);
+            }
+
+            return @this;
+        }
+
+        public static TOr Do2<T1, T2, TOr>(this TOr @this, Func<Unit> action)
+            where TOr : Or<T1, T2>
+        {
+            if (Equals(@this, null))
+                throw new ArgumentNullException(nameof(@this));
+
+            if (Equals(action, null))
+                throw new ArgumentNullException(nameof(action));
+
+            if (@this.Option == 2)
+            {
+                action();
+            }
+
+            return @this;
+        }
+
+        public static TOr Do2<T1, T2, TOr>(this TOr @this, Func<T2, Unit> action)
+            where TOr : Or<T1, T2>
+        {
+            if (Equals(@this, null))
+                throw new ArgumentNullException(nameof(@this));
+
+            if (Equals(action, null))
+                throw new ArgumentNullException(nameof(action));
+
+            if (@this.Option == 2)
+            {
+                action(@this.Item2);
+            }
+
+            return @this;
+        }
+
+        #endregion
+
+        #region 3 Side effects
+
+        #endregion
     }
 }
