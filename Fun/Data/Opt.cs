@@ -10,7 +10,7 @@ namespace Fun
 
         internal override IOr2Factory Factory => _factory;
 
-        public bool HasValue => _option == 1;
+        public bool HasValue => _tag == 1;
 
         public T Value =>
             HasValue

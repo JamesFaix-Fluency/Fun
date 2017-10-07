@@ -16,7 +16,7 @@ namespace Fun
             : base(2, default(T), error)
         { }
         
-        public bool HasValue => _option == 1;
+        public bool HasValue => _tag == 1;
 
         public T Value =>
             HasValue

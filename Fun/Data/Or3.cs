@@ -5,7 +5,7 @@ namespace Fun
     public class Or<T1, T2, T3>
         : IEquatable<Or<T1, T2, T3>>
     {
-        protected readonly int _option;
+        protected readonly int _tag;
 
         protected readonly T1 _item1;
 
@@ -15,31 +15,31 @@ namespace Fun
 
         private static Or3Factory _factory = new Or3Factory();
 
-        internal Or(int option, T1 item1, T2 item2, T3 item3)
+        internal Or(int tag, T1 item1, T2 item2, T3 item3)
         {
-            if (option < 1 || option > 3)
-                throw new ArgumentOutOfRangeException(nameof(option), GetInvalidOptionErrorMessage(option));
+            if (tag < 1 || tag > 3)
+                throw new ArgumentOutOfRangeException(nameof(tag), GetInvalidTagErrorMessage(tag));
 
-            _option = option;
+            _tag = tag;
             _item1 = item1;
             _item2 = item2;
             _item3 = item3;
         }
         
-        public int Option => _option;
+        public int Tag => _tag;
 
         public T1 Item1 =>
-            _option != 1
+            _tag != 1
                 ? throw new InvalidOperationException(GetInvalidItemErrorMessage(1))
                 : _item1;
 
         public T2 Item2 =>
-            _option != 2
+            _tag != 2
                 ? throw new InvalidOperationException(GetInvalidItemErrorMessage(2))
                 : _item2;
 
         public T3 Item3 =>
-            _option != 3
+            _tag != 3
                 ? throw new InvalidOperationException(GetInvalidItemErrorMessage(3))
                 : _item3;
 
@@ -50,12 +50,12 @@ namespace Fun
         public bool Equals(Or<T1, T2, T3> other)
         {
             if (Equals(other, null)
-                || _option != other._option)
+                || _tag != other._tag)
             {
                 return false;
             }
 
-            switch (_option)
+            switch (_tag)
             {
                 case 1:
                     return Equals(_item1, other._item1);
@@ -64,7 +64,7 @@ namespace Fun
                 case 3:
                     return Equals(_item3, other._item3);
                 default:
-                    throw new InvalidOperationException(GetInvalidOptionErrorMessage(_option));
+                    throw new InvalidOperationException(GetInvalidTagErrorMessage(_tag));
             }
         }
 
@@ -73,7 +73,7 @@ namespace Fun
 
         public override int GetHashCode()
         {
-            switch (_option)
+            switch (_tag)
             {
                 case 1:
                     return _item1.GetHashCode();
@@ -82,7 +82,7 @@ namespace Fun
                 case 3:
                     return _item3.GetHashCode();
                 default:
-                    throw new InvalidOperationException(GetInvalidOptionErrorMessage(_option));
+                    throw new InvalidOperationException(GetInvalidTagErrorMessage(_tag));
             }
         }
 
@@ -98,23 +98,23 @@ namespace Fun
 
         public override string ToString()
         {
-            switch (_option)
+            switch (_tag)
             {
                 case 1:
-                    return $"{_option}({_item1})";
+                    return $"{_tag}({_item1})";
                 case 2:
-                    return $"{_option}({_item2})";
+                    return $"{_tag}({_item2})";
                 case 3:
-                    return $"{_option}({_item3})";
+                    return $"{_tag}({_item3})";
                 default:
-                    throw new InvalidOperationException(GetInvalidOptionErrorMessage(_option));
+                    throw new InvalidOperationException(GetInvalidTagErrorMessage(_tag));
             }
         }
 
         private static string GetInvalidItemErrorMessage(int number) =>
-            $"Cannot get Item{number} from {nameof(Or<T1, T2, T3>)} unless {nameof(Option)} is {number}.";
+            $"Cannot get Item{number} from {typeof(Or<,,>)} unless {nameof(Tag)} is {number}.";
 
-        private static string GetInvalidOptionErrorMessage(int number) =>
-            $"{nameof(Or<T1, T2, T3>)} cannot have an {nameof(Option)} of {number}.";
+        private static string GetInvalidTagErrorMessage(int number) =>
+            $"{typeof(Or<,,>)} cannot have an {nameof(Tag)} of {number}.";
     }
 }

@@ -2,10 +2,15 @@
 
 namespace Fun
 {
+    /// <summary>
+    /// A discriminated union type with two possible tags.
+    /// </summary>
+    /// <typeparam name="T1">First possible type</typeparam>
+    /// <typeparam name="T2">Second possible type</typeparam>
     public class Or<T1, T2>
         : IEquatable<Or<T1, T2>>
     {
-        protected readonly int _option;
+        protected readonly int _tag;
 
         protected readonly T1 _item1;
 
@@ -13,25 +18,25 @@ namespace Fun
 
         private static Or2Factory _factory = new Or2Factory();
         
-        internal Or(int option, T1 item1, T2 item2)
+        internal Or(int tag, T1 item1, T2 item2)
         {
-            if (option < 1 || option > 2)
-                throw new ArgumentOutOfRangeException(nameof(option), Or.GetInvalidOptionErrorMessage(GetType(), option));
+            if (tag < 1 || tag > 2)
+                throw new ArgumentOutOfRangeException(nameof(tag), Or.GetInvalidTagErrorMessage(GetType(), tag));
 
-            _option = option;
+            _tag = tag;
             _item1 = item1;
             _item2 = item2;
         }
 
-        public int Option => _option;
+        public int Tag => _tag;
 
         public T1 Item1 =>
-            _option != 1
+            _tag != 1
                 ? throw new InvalidOperationException(Or.GetInvalidItemErrorMessage(GetType(), 1))
                 : _item1;
 
         public T2 Item2 =>
-            _option != 2
+            _tag != 2
                 ? throw new InvalidOperationException(Or.GetInvalidItemErrorMessage(GetType(), 2))
                 : _item2;
         
@@ -42,19 +47,19 @@ namespace Fun
         public bool Equals(Or<T1, T2> other)
         {
             if (Equals(other, null) 
-                || _option != other._option)
+                || _tag != other._tag)
             {
                 return false;
             }
 
-            switch (_option)
+            switch (_tag)
             {
                 case 1:
                     return Equals(_item1, other._item1);
                 case 2:
                     return Equals(_item2, other._item2);
                 default:
-                    throw new InvalidOperationException(Or.GetInvalidOptionErrorMessage(GetType(), _option));
+                    throw new InvalidOperationException(Or.GetInvalidTagErrorMessage(GetType(), _tag));
             }
         }
 
@@ -63,14 +68,14 @@ namespace Fun
 
         public override int GetHashCode()
         {
-            switch (_option)
+            switch (_tag)
             {
                 case 1:
                     return _item1.GetHashCode();
                 case 2:
                     return _item2.GetHashCode();
                 default:
-                    throw new InvalidOperationException(Or.GetInvalidOptionErrorMessage(GetType(), _option));
+                    throw new InvalidOperationException(Or.GetInvalidTagErrorMessage(GetType(), _tag));
             }
         }
 
@@ -86,14 +91,14 @@ namespace Fun
 
         public override string ToString()
         {
-            switch (_option)
+            switch (_tag)
             {
                 case 1:
-                    return $"{_option}({_item1})";
+                    return $"{_tag}({_item1})";
                 case 2:
-                    return $"{_option}({_item2})";
+                    return $"{_tag}({_item2})";
                 default:
-                    throw new InvalidOperationException(Or.GetInvalidOptionErrorMessage(GetType(), _option));
+                    throw new InvalidOperationException(Or.GetInvalidTagErrorMessage(GetType(), _tag));
             }
         }
     }

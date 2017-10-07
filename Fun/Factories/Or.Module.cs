@@ -5,10 +5,10 @@ namespace Fun
     internal static class Or
     {
         internal static string GetInvalidItemErrorMessage(Type type, int number) =>
-            $"Cannot get Item{number} from {type} unless Option is {number}.";
+            $"Cannot get Item{number} from {type} unless Tag is {number}.";
 
-        internal static string GetInvalidOptionErrorMessage(Type type, int number) =>
-            $"{type} cannot have an Option of {number}.";
+        internal static string GetInvalidTagErrorMessage(Type type, int number) =>
+            $"{type} cannot have a Tag of {number}.";
     }
 
     public static class Or2

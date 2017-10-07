@@ -19,14 +19,14 @@ namespace Fun
             if (Equals(projection, null))
                 throw new ArgumentNullException(nameof(projection));
 
-            switch (@this.Option)
+            switch (@this.Tag)
             {
                 case 1:
                     return (TOrOut)@this.Factory.First<TOut1, T2>(projection(@this.Item1));
                 case 2:
                     return (TOrOut)@this.Factory.Second<TOut1, T2>(@this.Item2);
                 default:
-                    throw new InvalidOperationException(Or.GetInvalidOptionErrorMessage(_or2Type, @this.Option));
+                    throw new InvalidOperationException(Or.GetInvalidTagErrorMessage(_or2Type, @this.Tag));
             }
         }
 
@@ -40,14 +40,14 @@ namespace Fun
             if (Equals(projection, null))
                 throw new ArgumentNullException(nameof(projection));
 
-            switch (@this.Option)
+            switch (@this.Tag)
             {
                 case 1:
                     return (TOrOut)@this.Factory.First<T1, TOut2>(@this.Item1);
                 case 2:
                     return (TOrOut)@this.Factory.Second<T1, TOut2>(projection(@this.Item2));
                 default:
-                    throw new InvalidOperationException(Or.GetInvalidOptionErrorMessage(_or2Type, @this.Option));
+                    throw new InvalidOperationException(Or.GetInvalidTagErrorMessage(_or2Type, @this.Tag));
             }
         }
 
@@ -61,14 +61,14 @@ namespace Fun
             if (Equals(projection, null))
                 throw new ArgumentNullException(nameof(projection));
 
-            switch (@this.Option)
+            switch (@this.Tag)
             {
                 case 1:
                     return projection(@this.Item1);
                 case 2:
                     return (TOrOut)@this.Factory.Second<TOut1, T2>(@this.Item2);
                 default:
-                    throw new InvalidOperationException(Or.GetInvalidOptionErrorMessage(_or2Type, @this.Option));
+                    throw new InvalidOperationException(Or.GetInvalidTagErrorMessage(_or2Type, @this.Tag));
             }
         }
 
@@ -82,14 +82,14 @@ namespace Fun
             if (Equals(projection, null))
                 throw new ArgumentNullException(nameof(projection));
 
-            switch (@this.Option)
+            switch (@this.Tag)
             {
                 case 1:
                     return (TOrOut)@this.Factory.First<T1, TOut2>(@this.Item1);
                 case 2:
                     return projection(@this.Item2);
                 default:
-                    throw new InvalidOperationException(Or.GetInvalidOptionErrorMessage(_or2Type, @this.Option));
+                    throw new InvalidOperationException(Or.GetInvalidTagErrorMessage(_or2Type, @this.Tag));
             }
         }
 
@@ -109,14 +109,14 @@ namespace Fun
             if (Equals(secondProjection, null))
                 throw new ArgumentNullException(nameof(secondProjection));
 
-            switch (@this.Option)
+            switch (@this.Tag)
             {
                 case 1:
                     return firstProjection(@this.Item1);
                 case 2:
                     return secondProjection(@this.Item2);
                 default:
-                    throw new InvalidOperationException(Or.GetInvalidOptionErrorMessage(_or2Type, @this.Option));
+                    throw new InvalidOperationException(Or.GetInvalidTagErrorMessage(_or2Type, @this.Tag));
             }
         }
 
@@ -128,7 +128,7 @@ namespace Fun
             where TOrIn : Or<TIn1, T2, T3>
             where TOrOut : Or<TOut1, T2, T3>
         {
-            switch (@this.Option)
+            switch (@this.Tag)
             {
                 case 1:
                     return (TOrOut)@this.Factory.First<TOut1, T2, T3>(projection(@this.Item1));
@@ -137,7 +137,7 @@ namespace Fun
                 case 3:
                     return (TOrOut)@this.Factory.Third<TOut1, T2, T3>(@this.Item3);
                 default:
-                    throw new InvalidOperationException(Or.GetInvalidOptionErrorMessage(_or3Type, @this.Option));
+                    throw new InvalidOperationException(Or.GetInvalidTagErrorMessage(_or3Type, @this.Tag));
             }
         }
 
@@ -145,7 +145,7 @@ namespace Fun
             where TOrIn : Or<T1, TIn2, T3>
             where TOrOut : Or<T1, TOut2, T3>
         {
-            switch (@this.Option)
+            switch (@this.Tag)
             {
                 case 1:
                     return (TOrOut)@this.Factory.First<T1, TOut2, T3>(@this.Item1);
@@ -154,7 +154,7 @@ namespace Fun
                 case 3:
                     return (TOrOut)@this.Factory.Third<T1, TOut2, T3>(@this.Item3);
                 default:
-                    throw new InvalidOperationException(Or.GetInvalidOptionErrorMessage(_or3Type, @this.Option));
+                    throw new InvalidOperationException(Or.GetInvalidTagErrorMessage(_or3Type, @this.Tag));
             }
         }
 
@@ -162,7 +162,7 @@ namespace Fun
             where TOrIn : Or<T1, T2, TIn3>
             where TOrOut : Or<T1, T2, TOut3>
         {
-            switch (@this.Option)
+            switch (@this.Tag)
             {
                 case 1:
                     return (TOrOut) @this.Factory.First<T1, T2, TOut3>(@this.Item1);
@@ -171,7 +171,7 @@ namespace Fun
                 case 3:
                     return (TOrOut) @this.Factory.Third<T1, T2, TOut3>(projection(@this.Item3));
                 default:
-                    throw new InvalidOperationException(Or.GetInvalidOptionErrorMessage(_or3Type, @this.Option));
+                    throw new InvalidOperationException(Or.GetInvalidTagErrorMessage(_or3Type, @this.Tag));
             }
         }
 
@@ -179,7 +179,7 @@ namespace Fun
             where TOrIn : Or<TIn1, T2, T3>
             where TOrOut : Or<TOut1, T2, T3>
         {
-            switch (@this.Option)
+            switch (@this.Tag)
             {
                 case 1:
                     return projection(@this.Item1);
@@ -188,7 +188,7 @@ namespace Fun
                 case 3:
                     return (TOrOut)@this.Factory.Third<TOut1, T2, T3>(@this.Item3);
                 default:
-                    throw new InvalidOperationException(Or.GetInvalidOptionErrorMessage(_or3Type, @this.Option));
+                    throw new InvalidOperationException(Or.GetInvalidTagErrorMessage(_or3Type, @this.Tag));
             }
         }
 
@@ -196,7 +196,7 @@ namespace Fun
             where TOrIn : Or<T1, TIn2, T3>
             where TOrOut : Or<T1, TOut2, T3>
         {
-            switch (@this.Option)
+            switch (@this.Tag)
             {
                 case 1:
                     return (TOrOut)@this.Factory.First<T1, TOut2, T3>(@this.Item1);
@@ -205,7 +205,7 @@ namespace Fun
                 case 3:
                     return (TOrOut)@this.Factory.Third<T1, TOut2, T3>(@this.Item3);
                 default:
-                    throw new InvalidOperationException(Or.GetInvalidOptionErrorMessage(_or3Type, @this.Option));
+                    throw new InvalidOperationException(Or.GetInvalidTagErrorMessage(_or3Type, @this.Tag));
             }
         }
 
@@ -213,7 +213,7 @@ namespace Fun
             where TOrIn : Or<T1, T2, TIn3>
             where TOrOut : Or<T1, T2, TOut3>
         {
-            switch (@this.Option)
+            switch (@this.Tag)
             {
                 case 1:
                     return (TOrOut)@this.Factory.First<T1, T2, TOut3>(@this.Item1);
@@ -222,7 +222,7 @@ namespace Fun
                 case 3:
                     return projection(@this.Item3);
                 default:
-                    throw new InvalidOperationException(Or.GetInvalidOptionErrorMessage(_or3Type, @this.Option));
+                    throw new InvalidOperationException(Or.GetInvalidTagErrorMessage(_or3Type, @this.Tag));
             }
         }
 
@@ -239,7 +239,7 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            if (@this.Option == 1)
+            if (@this.Tag == 1)
             {
                 action();
             }
@@ -256,7 +256,7 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            if (@this.Option == 1)
+            if (@this.Tag == 1)
             {
                 action(@this.Item1);
             }
@@ -273,7 +273,7 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            if (@this.Option == 1)
+            if (@this.Tag == 1)
             {
                 action();
             }
@@ -290,7 +290,7 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            if (@this.Option == 1)
+            if (@this.Tag == 1)
             {
                 action(@this.Item1);
             }
@@ -307,7 +307,7 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            if (@this.Option == 2)
+            if (@this.Tag == 2)
             {
                 action();
             }
@@ -324,7 +324,7 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            if (@this.Option == 2)
+            if (@this.Tag == 2)
             {
                 action(@this.Item2);
             }
@@ -341,7 +341,7 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            if (@this.Option == 2)
+            if (@this.Tag == 2)
             {
                 action();
             }
@@ -358,7 +358,7 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            if (@this.Option == 2)
+            if (@this.Tag == 2)
             {
                 action(@this.Item2);
             }
@@ -379,7 +379,7 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            if (@this.Option == 1)
+            if (@this.Tag == 1)
             {
                 action();
             }
@@ -396,7 +396,7 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            if (@this.Option == 1)
+            if (@this.Tag == 1)
             {
                 action(@this.Item1);
             }
@@ -413,7 +413,7 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            if (@this.Option == 1)
+            if (@this.Tag == 1)
             {
                 action();
             }
@@ -430,7 +430,7 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            if (@this.Option == 1)
+            if (@this.Tag == 1)
             {
                 action(@this.Item1);
             }
@@ -447,7 +447,7 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            if (@this.Option == 2)
+            if (@this.Tag == 2)
             {
                 action();
             }
@@ -464,7 +464,7 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            if (@this.Option == 2)
+            if (@this.Tag == 2)
             {
                 action(@this.Item2);
             }
@@ -481,7 +481,7 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            if (@this.Option == 2)
+            if (@this.Tag == 2)
             {
                 action();
             }
@@ -498,7 +498,7 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            if (@this.Option == 2)
+            if (@this.Tag == 2)
             {
                 action(@this.Item2);
             }
@@ -515,7 +515,7 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            if (@this.Option == 3)
+            if (@this.Tag == 3)
             {
                 action();
             }
@@ -532,7 +532,7 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            if (@this.Option == 3)
+            if (@this.Tag == 3)
             {
                 action(@this.Item3);
             }
@@ -549,7 +549,7 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            if (@this.Option == 3)
+            if (@this.Tag == 3)
             {
                 action();
             }
@@ -566,7 +566,7 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            if (@this.Option == 3)
+            if (@this.Tag == 3)
             {
                 action(@this.Item3);
             }

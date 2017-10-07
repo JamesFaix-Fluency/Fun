@@ -7,7 +7,7 @@ namespace Fun.FSharp
 {
     public static class OptExtensions
     {
-        public static FSharpOption<T> AsOption<T>(
+        public static FSharpOption<T> AsOpt<T>(
             this Opt<T> @this) =>
             @this.HasValue
                 ? FSharpOption<T>.Some(@this.Value)
