@@ -5,11 +5,11 @@ namespace Fun
     public class Or<T1, T2>
         : IEquatable<Or<T1, T2>>
     {
-        private readonly int _option;
+        protected readonly int _option;
 
-        private readonly T1 _item1;
+        protected readonly T1 _item1;
 
-        private readonly T2 _item2;
+        protected readonly T2 _item2;
 
         internal Or(int option, T1 item1, T2 item2)
         {

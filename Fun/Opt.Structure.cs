@@ -3,79 +3,32 @@
 namespace Fun
 {
     public class Opt<T> :
+        Or<T, Unit>,
         IEquatable<Opt<T>>
     {
-        private readonly bool _hasValue;
-
-        private readonly T _value;
-
-        public bool HasValue => _hasValue;
+        public bool HasValue => _option == 1;
 
         public T Value =>
-            _hasValue
-                ? _value
-                : throw new InvalidOperationException(
-                    $"Cannot get {nameof(Value)} of {nameof(Opt<T>)} when {nameof(HasValue)} is false.");
+            HasValue
+                ? _item1
+                : throw new InvalidOperationException($"Cannot get {nameof(Value)} of {nameof(Opt<T>)} when {nameof(HasValue)} is false.");
 
-        internal Opt(
-            bool hasValue, 
-            T value)
-        {
-            _hasValue = hasValue;
-            _value = value;
-        }
+        internal Opt(T value) 
+            : base(1, value, Unit.Value)
+        { }
 
-        #region Equality
-
-        public bool Equals(
-            Opt<T> other)
-        {
-            if (Equals(other, null))
-            {
-                return false;
-            }
-
-            if (_hasValue)
-            {
-                return other._hasValue
-                    && Equals(_value, other._value);
-            }
-            else
-            {
-                return !other._hasValue;
-            }
-        }
-
-        public override bool Equals(
-            object obj) =>
-            Equals(obj as Opt<T>);
-
-        public override int GetHashCode() =>
-            _value?.GetHashCode() ?? 0;
-
-        public static bool operator ==(
-            Opt<T> a, 
-            Opt<T> b) =>
-            Equals(a, null)
-                ? Equals(b, null)
-                : a.Equals(b);
-
-        public static bool operator !=(
-            Opt<T> a, 
-            Opt<T> b) =>
-            Equals(a, null)
-                ? !Equals(b, null)
-                : !a.Equals(b);
-
-        #endregion
-
-        public override string ToString() =>
-            _hasValue
-                ? $"Just {_value}"
-                : $"Nothing{{{typeof(T)}}}";
+        private Opt() 
+            : base(2, default(T), Unit.Value)
+        { }
 
         //Only ever create one None per type
-        internal static Opt<T> None { get; } = 
-            new Opt<T>(false, default(T));
+        internal static Opt<T> None { get; } = new Opt<T>();
+
+        public bool Equals(Opt<T> other) => base.Equals(other);
+
+        public override string ToString() =>
+            HasValue
+                ? $"Just {_item1}"
+                : $"Nothing{{{typeof(T)}}}";
     }
 }

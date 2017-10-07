@@ -7,13 +7,9 @@ namespace Fun
     {
         #region Main generators
 
-        public static Try<T> Some<T>(
-            T value) =>
-            new Try<T>(value, null);
+        public static Try<T> Some<T>(T value) => new Try<T>(value);
 
-        public static Try<T> Error<T>(
-            Exception error) =>
-            new Try<T>(default(T), error);
+        public static Try<T> Error<T>(Exception error) => new Try<T>(error);
 
         #endregion
 

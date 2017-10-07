@@ -3,18 +3,14 @@
 namespace Fun
 {
     public class Try<T> : 
+        Or<T, Exception>,
         IEquatable<Try<T>>
     {
-        private readonly T _value;
-
-        private readonly Exception _error;
-
-        public bool HasValue =>
-            !Equals(_error, null);
+        public bool HasValue => _option == 1;
 
         public T Value =>
             HasValue
-                ? _value
+                ? _item1
                 : throw new InvalidOperationException(
                     $"Cannot get {nameof(Value)} of {nameof(Try<T>)} when {nameof(HasValue)} is false.");
 
@@ -22,64 +18,22 @@ namespace Fun
             HasValue
                 ? throw new InvalidOperationException(
                     $"Cannot get {nameof(Error)} of {nameof(Try<T>)} when {nameof(HasValue)} is false.")
-                : _error;
+                : _item2;
 
-        internal Try(T value, Exception error)
-        {
-            _value = value;
-            _error = error;
-        }
+        internal Try(T value) 
+            : base(1, value, null)
+        { }
 
-        #region Equality
-        
-        public bool Equals(
-            Try<T> other)
-        {
-            if (Equals(other, null))
-            {
-                return false;
-            }
+        internal Try(Exception error)
+            : base(2, default(T), error)
+        { }
 
-            if (HasValue)
-            {
-                return other.HasValue
-                    && Equals(_value, other._value);
-            }
-            else
-            {
-                return !other.HasValue
-                    && Equals(_error, other._error);
-            }
-        }
-
-        public override bool Equals(
-            object obj) =>
-            Equals(obj as Try<T>);
-
-        public override int GetHashCode() =>
-            HasValue
-                ? _value?.GetHashCode() ?? 0
-                : _error?.GetHashCode() ?? 0;
-
-        public static bool operator ==(
-            Try<T> a, 
-            Try<T> b) =>
-            Equals(a, null)
-                ? Equals(b, null)
-                : a.Equals(b);
-
-        public static bool operator !=(
-            Try<T> a, 
-            Try<T> b) =>
-            Equals(a, null)
-                ? !Equals(b, null)
-                : !a.Equals(b);
-
-        #endregion
+        public bool Equals(Try<T> other) =>
+            base.Equals(other);
 
         public override string ToString() =>
             HasValue
-                ? $"Value({_value})"
-                : $"Error({_error})";
+                ? $"Value({_item1})"
+                : $"Error({_item2})";
     }
 }
