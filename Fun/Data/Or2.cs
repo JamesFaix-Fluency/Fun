@@ -18,6 +18,7 @@ namespace Fun
 
         private static Or2Factory _factory = new Or2Factory();
         
+        //Consumers must use the static Or class to instantiate
         internal Or(int tag, T1 item1, T2 item2)
         {
             if (tag < 1 || tag > 2)
@@ -28,18 +29,38 @@ namespace Fun
             _item2 = item2;
         }
 
+        /// <summary>
+        /// The number of which of the possible values is being used.
+        /// </summary>
         public int Tag => _tag;
 
+        /// <summary>
+        /// Gets the value if <c>Tag == 1</c>, otherwise throws an exception.
+        /// </summary>
         public T1 Item1 =>
             _tag != 1
                 ? throw new InvalidOperationException(Or.GetInvalidItemErrorMessage(GetType(), 1))
                 : _item1;
 
+        /// <summary>
+        /// Gets the value if <c>Tag == 2</c>, otherwise throws an exception.
+        /// </summary>
         public T2 Item2 =>
             _tag != 2
                 ? throw new InvalidOperationException(Or.GetInvalidItemErrorMessage(GetType(), 2))
                 : _item2;
-        
+
+        /// <summary>
+        /// Gets a factory object that can produce <see cref="Or{,}"/> instances.
+        /// For any type <c>TOr{,}</c> derived from <see cref="Or{,}"/> this property can be overridden to 
+        /// provide a way to create a <c>TOr{,}</c> instance from another <c>TOr{,}</c> instance.
+        /// </summary>
+        /// <remarks>
+        /// Basically this is a way to get around not being able to include parameterized constructors in generic constraints.
+        /// This allows extension methods to be written for a generic type <c>TOr{,} where TOr{,} : Or{,}</c>
+        /// which means monadic workflows can be created for different derived types using the same extension methods,
+        /// rather than defining separate extension methods per derived type, or having extension methods that just return the base class.
+        /// </remarks>
         internal virtual IOr2Factory Factory => _factory;
 
         #region Equality
