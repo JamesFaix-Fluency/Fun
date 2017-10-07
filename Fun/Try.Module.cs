@@ -49,8 +49,7 @@ namespace Fun
 
         #region Get 
 
-        public static Try<T> Get<T>(
-            Func<T> generator)
+        public static Try<T> Get<T>(Func<T> generator)
         {
             try
             {
@@ -62,8 +61,7 @@ namespace Fun
             }
         }
 
-        public static Try<T> Get<T>(
-            Func<Try<T>> generator)
+        public static Try<T> Get<T>(Func<Try<T>> generator)
         {
             try
             {
@@ -75,8 +73,7 @@ namespace Fun
             }
         }
 
-        public static Try<Unit> Get(
-            Action action)
+        public static Try<Unit> Get(Action action)
         {
             try
             {
@@ -89,8 +86,7 @@ namespace Fun
             }
         }
 
-        public static async Task<Try<T>> Get<T>(
-            Task<T> @this)
+        public static async Task<Try<T>> Get<T>(Task<T> @this)
         {
             try
             {
@@ -102,8 +98,7 @@ namespace Fun
             }
         }
 
-        public static async Task<Try<T>> GetAsync<T>(
-            Func<Task<T>> generator)
+        public static async Task<Try<T>> GetAsync<T>(Func<Task<T>> generator)
         {
             try
             {
@@ -115,8 +110,7 @@ namespace Fun
             }
         }
 
-        public static async Task<Try<T>> GetAsync<T>(
-            Func<Task<Try<T>>> generator)
+        public static async Task<Try<T>> GetAsync<T>(Func<Task<Try<T>>> generator)
         {
             try
             {
@@ -128,8 +122,7 @@ namespace Fun
             }
         }
 
-        public static async Task<Try<Unit>> GetAsync(
-            Task task)
+        public static async Task<Try<Unit>> GetAsync(Task task)
         {
             try
             {

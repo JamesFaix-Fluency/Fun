@@ -11,10 +11,12 @@ namespace Fun
 
         protected readonly T2 _item2;
 
+        private static Or2Factory<T1, T2> _factory;
+        
         internal Or(int option, T1 item1, T2 item2)
         {
             if (option < 1 || option > 2)
-                throw new ArgumentOutOfRangeException(nameof(option), GetInvalidOptionErrorMessage(option));
+                throw new ArgumentOutOfRangeException(nameof(option), Or.GetInvalidOptionErrorMessage(GetType(), option));
 
             _option = option;
             _item1 = item1;
@@ -25,13 +27,15 @@ namespace Fun
 
         public T1 Item1 =>
             _option != 1
-                ? throw new InvalidOperationException(GetInvalidItemErrorMessage(1))
+                ? throw new InvalidOperationException(Or.GetInvalidItemErrorMessage(GetType(), 1))
                 : _item1;
 
         public T2 Item2 =>
             _option != 2
-                ? throw new InvalidOperationException(GetInvalidItemErrorMessage(2))
+                ? throw new InvalidOperationException(Or.GetInvalidItemErrorMessage(GetType(), 2))
                 : _item2;
+        
+        internal virtual IOr2Factory<T1, T2> Factory => _factory;
 
         #region Equality
 
@@ -50,7 +54,7 @@ namespace Fun
                 case 2:
                     return Equals(_item2, other._item2);
                 default:
-                    throw new InvalidOperationException(GetInvalidOptionErrorMessage(_option));
+                    throw new InvalidOperationException(Or.GetInvalidOptionErrorMessage(GetType(), _option));
             }
         }
 
@@ -66,7 +70,7 @@ namespace Fun
                 case 2:
                     return _item2.GetHashCode();
                 default:
-                    throw new InvalidOperationException(GetInvalidOptionErrorMessage(_option));
+                    throw new InvalidOperationException(Or.GetInvalidOptionErrorMessage(GetType(), _option));
             }
         }
 
@@ -89,14 +93,8 @@ namespace Fun
                 case 2:
                     return $"{_option}({_item2})";
                 default:
-                    throw new InvalidOperationException(GetInvalidOptionErrorMessage(_option));
+                    throw new InvalidOperationException(Or.GetInvalidOptionErrorMessage(GetType(), _option));
             }
         }
-        
-        private static string GetInvalidItemErrorMessage(int number) =>
-            $"Cannot get Item{number} from {nameof(Or<T1, T2>)} unless {nameof(Option)} is {number}.";
-
-        private static string GetInvalidOptionErrorMessage(int number) =>
-            $"{nameof(Or<T1, T2>)} cannot have an {nameof(Option)} of {number}.";
     }
 }

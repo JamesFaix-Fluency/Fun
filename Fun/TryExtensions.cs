@@ -10,22 +10,12 @@ namespace Fun
     {
         #region Projections
 
-        public static Try<T2> Map<T1, T2>(//Functor Fmap
+        public static Try<T2> TryMap<T1, T2>(//Functor Fmap
             this Try<T1> @this,
-            Func<T1, T2> projection)
-        {
-            if (Equals(@this, null))
-                throw new ArgumentNullException(nameof(@this));
+            Func<T1, T2> projection) => 
+            @this.Map1<T1, Exception, T2, Try<T1>, Try<T2>>(projection);
 
-            if (Equals(projection, null))
-                throw new ArgumentNullException(nameof(projection));
-
-            return @this.HasValue
-                ? Try.Get(() => projection(@this.Value))
-                : Try.Error<T2>(@this.Error);
-        }
-
-        public static Try<T2> Map<T1, T2>(//Monad Bind
+        public static Try<T2> TryMap<T1, T2>(//Monad Bind
             this Try<T1> @this,
             Func<T1, Try<T2>> projection)
         {
@@ -40,7 +30,7 @@ namespace Fun
                 : Try.Error<T2>(@this.Error);
         }
 
-        public static Try<T2> Map<T1, T2>(
+        public static Try<T2> TryMap<T1, T2>(
            this Try<T1> @this,
            Func<T1, Try<T2>> valueProjection,
            Func<Exception, Try<T2>> errorProjection)
@@ -59,7 +49,7 @@ namespace Fun
                 : Try.Get(() => errorProjection(@this.Error));
         }
 
-        public static Task<Try<T2>> MapAsync<T1, T2>(
+        public static Task<Try<T2>> TryMapAsync<T1, T2>(
            this Try<T1> @this,
            Func<T1, Task<T2>> projection)
         {
@@ -74,7 +64,7 @@ namespace Fun
                 : Try.Error<T2>(@this.Error).AsTask();
         }
 
-        public static Task<Try<T2>> MapAsync<T1, T2>(
+        public static Task<Try<T2>> TryMapAsync<T1, T2>(
             this Try<T1> @this,
             Func<T1, Task<Try<T2>>> projection)
         {
@@ -89,7 +79,7 @@ namespace Fun
                 : Try.Error<T2>(@this.Error).AsTask();
         }
 
-        public static async Task<Try<T2>> MapAsync<T1, T2>(
+        public static async Task<Try<T2>> TryMapAsync<T1, T2>(
            this Task<Try<T1>> @this,
            Func<T1, Task<Try<T2>>> projection)
         {
@@ -118,7 +108,7 @@ namespace Fun
             }
         }
 
-        public static async Task<Try<T2>> MapAsync<T1, T2>(
+        public static async Task<Try<T2>> TryMapAsync<T1, T2>(
            this Task<Try<T1>> @this,
            Func<T1, T2> projection)
         {
@@ -147,7 +137,7 @@ namespace Fun
             }
         }
 
-        public static Try<IEnumerable<T2>> MapEach<T1, T2>(
+        public static Try<IEnumerable<T2>> TryMapEach<T1, T2>(
             this Try<IEnumerable<T1>> @this,
             Func<T1, T2> projection)
         {
@@ -162,7 +152,7 @@ namespace Fun
                 : Try.Error<IEnumerable<T2>>(@this.Error);
         }
 
-        public static async Task<Try<IEnumerable<T2>>> MapEachAsync<T1, T2>(
+        public static async Task<Try<IEnumerable<T2>>> TryMapEachAsync<T1, T2>(
             this Task<Try<IEnumerable<T1>>> @this,
             Func<T1, T2> projection)
         {

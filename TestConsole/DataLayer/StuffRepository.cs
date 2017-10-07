@@ -26,7 +26,7 @@ namespace TestApp.DataLayer
 
             return Try
                 .UsingAsync(OpenConnection, cn => cn.QuerySingleAsync<int>(query, param))
-                .MapAsync(createdId => GetStuff(createdId));
+                .TryMapAsync(createdId => GetStuff(createdId));
         }
 
         public Task<Try<Unit>> DeleteStuff(int id)
@@ -60,7 +60,7 @@ namespace TestApp.DataLayer
 
             return Try
                 .UsingAsync(OpenConnection, cn => cn.QuerySingleAsync<dynamic>(query, param))
-                .MapAsync(d => new Stuff
+                .TryMapAsync(d => new Stuff
                 {
                     Id = d.Id,
                     Name = d.Name,
@@ -77,7 +77,7 @@ namespace TestApp.DataLayer
             
             return Try
                 .UsingAsync(OpenConnection, cn => cn.QueryAsync<dynamic>(query))
-                .MapEachAsync(d => new Stuff
+                .TryMapEachAsync(d => new Stuff
                 {
                     Id = d.Id,
                     Name = d.Name,
@@ -102,7 +102,7 @@ namespace TestApp.DataLayer
 
             return Try
                 .UsingAsync(OpenConnection, cn => cn.ExecuteAsync(query, param))
-                .MapAsync(_ => GetStuff(stuff.Id));
+                .TryMapAsync(_ => GetStuff(stuff.Id));
         }
         
         private async Task<IDbConnection> OpenConnection()

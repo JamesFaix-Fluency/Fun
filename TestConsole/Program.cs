@@ -15,7 +15,7 @@ namespace TestApp
         {
             var x = Try.Get(() => File.ReadAllText("file.txt"))
                 .ThrowIf(String.IsNullOrEmpty, () => new InvalidOperationException("Requires non-empty string."))
-                .Map(text => text.ToUpper())
+                .TryMap(text => text.ToUpper())
                 .Do(text => Console.Write(text));
 
 
