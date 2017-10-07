@@ -10,44 +10,21 @@ namespace Fun
     {
         #region Projections
 
-        public static Try<T2> TryMap<T1, T2>(//Functor Fmap
+        public static Try<T2> TryMap<T1, T2>(
             this Try<T1> @this,
-            Func<T1, T2> projection) => 
-            @this.Map1<T1, Exception, T2, Try<T1>, Try<T2>>(projection);
-
-        public static Try<T2> TryMap<T1, T2>(//Monad Bind
-            this Try<T1> @this,
-            Func<T1, Try<T2>> projection)
-        {
-            if (Equals(@this, null))
-                throw new ArgumentNullException(nameof(@this));
-
-            if (Equals(projection, null))
-                throw new ArgumentNullException(nameof(projection));
-
-            return @this.HasValue
-                ? Try.Get(() => projection(@this.Value))
-                : Try.Error<T2>(@this.Error);
-        }
+            Func<T1, T2> projection) =>
+            Try.Get(() => @this.Map1<T1, Exception, T2, Try<T1>, Try<T2>>(projection));
 
         public static Try<T2> TryMap<T1, T2>(
-           this Try<T1> @this,
-           Func<T1, Try<T2>> valueProjection,
-           Func<Exception, Try<T2>> errorProjection)
-        {
-            if (Equals(@this, null))
-                throw new ArgumentNullException(nameof(@this));
+            this Try<T1> @this,
+            Func<T1, Try<T2>> projection) =>
+            Try.Get(() => @this.Map1<T1, Exception, T2, Try<T1>, Try<T2>>(projection));
 
-            if (Equals(valueProjection, null))
-                throw new ArgumentNullException(nameof(valueProjection));
-
-            if (Equals(valueProjection, null))
-                throw new ArgumentNullException(nameof(valueProjection));
-
-            return @this.HasValue
-                ? Try.Get(() => valueProjection(@this.Value))
-                : Try.Get(() => errorProjection(@this.Error));
-        }
+        public static Try<T2> TryMap<T1, T2>(
+            this Try<T1> @this,
+            Func<T1, Try<T2>> valueProjection,
+            Func<Exception, Try<T2>> errorProjection) =>
+            Try.Get(() => @this.Map<T1, Exception, T2, Exception, Try<T1>, Try<T2>>(valueProjection, errorProjection));
 
         public static Task<Try<T2>> TryMapAsync<T1, T2>(
            this Try<T1> @this,
@@ -187,88 +164,31 @@ namespace Fun
 
         public static Try<T> Catch<T>(
             this Try<T> @this,
-            Func<Exception, T> projection)
-        {
-            if (Equals(@this, null))
-                throw new ArgumentNullException(nameof(@this));
-
-            if (Equals(projection, null))
-                throw new ArgumentNullException(nameof(projection));
-
-            return @this.HasValue
-                ? @this
-                : Try.Get(() => projection(@this.Error));
-        }
+            Func<Exception, T> projection) =>
+            @this.Map<T, Exception, T, Exception, Try<T>, Try<T>>(Try.Some, ex => Try.Some(projection(ex)));
 
         public static Try<T> Catch<T>(
             this Try<T> @this,
-            Func<Exception, Try<T>> projection)
-        {
-            if (Equals(@this, null))
-                throw new ArgumentNullException(nameof(@this));
-
-            if (Equals(projection, null))
-                throw new ArgumentNullException(nameof(projection));
-
-            return @this.HasValue
-                ? @this
-                : Try.Get(() => projection(@this.Error));
-        }
+            Func<Exception, Try<T>> projection) =>
+            @this.Map<T, Exception, T, Exception, Try<T>, Try<T>>(Try.Some, projection);
 
         public static Try<T> Catch<T>(
             this Try<T> @this,
             Type exceptionType,
-            Func<Exception, Try<T>> projection)
-        {
-            if (Equals(@this, null))
-                throw new ArgumentNullException(nameof(@this));
-
-            if (Equals(projection, null))
-                throw new ArgumentNullException(nameof(projection));
-
-            if (!@this.HasValue
-                && @this.Error.GetType().IsAssignableFrom(exceptionType))
-            {
-                return Try.Get(() => projection(@this.Error));
-            }
-
-            return @this;
-        }
+            Func<Exception, Try<T>> projection) =>
+            @this.Map<T, Exception, T, Exception, Try<T>, Try<T>>(Try.Some, ex =>
+                ex.GetType().IsAssignableFrom(exceptionType)
+                    ? Try.Get(() => projection(@this.Error))
+                    : @this);
 
         public static Try<T> Catch<T>(
-           this Try<T> @this,
-           Func<Exception, bool> errorPredicate,
-           Func<Exception, Try<T>> projection)
-        {
-            if (Equals(@this, null))
-                throw new ArgumentNullException(nameof(@this));
-
-            if (Equals(projection, null))
-                throw new ArgumentNullException(nameof(projection));
-
-            if (@this.HasValue)
-            {
-                return @this;
-            }
-            else
-            {
-                try
-                {
-                    if (errorPredicate(@this.Error))
-                    {
-                        return Try.Get(() => projection(@this.Error));
-                    }
-                    else
-                    {
-                        return @this;
-                    }
-                }
-                catch (Exception e)
-                {
-                    return Try.Error<T>(e);
-                }
-            }
-        }
+            this Try<T> @this,
+            Func<Exception, bool> errorPredicate,
+            Func<Exception, Try<T>> projection) =>
+            @this.Map<T, Exception, T, Exception, Try<T>, Try<T>>(Try.Some, ex =>
+                errorPredicate(ex)
+                    ? Try.Get(() => projection(@this.Error))
+                    : @this);
 
         #endregion
 
@@ -277,40 +197,22 @@ namespace Fun
         public static Try<T> Assert<T>(
             this Try<T> @this,
             Func<T, bool> predicate,
-            Func<Exception> errorGenerator)
-        {
-            if (Equals(@this, null))
-                throw new ArgumentNullException(nameof(@this));
+            Func<Exception> errorGenerator) =>
+            @this.Map<T, Exception, T, Exception, Try<T>, Try<T>>(
+                t => predicate(t)
+                    ? Try.Error<T>(errorGenerator())
+                    : @this,
+                _ => @this);
 
-            if (Equals(predicate, null))
-                throw new ArgumentNullException(nameof(predicate));
-
-            if (Equals(errorGenerator, null))
-                throw new ArgumentNullException(nameof(errorGenerator));
-
-            return @this.HasValue && !predicate(@this.Value)
-                ? Try.Error<T>(errorGenerator())
-                : @this;
-        }
-
-        public static Try<T> ThrowIf<T>(
+        public static Try<T> ThrowIf<T>( //Opposite of Assert for convenience
             this Try<T> @this,
             Func<T, bool> predicate,
-            Func<Exception> errorGenerator)
-        {
-            if (Equals(@this, null))
-                throw new ArgumentNullException(nameof(@this));
-
-            if (Equals(predicate, null))
-                throw new ArgumentNullException(nameof(predicate));
-
-            if (Equals(errorGenerator, null))
-                throw new ArgumentNullException(nameof(errorGenerator));
-
-            return @this.HasValue && predicate(@this.Value)
-                ? Try.Error<T>(errorGenerator())
-                : @this;
-        }
+            Func<Exception> errorGenerator) =>
+            @this.Map<T, Exception, T, Exception, Try<T>, Try<T>>(
+                t => !predicate(t)
+                    ? Try.Error<T>(errorGenerator())
+                    : @this,
+                _ => @this);
 
         #endregion
 
