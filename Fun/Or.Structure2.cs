@@ -11,7 +11,7 @@ namespace Fun
 
         protected readonly T2 _item2;
 
-        private static Or2Factory<T1, T2> _factory;
+        private static Or2Factory _factory = new Or2Factory();
         
         internal Or(int option, T1 item1, T2 item2)
         {
@@ -35,7 +35,7 @@ namespace Fun
                 ? throw new InvalidOperationException(Or.GetInvalidItemErrorMessage(GetType(), 2))
                 : _item2;
         
-        internal virtual IOr2Factory<T1, T2> Factory => _factory;
+        internal virtual IOr2Factory Factory => _factory;
 
         #region Equality
 

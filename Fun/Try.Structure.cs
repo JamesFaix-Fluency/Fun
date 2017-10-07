@@ -6,7 +6,7 @@ namespace Fun
         Or<T, Exception>,
         IEquatable<Try<T>>
     {
-        private static readonly TryFactory<T> _factory = new TryFactory<T>();
+        private static readonly TryFactory _factory = new TryFactory();
 
         internal Try(T value)
             : base(1, value, null)
@@ -30,7 +30,7 @@ namespace Fun
                     $"Cannot get {nameof(Error)} of {nameof(Try<T>)} when {nameof(HasValue)} is false.")
                 : _item2;
 
-        internal override IOr2Factory<T, Exception> Factory => _factory;
+        internal override IOr2Factory Factory => _factory;
 
         public bool Equals(Try<T> other) =>
             base.Equals(other);

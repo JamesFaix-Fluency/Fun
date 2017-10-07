@@ -15,13 +15,13 @@ namespace Fun
 
             if (Equals(projection, null))
                 throw new ArgumentNullException(nameof(projection));
-            
+
             switch (@this.Option)
             {
                 case 1:
-                    return (TOrOut)@this.Factory.First(projection(@this.Item1));
+                    return (TOrOut)@this.Factory.First<T3, T2>(projection(@this.Item1));
                 case 2:
-                    return (TOrOut)@this.Factory.Second(@this.Item2);
+                    return (TOrOut)@this.Factory.Second<T3, T2>(@this.Item2);
                 default:
                     throw new InvalidOperationException(Or.GetInvalidOptionErrorMessage(typeof(Or<T1, T2>), @this.Option));
             }
@@ -36,7 +36,7 @@ namespace Fun
 
             if (Equals(projection, null))
                 throw new ArgumentNullException(nameof(projection));
-            
+
             switch (@this.Option)
             {
                 case 1:
