@@ -1,24 +1,34 @@
 ﻿using System;
 using System.IO;
 using System.Data.SqlClient;
-using static Fun.Result;
+using Fun;
 using Dapper;
+using TestApp.DataLayer;
+using TestApp.DomainLayer;
+using TestApp.ServiceLayer;
 
-namespace Fun.TestConsole
+namespace TestApp
 {
     class Program
     {
         static void Main(string[] args)
         {
-            var x = Try(() => File.ReadAllText("file.txt"))
+            var x = Try.Get(() => File.ReadAllText("file.txt"))
                 .ThrowIf(String.IsNullOrEmpty, () => new InvalidOperationException("Requires non-empty string."))
-                .Map(text => text.ToUpper())
-                .Do(text => Console.Write(text));
+                .TryMap(text => text.ToUpper())
+                .TryDo(text => Console.Write(text));
 
 
-            var y = TryUsing(() => new SqlConnection("asdfas"),
+            var y = Try.Using(() => new SqlConnection("asdfas"),
                     cn => cn.QuerySingle<string>("SELECT * FROM Stuff"))
-                .Catch(typeof(TimeoutException), ex => Some(""));
+                .Catch(typeof(TimeoutException), ex => Try.Some(""));
+        }
+
+        private static void Compose()
+        {
+            var repo = new StuffRepository();
+            var serv = new StuffService(repo);
+            var ctrl = new StuffController(serv);
         }
     }
 }

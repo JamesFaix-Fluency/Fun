@@ -5,10 +5,10 @@ namespace Fun.FSharp
 {
     public static class OptionExtensions
     {
-        public static Maybe<T> AsMaybe<T>(
+        public static Opt<T> AsOpt<T>(
             this FSharpOption<T> @this) =>
             FSharpOption<T>.get_IsSome(@this)
-                ? Maybe.Some(@this.Value)
-                : Maybe.None<T>();
+                ? Opt.Some(@this.Value)
+                : Opt.None<T>();
     }
 }

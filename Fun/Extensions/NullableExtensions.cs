@@ -8,12 +8,12 @@ namespace Fun
     {
         #region Conversions
 
-        public static Maybe<T> AsMaybe<T>(
+        public static Opt<T> AsOpt<T>(
             this Nullable<T> @this)
             where T : struct =>
             @this.HasValue
-                ? Maybe.Some(@this.Value)
-                : Maybe.None<T>();
+                ? Opt.Some(@this.Value)
+                : Opt.None<T>();
 
         public static IEnumerable<T> AsSingleOrEmptySeq<T>(
             this Nullable<T> @this)

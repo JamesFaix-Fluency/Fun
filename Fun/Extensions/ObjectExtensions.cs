@@ -6,13 +6,13 @@ namespace Fun
 {
     public static class ObjectExtensions
     {
-        public static Result<T> AsResult<T>(
+        public static Try<T> AsTry<T>(
             this T @this) =>
-            Result.Some(@this);
+            Try.Some(@this);
 
-        public static Maybe<T> AsMaybe<T>(
+        public static Opt<T> AsOpt<T>(
             this T @this) =>
-            Maybe.Some(@this);
+            Opt.Some(@this);
 
         public static Task<T> AsTask<T>(
             this T @this) =>
