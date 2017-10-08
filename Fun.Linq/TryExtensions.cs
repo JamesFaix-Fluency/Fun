@@ -25,6 +25,5 @@ namespace Fun.Linq
                     ? @this
                     : Try.Error<T>(new Exception())
                 : @this;
-        }
     }
 }

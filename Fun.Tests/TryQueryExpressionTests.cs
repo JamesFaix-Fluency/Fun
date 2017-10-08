@@ -9,6 +9,8 @@ namespace Fun.Tests
     [TestFixture]
     public class TryQueryExpressionTests
     {
+        #region Select
+
         [Test]
         public void FromSelect_ShouldMapInputValue()
         {
@@ -27,6 +29,10 @@ namespace Fun.Tests
 
             result.HasValue.ShouldBeFalse();
         }
+
+        #endregion
+
+        #region SelectMany
 
         [Test]
         public void FromFromSelect_ShouldMapInputValues()
@@ -58,5 +64,24 @@ namespace Fun.Tests
 
             result.HasValue.ShouldBeFalse();
         }
+
+        [Test]
+        public void ManyFroms_ShouldMapInputValues()
+        {
+            var result = from w in Try.Some(1)
+                         from x in Try.Some(2)
+                         from y in Try.Some(3)
+                         from z in Try.Some(2)
+                         select (w + x + y + z) / 4;
+
+            result.HasValue.ShouldBeTrue();
+            result.Value.ShouldBe(2);
+        }
+
+        #endregion
+
+        #region Where
+
+        #endregion
     }
 }
