@@ -6,7 +6,7 @@ namespace Fun
     /// A type with only one possible value.  
     /// </summary>
     /// <remarks>
-    /// This is conceptually the same as <see cref="Microsoft.FSharp.Core.Unit"/>
+    /// This is conceptually the same as <see cref="Microsoft.FSharp.Core.Unit"/>.
     /// </remarks>
     public sealed class Unit 
         : IEquatable<Unit>

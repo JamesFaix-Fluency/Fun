@@ -19,7 +19,7 @@ namespace Fun
 
         protected readonly T3 _item3;
 
-        private static Or3Factory _factory = new Or3Factory();
+        private static IOr3Factory _factory = new Or3Factory();
 
         //Consumers must use the static Or class to instantiate
         internal Or(int tag, T1 item1, T2 item2, T3 item3)
@@ -63,13 +63,13 @@ namespace Fun
                 : _item3;
 
         /// <summary>
-        /// Gets a factory object that can produce <see cref="Or{,}"/> instances.
-        /// For any type <c>TOr{,}</c> derived from <see cref="Or{,}"/> this property can be overridden to 
-        /// provide a way to create a <c>TOr{,}</c> instance from another <c>TOr{,}</c> instance.
+        /// Gets a factory object that can produce <see cref="Or{,,}"/> instances.
+        /// For any type <c>TOr{,,}</c> derived from <see cref="Or{,,}"/> this property can be overridden to 
+        /// provide a way to create a <c>TOr{,,}</c> instance from another <c>TOr{,,}</c> instance.
         /// </summary>
         /// <remarks>
         /// Basically this is a way to get around not being able to include parameterized constructors in generic constraints.
-        /// This allows extension methods to be written for a generic type <c>TOr{,} where TOr{,} : Or{,}</c>
+        /// This allows extension methods to be written for a generic type <c>TOr{,,} where TOr{,,} : Or{,,}</c>
         /// which means monadic workflows can be created for different derived types using the same extension methods,
         /// rather than defining separate extension methods per derived type, or having extension methods that just return the base class.
         /// </remarks>

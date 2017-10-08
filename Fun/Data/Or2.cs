@@ -16,9 +16,9 @@ namespace Fun
 
         protected readonly T2 _item2;
 
-        private static Or2Factory _factory = new Or2Factory();
+        private static IOr2Factory _factory = new Or2Factory();
         
-        //Consumers must use the static Or class to instantiate
+        //Consumers must use the static Or class to instantiate.
         internal Or(int tag, T1 item1, T2 item2)
         {
             if (tag < 1 || tag > 2)
