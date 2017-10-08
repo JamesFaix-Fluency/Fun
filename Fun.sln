@@ -1,17 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.14
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fun", "Fun\Fun.csproj", "{A957C2B6-CB4D-4900-91C6-2859BCD9F70E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestConsole\TestApp.csproj", "{8D0F4562-7734-4AA6-8552-ED64C9EE465A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoApp", "TestConsole\DemoApp.csproj", "{8D0F4562-7734-4AA6-8552-ED64C9EE465A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fun.FSharp", "Fun.FSharp\Fun.FSharp.csproj", "{95F48B28-9123-46AD-97B4-FEF197474424}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fun.Linq", "Fun.Linq\Fun.Linq.csproj", "{824BD3E6-0F83-41D9-91B1-3AA8C525BEE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fun.Linq", "Fun.Linq\Fun.Linq.csproj", "{824BD3E6-0F83-41D9-91B1-3AA8C525BEE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fun.Dapper", "Fun.Dapper\Fun.Dapper.csproj", "{7A40C25D-3383-43FF-A019-25153C91B443}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fun.Dapper", "Fun.Dapper\Fun.Dapper.csproj", "{7A40C25D-3383-43FF-A019-25153C91B443}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fun.Tests", "Fun.Tests\Fun.Tests.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{7A40C25D-3383-43FF-A019-25153C91B443}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A40C25D-3383-43FF-A019-25153C91B443}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A40C25D-3383-43FF-A019-25153C91B443}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EDF4429-251A-416D-BB68-93F227191BCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EDF4429-251A-416D-BB68-93F227191BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
