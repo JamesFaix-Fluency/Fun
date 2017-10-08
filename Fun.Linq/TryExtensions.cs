@@ -16,19 +16,15 @@ namespace Fun.Linq
             @this.TryMap(t1 =>
                 projection(t1).TryMap(t2 =>
                     resultSelector(t1, t2)));
-        
-        private static void Test()
-        {
-            var a = from x in Try.Some(4)
-                    select x;
 
-            var b = from x in Try.Some(5)
-                    from y in Try.Some(7)
-                    select x * y;
-
-            var c = from x in Try.Some(5)
-                    from y in Try.Error<int>(new Exception())
-                    select x + y;
+        public static Try<T> Where<T>(
+            this Try<T> @this,
+            Func<T, bool> predicate) =>
+            @this.HasValue
+                ? predicate(@this.Value)
+                    ? @this
+                    : Try.Error<T>(new Exception())
+                : @this;
         }
     }
 }

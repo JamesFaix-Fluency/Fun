@@ -16,20 +16,5 @@ namespace Fun.Linq
             @this.OptMap(t1 => 
                 projection(t1).OptMap(t2 => 
                     resultSelector(t1, t2)));
-
-
-        private static void Test()
-        {
-            var a = from x in Opt.Some(4)
-                    select x;
-            
-            var b = from x in Opt.Some(5)
-                    from y in Opt.Some(7)
-                    select x * y;
-
-            var c = from x in Opt.Some(5)
-                    from y in Opt.None<int>()
-                    select x + y;
-        }
     }
 }

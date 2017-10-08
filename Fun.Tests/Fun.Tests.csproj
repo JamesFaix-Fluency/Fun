@@ -34,10 +34,15 @@
     <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="Shouldly, Version=2.8.3.0, Culture=neutral, PublicKeyToken=6042cbcb05cbc941, processorArchitecture=MSIL">
+      <HintPath>..\packages\Shouldly.2.8.3\lib\net451\Shouldly.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OptQueryExpressionTests.cs" />
     <Compile Include="OptTests.cs" />
+    <Compile Include="TryQueryExpressionTests.cs" />
     <Compile Include="TryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -45,6 +50,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Fun.Linq\Fun.Linq.csproj">
+      <Project>{824bd3e6-0f83-41d9-91b1-3aa8c525bee2}</Project>
+      <Name>Fun.Linq</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Fun\Fun.csproj">
       <Project>{a957c2b6-cb4d-4900-91c6-2859bcd9f70e}</Project>
       <Name>Fun</Name>
