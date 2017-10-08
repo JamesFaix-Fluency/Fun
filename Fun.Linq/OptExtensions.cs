@@ -24,6 +24,6 @@ namespace Fun.Linq
                 ? predicate(@this.Value)
                     ? @this
                     : Opt.None<T>()
-                : @this;
+                : @this;        
     }
 }

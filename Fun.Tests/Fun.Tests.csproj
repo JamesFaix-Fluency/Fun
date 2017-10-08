@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Linq\OptQueryExpressionTests.cs" />
     <Compile Include="Linq\TaskQueryExpressionTests.cs" />
+    <Compile Include="Linq\TaskTryQueryExpressionTests.cs" />
     <Compile Include="OptTests.cs" />
     <Compile Include="Linq\TryQueryExpressionTests.cs" />
     <Compile Include="TryTests.cs" />
