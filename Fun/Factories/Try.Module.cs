@@ -7,48 +7,24 @@ namespace Fun
     {
         #region Main generators
 
+        /// <summary>
+        /// Creates a new <see cref="Try{T}"/> with the given value.
+        /// </summary>
         public static Try<T> Some<T>(T value) => new Try<T>(value);
 
+        /// <summary>
+        /// Creates a new <see cref="Try{T}"/> with the given error.
+        /// </summary>
         public static Try<T> Error<T>(Exception error) => new Try<T>(error);
 
         #endregion
 
-        #region Assert 
-
-        public static Try<Unit> Assert(
-           bool predicate,
-           Func<Exception> errorGenerator)
-        {
-            if (Equals(predicate, null))
-                throw new ArgumentNullException(nameof(predicate));
-
-            if (Equals(errorGenerator, null))
-                throw new ArgumentNullException(nameof(errorGenerator));
-
-            return predicate
-                ? Some(Unit.Value)
-                : Error<Unit>(errorGenerator());
-        }
-
-        public static Try<Unit> Assert(
-           Func<bool> predicate,
-           Func<Exception> errorGenerator)
-        {
-            if (Equals(predicate, null))
-                throw new ArgumentNullException(nameof(predicate));
-
-            if (Equals(errorGenerator, null))
-                throw new ArgumentNullException(nameof(errorGenerator));
-
-            return predicate()
-                ? Some(Unit.Value)
-                : Error<Unit>(errorGenerator());
-        }
-        
-        #endregion
-
         #region Get 
 
+        /// <summary>
+        /// Calls <paramref name="generator"/> and returns <c>Some(x)</c> where <c>x</c> is the returned value of <paramref name="generator"/>. 
+        /// Returns <c>Error(e)</c> if an exception is thrown, where <c>e</c> is the thrown exception.
+        /// </summary>
         public static Try<T> Get<T>(Func<T> generator)
         {
             try
@@ -61,6 +37,10 @@ namespace Fun
             }
         }
 
+        /// <summary>
+        /// Calls <paramref name="generator"/> and returns the result.
+        /// Returns <c>Error(e)</c> if an exception is thrown, where <c>e</c> is the thrown exception.
+        /// </summary>
         public static Try<T> Get<T>(Func<Try<T>> generator)
         {
             try
@@ -73,6 +53,10 @@ namespace Fun
             }
         }
 
+        /// <summary>
+        /// Calls <paramref name="action"/> and returns <c>Some(Unit)</c>.
+        /// Returns <c>Error(e)</c> if an exception is thrown, where <c>e</c> is the thrown exception.
+        /// </summary>
         public static Try<Unit> Get(Action action)
         {
             try
@@ -86,11 +70,15 @@ namespace Fun
             }
         }
 
-        public static async Task<Try<T>> Get<T>(Task<T> @this)
+        /// <summary>
+        /// Awaits <paramref name="task"/>, and then returns <c>Some(x)</c> where <c>x</c> is the result of <paramref name="task"/>.
+        /// Returns <c>Error(e)</c> if an exception is thrown, where <c>e</c> is the thrown exception.
+        /// </summary>
+        public static async Task<Try<T>> Get<T>(Task<T> task)
         {
             try
             {
-                return Some(await @this);
+                return Some(await task);
             }
             catch (Exception e)
             {
@@ -98,6 +86,11 @@ namespace Fun
             }
         }
 
+        /// <summary>
+        /// Awaits the task created by <paramref name="generator"/>, and then returns <c>Some(x)</c> where <c>x</c>
+        /// is the result of the task.
+        /// Returns <c>Error(e)</c> if an exception is thrown, where <c>e</c> is the thrown exception.
+        /// </summary>
         public static async Task<Try<T>> GetAsync<T>(Func<Task<T>> generator)
         {
             try
@@ -110,6 +103,10 @@ namespace Fun
             }
         }
 
+        /// <summary>
+        /// Awaits the task created by <paramref name="generator"/>, and then returns the result.
+        /// Returns <c>Error(e)</c> if an exception is thrown, where <c>e</c> is the thrown exception.
+        /// </summary>
         public static async Task<Try<T>> GetAsync<T>(Func<Task<Try<T>>> generator)
         {
             try
@@ -122,6 +119,10 @@ namespace Fun
             }
         }
 
+        /// <summary>
+        /// Awaits <paramref name="task"/>, and then returns <c>Some(Unit)</c>.
+        /// Returns <c>Error(e)</c> if an exception is thrown, where <c>e</c> is the thrown exception.
+        /// </summary>
         public static async Task<Try<Unit>> GetAsync(Task task)
         {
             try
@@ -136,6 +137,41 @@ namespace Fun
         }
 
         #endregion
+        
+        #region Assert 
+
+        public static Try<Unit> Assert(
+            bool predicate,
+            Func<Exception> errorGenerator)
+        {
+            if (Equals(predicate, null))
+                throw new ArgumentNullException(nameof(predicate));
+
+            if (Equals(errorGenerator, null))
+                throw new ArgumentNullException(nameof(errorGenerator));
+
+            return predicate
+                ? Some(Unit.Value)
+                : Error<Unit>(errorGenerator());
+        }
+
+        public static Try<Unit> Assert(
+            Func<bool> predicate,
+            Func<Exception> errorGenerator)
+        {
+            if (Equals(predicate, null))
+                throw new ArgumentNullException(nameof(predicate));
+
+            if (Equals(errorGenerator, null))
+                throw new ArgumentNullException(nameof(errorGenerator));
+
+            return predicate()
+                ? Some(Unit.Value)
+                : Error<Unit>(errorGenerator());
+        }
+
+        #endregion
+
 
         #region Using
 
