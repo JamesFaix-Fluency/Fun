@@ -43,9 +43,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OptQueryExpressionTests.cs" />
+    <Compile Include="Linq\OptQueryExpressionTests.cs" />
+    <Compile Include="Linq\TaskQueryExpressionTests.cs" />
     <Compile Include="OptTests.cs" />
-    <Compile Include="TryQueryExpressionTests.cs" />
+    <Compile Include="Linq\TryQueryExpressionTests.cs" />
     <Compile Include="TryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
