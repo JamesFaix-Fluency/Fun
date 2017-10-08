@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Fun
@@ -28,135 +29,37 @@ namespace Fun
 
         public static Task<Try<T2>> TryMapAsync<T1, T2>(
             this Try<T1> @this,
-            Func<T1, Task<T2>> projection)
-        {
-            if (Equals(@this, null))
-                throw new ArgumentNullException(nameof(@this));
-
-            if (Equals(projection, null))
-                throw new ArgumentNullException(nameof(projection));
-
-            return @this.HasValue
-                ? Try.GetAsync(() => projection(@this.Value))
-                : Try.Error<T2>(@this.Error).AsTask();
-        }
+            Func<T1, Task<T2>> projection) =>
+            Try.GetAsync(() => @this.Map1Async<T1, T2, Exception, Try<T1>, Try<T2>>(projection));
 
         public static Task<Try<T2>> TryMapAsync<T1, T2>(
             this Try<T1> @this,
-            Func<T1, Task<Try<T2>>> projection)
-        {
-            if (Equals(@this, null))
-                throw new ArgumentNullException(nameof(@this));
+            Func<T1, Task<Try<T2>>> projection) =>
+            Try.GetAsync(() => @this.Map1Async<T1, T2, Exception, Try<T1>, Try<T2>>(projection));
 
-            if (Equals(projection, null))
-                throw new ArgumentNullException(nameof(projection));
-
-            return @this.HasValue
-                ? Try.GetAsync(() => projection(@this.Value))
-                : Try.Error<T2>(@this.Error).AsTask();
-        }
-
-        public static async Task<Try<T2>> TryMapAsync<T1, T2>(
+        public static Task<Try<T2>> TryMapAsync<T1, T2>(
             this Task<Try<T1>> @this,
-            Func<T1, Task<Try<T2>>> projection)
-        {
-            if (Equals(@this, null))
-                throw new ArgumentNullException(nameof(@this));
+            Func<T1, Task<Try<T2>>> projection) =>
+            Try.GetAsync(async () => await (await @this)
+                .Map1Async<T1, T2, Exception, Try<T1>, Try<T2>>(projection));
 
-            if (Equals(projection, null))
-                throw new ArgumentNullException(nameof(projection));
-
-            try
-            {
-                var result = await @this;
-
-                if (result.HasValue)
-                {
-                    return await Try.GetAsync(() => projection(result.Value));
-                }
-                else
-                {
-                    return Try.Error<T2>(result.Error);
-                }
-            }
-            catch (Exception e)
-            {
-                return Try.Error<T2>(e);
-            }
-        }
-
-        public static async Task<Try<T2>> TryMapAsync<T1, T2>(
+        public static Task<Try<T2>> TryMapAsync<T1, T2>(
             this Task<Try<T1>> @this,
-            Func<T1, T2> projection)
-        {
-            if (Equals(@this, null))
-                throw new ArgumentNullException(nameof(@this));
-
-            if (Equals(projection, null))
-                throw new ArgumentNullException(nameof(projection));
-
-            try
-            {
-                var result = await @this;
-
-                if (result.HasValue)
-                {
-                    return Try.Get(() => projection(result.Value));
-                }
-                else
-                {
-                    return Try.Error<T2>(result.Error);
-                }
-            }
-            catch (Exception e)
-            {
-                return Try.Error<T2>(e);
-            }
-        }
+            Func<T1, T2> projection) =>
+            Try.GetAsync(async () => (await @this)
+                .Map1<T1, T2, Exception, Try<T1>, Try<T2>>(projection));
 
         public static Try<IEnumerable<T2>> TryMapEach<T1, T2>(
             this Try<IEnumerable<T1>> @this,
-            Func<T1, T2> projection)
-        {
-            if (Equals(@this, null))
-                throw new ArgumentNullException(nameof(@this));
+            Func<T1, T2> projection) =>
+            Try.Get(() => @this
+                .MapEach1<T1, T2, Exception, Try<IEnumerable<T1>>, Try<IEnumerable<T2>>>(projection));
 
-            if (Equals(projection, null))
-                throw new ArgumentNullException(nameof(projection));
-
-            return @this.HasValue
-                ? Try.Get(() => @this.Value.Select(projection))
-                : Try.Error<IEnumerable<T2>>(@this.Error);
-        }
-
-        public static async Task<Try<IEnumerable<T2>>> TryMapEachAsync<T1, T2>(
+        public static Task<Try<IEnumerable<T2>>> TryMapEachAsync<T1, T2>(
             this Task<Try<IEnumerable<T1>>> @this,
-            Func<T1, T2> projection)
-        {
-            if (Equals(@this, null))
-                throw new ArgumentNullException(nameof(@this));
-
-            if (Equals(projection, null))
-                throw new ArgumentNullException(nameof(projection));
-
-            try
-            {
-                var result = await @this;
-                if (result.HasValue)
-                {
-                    var value = result.Value.ToList();
-                    return Try.Get(() => value.Select(projection));
-                }
-                else
-                {
-                    return Try.Error<IEnumerable<T2>>(result.Error);
-                }
-            }
-            catch (Exception e)
-            {
-                return Try.Error<IEnumerable<T2>>(e);
-            }
-        }
+            Func<T1, T2> projection) =>
+            Try.GetAsync(async () => (await @this)
+                .MapEach1<T1, T2, Exception, Try<IEnumerable<T1>>, Try<IEnumerable<T2>>>(projection));
        
         #region Error handling
 
