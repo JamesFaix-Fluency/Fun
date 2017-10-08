@@ -565,6 +565,179 @@ namespace Fun
 
         #endregion
 
+        #region 2 Side effects async
+
+        public static async Task<TOr> Do1Async<T1, T2, TOr>(this TOr @this, Task task)
+            where TOr : Or<T1, T2>
+        {
+            if (Equals(@this, null))
+                throw new ArgumentNullException(nameof(@this));
+
+            if (Equals(task, null))
+                throw new ArgumentNullException(nameof(task));
+
+            if (@this.Tag == 1)
+            {
+                await task;
+            }
+
+            return @this;
+        }
+
+        public static async Task<TOr> Do1Async<T1, T2, TOr>(this TOr @this, Func<T1, Task> getTask)
+            where TOr : Or<T1, T2>
+        {
+            if (Equals(@this, null))
+                throw new ArgumentNullException(nameof(@this));
+
+            if (Equals(getTask, null))
+                throw new ArgumentNullException(nameof(getTask));
+
+            if (@this.Tag == 1)
+            {
+                await getTask(@this.Item1);
+            }
+
+            return @this;
+        }
+
+        public static async Task<TOr> Do1Async<T1, T2, TOr>(this TOr @this, Task<Unit> task)
+            where TOr : Or<T1, T2>
+        {
+            if (Equals(@this, null))
+                throw new ArgumentNullException(nameof(@this));
+
+            if (Equals(task, null))
+                throw new ArgumentNullException(nameof(task));
+
+            if (@this.Tag == 1)
+            {
+                await task;
+            }
+
+            return @this;
+        }
+        public static async Task<TOr> Do1Async<T1, T2, TOr>(this TOr @this, Func<Task<Unit>> getTask)
+           where TOr : Or<T1, T2>
+        {
+            if (Equals(@this, null))
+                throw new ArgumentNullException(nameof(@this));
+
+            if (Equals(getTask, null))
+                throw new ArgumentNullException(nameof(getTask));
+
+            if (@this.Tag == 1)
+            {
+                await getTask();
+            }
+
+            return @this;
+        }
+
+        public static async Task<TOr> Do1Async<T1, T2, TOr>(this TOr @this, Func<T1, Task<Unit>> getTask)
+            where TOr : Or<T1, T2>
+        {
+            if (Equals(@this, null))
+                throw new ArgumentNullException(nameof(@this));
+
+            if (Equals(getTask, null))
+                throw new ArgumentNullException(nameof(getTask));
+
+            if (@this.Tag == 1)
+            {
+                await getTask(@this.Item1);
+            }
+
+            return @this;
+        }
+
+        public static async Task<TOr> Do2Async<T1, T2, TOr>(this TOr @this, Task task)
+            where TOr : Or<T1, T2>
+        {
+            if (Equals(@this, null))
+                throw new ArgumentNullException(nameof(@this));
+
+            if (Equals(task, null))
+                throw new ArgumentNullException(nameof(task));
+
+            if (@this.Tag == 2)
+            {
+                await task;
+            }
+
+            return @this;
+        }
+
+        public static async Task<TOr> Do2Async<T1, T2, TOr>(this TOr @this, Func<T2, Task> getTask)
+            where TOr : Or<T1, T2>
+        {
+            if (Equals(@this, null))
+                throw new ArgumentNullException(nameof(@this));
+
+            if (Equals(getTask, null))
+                throw new ArgumentNullException(nameof(getTask));
+
+            if (@this.Tag == 2)
+            {
+                await getTask(@this.Item2);
+            }
+
+            return @this;
+        }
+
+        public static async Task<TOr> Do2Async<T1, T2, TOr>(this TOr @this, Task<Unit> task)
+            where TOr : Or<T1, T2>
+        {
+            if (Equals(@this, null))
+                throw new ArgumentNullException(nameof(@this));
+
+            if (Equals(task, null))
+                throw new ArgumentNullException(nameof(task));
+
+            if (@this.Tag == 2)
+            {
+                await task;
+            }
+
+            return @this;
+        }
+
+        public static async Task<TOr> Do2Async<T1, T2, TOr>(this TOr @this, Func<Task<Unit>> getTask)
+            where TOr : Or<T1, T2>
+        {
+            if (Equals(@this, null))
+                throw new ArgumentNullException(nameof(@this));
+
+            if (Equals(getTask, null))
+                throw new ArgumentNullException(nameof(getTask));
+
+            if (@this.Tag == 2)
+            {
+                await getTask();
+            }
+
+            return @this;
+        }
+
+        public static async Task<TOr> Do2Async<T1, T2, TOr>(this TOr @this, Func<T2, Task<Unit>> getTask)
+            where TOr : Or<T1, T2>
+        {
+            if (Equals(@this, null))
+                throw new ArgumentNullException(nameof(@this));
+
+            if (Equals(getTask, null))
+                throw new ArgumentNullException(nameof(getTask));
+
+            if (@this.Tag == 2)
+            {
+                await getTask(@this.Item2);
+            }
+
+            return @this;
+        }
+
+        #endregion
+
         #region 3 Side effects
 
         public static TOr Do1<T1, T2, T3, TOr>(this TOr @this, Action action)

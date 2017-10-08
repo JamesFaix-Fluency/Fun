@@ -156,7 +156,27 @@ namespace Fun
                 return Error<Unit>(e);
             }
         }
+        
+        /// <summary>
+        /// Awaits the task created by <paramref name="generator"/>, and then returns <c>Some(Unit)</c>.
+        /// Returns <c>Error(e)</c> if an exception is thrown, where <c>e</c> is the thrown exception.
+        /// </summary>
+        public static async Task<Try<Unit>> GetAsync(Func<Task> generator)
+        {
+            if (Equals(generator, null))
+                return Error<Unit>(new ArgumentNullException(nameof(generator)));
 
+            try
+            {
+                await generator();
+                return Some(Unit.Value);
+            }
+            catch (Exception e)
+            {
+                return Error<Unit>(e);
+            }
+        }
+        
         #endregion
 
         #region Assert 

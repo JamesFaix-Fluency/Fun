@@ -1,11 +1,13 @@
 ﻿using System;
-using System.IO;
 using System.Data.SqlClient;
-using Fun;
+using System.IO;
 using Dapper;
+using Fun;
 using TestApp.DataLayer;
 using TestApp.DomainLayer;
+using TestApp.ExternalFileIOPackage;
 using TestApp.ServiceLayer;
+using TestApp.Model;
 
 namespace TestApp
 {
@@ -26,8 +28,15 @@ namespace TestApp
 
         private static void Compose()
         {
+            Session.CurrentUser = new User
+            {
+                Name = "Me",
+                IsAuthenticated = true
+            };
+
+            var fileSys = new FileSystem();
             var repo = new StuffRepository();
-            var serv = new StuffService(repo);
+            var serv = new StuffService(repo, fileSys);
             var ctrl = new StuffController(serv);
         }
     }

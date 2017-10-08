@@ -321,6 +321,146 @@ namespace Fun
 
             return Try.Get(() => @this.Do1<T, Exception, Try<T>>(action));
         }
+        
+        public static Task<Try<T>> TryDoAsync<T>(
+            this Try<T> @this,
+            Func<Task<Unit>> getTask)
+        {
+            if (Equals(@this, null))
+                return Try.Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
+
+            if (Equals(getTask, null))
+                return Try.Error<T>(new ArgumentNullException(nameof(getTask))).AsTask();
+            
+            return Try.GetAsync(() => 
+                @this.Do1Async<T, Exception, Try<T>>(getTask));
+        }
+
+        public static Task<Try<T>> TryDoAsync<T>(
+            this Try<T> @this,
+            Func<T, Task> getTask)
+        {
+            if (Equals(@this, null))
+                return Try.Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
+
+            if (Equals(getTask, null))
+                return Try.Error<T>(new ArgumentNullException(nameof(getTask))).AsTask();
+
+            return Try.GetAsync(() => 
+                @this.Do1Async<T, Exception, Try<T>>(getTask));
+        }
+
+        public static Task<Try<T>> TryDoAsync<T>(
+            this Try<T> @this,
+            Task task)
+        {
+            if (Equals(@this, null))
+                return Try.Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
+
+            if (Equals(task, null))
+                return Try.Error<T>(new ArgumentNullException(nameof(task))).AsTask();
+
+            return Try.GetAsync(() => 
+                @this.Do1Async<T, Exception, Try<T>>(task));
+        }
+
+        public static Task<Try<T>> TryDoAsync<T>(
+            this Try<T> @this,
+            Task<Unit> task)
+        {
+            if (Equals(@this, null))
+                return Try.Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
+
+            if (Equals(task, null))
+                return Try.Error<T>(new ArgumentNullException(nameof(task))).AsTask();
+
+            return Try.GetAsync(() => 
+                @this.Do1Async<T, Exception, Try<T>>(task));
+        }
+
+        public static Task<Try<T>> TryDoAsync<T>(
+            this Try<T> @this,
+            Func<T, Task<Unit>> getTask)
+        {
+            if (Equals(@this, null))
+                return Try.Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
+
+            if (Equals(getTask, null))
+                return Try.Error<T>(new ArgumentNullException(nameof(getTask))).AsTask();
+
+            return Try.GetAsync(() =>
+                @this.Do1Async<T, Exception, Try<T>>(getTask));
+        }
+        
+        public static Task<Try<T>> TryDoAsync<T>(
+           this Task<Try<T>> @this,
+           Func<Task<Unit>> getTask)
+        {
+            if (Equals(@this, null))
+                return Try.Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
+
+            if (Equals(getTask, null))
+                return Try.Error<T>(new ArgumentNullException(nameof(getTask))).AsTask();
+
+            return Try.GetAsync(async () => await
+                (await @this).Do1Async<T, Exception, Try<T>>(getTask));
+        }
+
+        public static Task<Try<T>> TryDoAsync<T>(
+            this Task<Try<T>> @this,
+            Func<T, Task> getTask)
+        {
+            if (Equals(@this, null))
+                return Try.Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
+
+            if (Equals(getTask, null))
+                return Try.Error<T>(new ArgumentNullException(nameof(getTask))).AsTask();
+
+            return Try.GetAsync(async () => await
+                (await @this).Do1Async<T, Exception, Try<T>>(getTask));
+        }
+
+        public static Task<Try<T>> TryDoAsync<T>(
+            this Task<Try<T>> @this,
+            Task task)
+        {
+            if (Equals(@this, null))
+                return Try.Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
+
+            if (Equals(task, null))
+                return Try.Error<T>(new ArgumentNullException(nameof(task))).AsTask();
+
+            return Try.GetAsync(async () => await
+                (await @this).Do1Async<T, Exception, Try<T>>(task));
+        }
+
+        public static Task<Try<T>> TryDoAsync<T>(
+            this Task<Try<T>> @this,
+            Task<Unit> task)
+        {
+            if (Equals(@this, null))
+                return Try.Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
+
+            if (Equals(task, null))
+                return Try.Error<T>(new ArgumentNullException(nameof(task))).AsTask();
+
+            return Try.GetAsync(async () => await
+                (await @this).Do1Async<T, Exception, Try<T>>(task));
+        }
+
+        public static Task<Try<T>> TryDoAsync<T>(
+            this Task<Try<T>> @this,
+            Func<T, Task<Unit>> getTask)
+        {
+            if (Equals(@this, null))
+                return Try.Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
+
+            if (Equals(getTask, null))
+                return Try.Error<T>(new ArgumentNullException(nameof(getTask))).AsTask();
+
+            return Try.GetAsync(async () => await
+                (await @this).Do1Async<T, Exception, Try<T>>(getTask));
+        }
 
         public static Try<Unit> Ignore<T>(
             this Try<T> @this)
