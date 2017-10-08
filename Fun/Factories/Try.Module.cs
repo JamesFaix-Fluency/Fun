@@ -27,6 +27,9 @@ namespace Fun
         /// </summary>
         public static Try<T> Get<T>(Func<T> generator)
         {
+            if (Equals(generator, null))
+                return Error<T>(new ArgumentNullException(nameof(generator)));
+
             try
             {
                 return Some(generator());
@@ -43,6 +46,9 @@ namespace Fun
         /// </summary>
         public static Try<T> Get<T>(Func<Try<T>> generator)
         {
+            if (Equals(generator, null))
+                return Error<T>(new ArgumentNullException(nameof(generator)));
+
             try
             {
                 return generator();
@@ -59,6 +65,9 @@ namespace Fun
         /// </summary>
         public static Try<Unit> Get(Action action)
         {
+            if (Equals(action, null))
+                return Error<Unit>(new ArgumentNullException(nameof(action)));
+
             try
             {
                 action();
@@ -76,6 +85,9 @@ namespace Fun
         /// </summary>
         public static async Task<Try<T>> Get<T>(Task<T> task)
         {
+            if (Equals(task, null))
+                return Error<T>(new ArgumentNullException(nameof(task)));
+
             try
             {
                 return Some(await task);
@@ -93,6 +105,9 @@ namespace Fun
         /// </summary>
         public static async Task<Try<T>> GetAsync<T>(Func<Task<T>> generator)
         {
+            if (Equals(generator, null))
+                return Error<T>(new ArgumentNullException(nameof(generator)));
+
             try
             {
                 return Some(await generator());
@@ -109,6 +124,9 @@ namespace Fun
         /// </summary>
         public static async Task<Try<T>> GetAsync<T>(Func<Task<Try<T>>> generator)
         {
+            if (Equals(generator, null))
+                return Error<T>(new ArgumentNullException(nameof(generator)));
+
             try
             {
                 return await generator();
@@ -125,6 +143,9 @@ namespace Fun
         /// </summary>
         public static async Task<Try<Unit>> GetAsync(Task task)
         {
+            if (Equals(task, null))
+                return Error<Unit>(new ArgumentNullException(nameof(task)));
+
             try
             {
                 await task;
@@ -137,7 +158,7 @@ namespace Fun
         }
 
         #endregion
-        
+
         #region Assert 
 
         public static Try<Unit> Assert(
@@ -145,10 +166,10 @@ namespace Fun
             Func<Exception> errorGenerator)
         {
             if (Equals(predicate, null))
-                throw new ArgumentNullException(nameof(predicate));
+                return Error<Unit>(new ArgumentNullException(nameof(predicate)));
 
             if (Equals(errorGenerator, null))
-                throw new ArgumentNullException(nameof(errorGenerator));
+                return Error<Unit>(new ArgumentNullException(nameof(errorGenerator)));
 
             return predicate
                 ? Some(Unit.Value)
@@ -160,10 +181,10 @@ namespace Fun
             Func<Exception> errorGenerator)
         {
             if (Equals(predicate, null))
-                throw new ArgumentNullException(nameof(predicate));
+                return Error<Unit>(new ArgumentNullException(nameof(predicate)));
 
             if (Equals(errorGenerator, null))
-                throw new ArgumentNullException(nameof(errorGenerator));
+                return Error<Unit>(new ArgumentNullException(nameof(errorGenerator)));
 
             return predicate()
                 ? Some(Unit.Value)
@@ -180,6 +201,12 @@ namespace Fun
             Func<TDisposable, T> getResult)
             where TDisposable : IDisposable
         {
+            if (Equals(getDisposable, null))
+                return Error<T>(new ArgumentNullException(nameof(getDisposable)));
+
+            if (Equals(getResult, null))
+                return Error<T>(new ArgumentNullException(nameof(getResult)));
+            
             var d = default(TDisposable);
 
             try
@@ -202,6 +229,12 @@ namespace Fun
             Func<TDisposable, Try<T>> getResult)
             where TDisposable : IDisposable
         {
+            if (Equals(getDisposable, null))
+                return Error<T>(new ArgumentNullException(nameof(getDisposable)));
+
+            if (Equals(getResult, null))
+                return Error<T>(new ArgumentNullException(nameof(getResult)));
+
             var d = default(TDisposable);
 
             try
@@ -224,6 +257,12 @@ namespace Fun
             Func<TDisposable, Task<T>> getResult)
             where TDisposable : IDisposable
         {
+            if (Equals(getDisposable, null))
+                return Error<T>(new ArgumentNullException(nameof(getDisposable)));
+
+            if (Equals(getResult, null))
+                return Error<T>(new ArgumentNullException(nameof(getResult)));
+
             var d = default(TDisposable);
 
             try
@@ -246,6 +285,12 @@ namespace Fun
             Func<TDisposable, Task<Try<T>>> getResult)
             where TDisposable : IDisposable
         {
+            if (Equals(getDisposable, null))
+                return Error<T>(new ArgumentNullException(nameof(getDisposable)));
+
+            if (Equals(getResult, null))
+                return Error<T>(new ArgumentNullException(nameof(getResult)));
+
             var d = default(TDisposable);
 
             try
