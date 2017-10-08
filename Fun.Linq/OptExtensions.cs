@@ -16,5 +16,14 @@ namespace Fun.Linq
             @this.OptMap(t1 => 
                 projection(t1).OptMap(t2 => 
                     resultSelector(t1, t2)));
+
+        public static Opt<T> Where<T>(
+            this Opt<T> @this,
+            Func<T, bool> predicate) =>
+            @this.HasValue
+                ? predicate(@this.Value)
+                    ? @this
+                    : Opt.None<T>()
+                : @this;
     }
 }

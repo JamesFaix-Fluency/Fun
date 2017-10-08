@@ -79,9 +79,5 @@ namespace Fun.Tests
         }
 
         #endregion
-
-        #region Where
-
-        #endregion
     }
 }

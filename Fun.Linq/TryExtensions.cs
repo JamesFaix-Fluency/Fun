@@ -16,14 +16,5 @@ namespace Fun.Linq
             @this.TryMap(t1 =>
                 projection(t1).TryMap(t2 =>
                     resultSelector(t1, t2)));
-
-        public static Try<T> Where<T>(
-            this Try<T> @this,
-            Func<T, bool> predicate) =>
-            @this.HasValue
-                ? predicate(@this.Value)
-                    ? @this
-                    : Try.Error<T>(new Exception())
-                : @this;
     }
 }
