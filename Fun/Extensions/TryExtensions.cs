@@ -27,8 +27,8 @@ namespace Fun
             Try.Get(() => @this.Map<T1, T2, Exception, Exception, Try<T1>, Try<T2>>(valueProjection, errorProjection));
 
         public static Task<Try<T2>> TryMapAsync<T1, T2>(
-           this Try<T1> @this,
-           Func<T1, Task<T2>> projection)
+            this Try<T1> @this,
+            Func<T1, Task<T2>> projection)
         {
             if (Equals(@this, null))
                 throw new ArgumentNullException(nameof(@this));
@@ -57,8 +57,8 @@ namespace Fun
         }
 
         public static async Task<Try<T2>> TryMapAsync<T1, T2>(
-           this Task<Try<T1>> @this,
-           Func<T1, Task<Try<T2>>> projection)
+            this Task<Try<T1>> @this,
+            Func<T1, Task<Try<T2>>> projection)
         {
             if (Equals(@this, null))
                 throw new ArgumentNullException(nameof(@this));
@@ -86,8 +86,8 @@ namespace Fun
         }
 
         public static async Task<Try<T2>> TryMapAsync<T1, T2>(
-           this Task<Try<T1>> @this,
-           Func<T1, T2> projection)
+            this Task<Try<T1>> @this,
+            Func<T1, T2> projection)
         {
             if (Equals(@this, null))
                 throw new ArgumentNullException(nameof(@this));
@@ -163,30 +163,30 @@ namespace Fun
         public static Try<T> Catch<T>(
             this Try<T> @this,
             Func<Exception, T> projection) =>
-            @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(Try.Some, ex => Try.Some(projection(ex)));
+            Try.Get(() => @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(Try.Some, ex => Try.Some(projection(ex))));
 
         public static Try<T> Catch<T>(
             this Try<T> @this,
             Func<Exception, Try<T>> projection) =>
-            @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(Try.Some, projection);
+            Try.Get(() => @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(Try.Some, projection));
 
         public static Try<T> Catch<T>(
             this Try<T> @this,
             Type exceptionType,
             Func<Exception, Try<T>> projection) =>
-            @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(Try.Some, ex =>
+            Try.Get(() => @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(Try.Some, ex =>
                 ex.GetType().IsAssignableFrom(exceptionType)
                     ? Try.Get(() => projection(@this.Error))
-                    : @this);
+                    : @this));
 
         public static Try<T> Catch<T>(
             this Try<T> @this,
             Func<Exception, bool> errorPredicate,
             Func<Exception, Try<T>> projection) =>
-            @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(Try.Some, ex =>
+            Try.Get(() => @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(Try.Some, ex =>
                 errorPredicate(ex)
                     ? Try.Get(() => projection(@this.Error))
-                    : @this);
+                    : @this));
 
         #endregion
 
@@ -196,21 +196,21 @@ namespace Fun
             this Try<T> @this,
             Func<T, bool> predicate,
             Func<Exception> errorGenerator) =>
-            @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(
+            Try.Get(() => @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(
                 t => predicate(t)
                     ? Try.Error<T>(errorGenerator())
                     : @this,
-                _ => @this);
+                _ => @this));
 
         public static Try<T> ThrowIf<T>( //Opposite of Assert for convenience
             this Try<T> @this,
             Func<T, bool> predicate,
             Func<Exception> errorGenerator) =>
-            @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(
+            Try.Get(() => @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(
                 t => !predicate(t)
                     ? Try.Error<T>(errorGenerator())
                     : @this,
-                _ => @this);
+                _ => @this));
 
         #endregion
         
@@ -247,14 +247,17 @@ namespace Fun
             return Try.Some(Unit.Value);
         }
 
-        public static async Task<Try<Unit>> IgnoreAsync<T>(
+        public static Task<Try<Unit>> IgnoreAsync<T>(
             this Task<Try<T>> @this)
         {
             if (Equals(@this, null))
                 throw new ArgumentNullException(nameof(@this));
 
-            await @this;
-            return Try.Some(Unit.Value);
+            return Try.GetAsync(async () =>
+            {
+                await @this;
+                return Try.Some(Unit.Value);
+            });
         }
 
         #endregion
