@@ -6,7 +6,8 @@ namespace Fun
     /// An object that may or may not have a value.
     /// </summary>
     /// <remarks>
-    /// This is conceptually the same as <see cref="Microsoft.FSharp.Core.Option{T}"/>.
+    /// This is conceptually the same as <see cref="Microsoft.FSharp.Core.FSharpOption{T}"/>
+    /// and very similar to <see cref="System.Nullable{T}"/>.
     /// </remarks>
     /// <typeparam name="T">Type of possible value</typeparam>
     public class Opt<T> :

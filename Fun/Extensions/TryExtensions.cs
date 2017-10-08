@@ -90,7 +90,7 @@ namespace Fun
                 errorPredicate(ex)
                     ? Try.Get(() => projection(@this.Error))
                     : @this));
-
+        
         #endregion
 
         #region Assertions
@@ -114,7 +114,7 @@ namespace Fun
                     ? Try.Error<T>(errorGenerator())
                     : @this,
                 _ => @this));
-
+        
         #endregion
         
         #endregion
@@ -173,6 +173,17 @@ namespace Fun
                 ? Opt.Some(@this.Value)
                 : Opt.None<T>();
 
-        #endregion                
+        #endregion
+        
+        public static T Extract<T>(
+            this Try<T> @this)
+        {
+            if (Equals(@this, null))
+                throw new ArgumentNullException(nameof(@this));
+
+            return @this.HasValue
+                ? @this.Value
+                : throw @this.Error;
+        }
     }
 }
