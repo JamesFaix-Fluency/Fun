@@ -25,7 +25,7 @@ namespace TestApp.DataLayer
             };
 
             return Try
-                .UsingAsync(OpenConnection, cn => cn.QuerySingleAsync<int>(query, param))
+                .UsingAsync(OpenConnection, cn => cn.TryQuerySingleAsync<int>(query, param))
                 .TryMapAsync(createdId => GetStuff(createdId));
         }
 
@@ -41,7 +41,7 @@ namespace TestApp.DataLayer
             };
 
             return Try
-                .UsingAsync(OpenConnection, cn => cn.ExecuteAsync(query, param))
+                .UsingAsync(OpenConnection, cn => cn.TryExecuteAsync(query, param))
                 .IgnoreAsync();
         }
 
@@ -59,7 +59,7 @@ namespace TestApp.DataLayer
             };
 
             return Try
-                .UsingAsync(OpenConnection, cn => cn.QuerySingleAsync<dynamic>(query, param))
+                .UsingAsync(OpenConnection, cn => cn.TryQuerySingleAsync<dynamic>(query, param))
                 .TryMapAsync(d => new Stuff
                 {
                     Id = d.Id,
@@ -76,7 +76,7 @@ namespace TestApp.DataLayer
                 WHERE IsDeleted = 0";
             
             return Try
-                .UsingAsync(OpenConnection, cn => cn.QueryAsync<dynamic>(query))
+                .UsingAsync(OpenConnection, cn => cn.TryQueryAsync<dynamic>(query))
                 .TryMapEachAsync(d => new Stuff
                 {
                     Id = d.Id,
@@ -101,7 +101,7 @@ namespace TestApp.DataLayer
             };
 
             return Try
-                .UsingAsync(OpenConnection, cn => cn.ExecuteAsync(query, param))
+                .UsingAsync(OpenConnection, cn => cn.TryExecuteAsync(query, param))
                 .TryMapAsync(_ => GetStuff(stuff.Id));
         }
         
