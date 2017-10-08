@@ -1,5 +1,6 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
+using NUnit.Framework;
+using Shouldly;
 
 namespace Fun.Tests
 {
@@ -12,8 +13,8 @@ namespace Fun.Tests
             var t = Opt.Some(1);
             var mapped = t.OptMap(n => n.ToString());
 
-            Assert.AreEqual(mapped.HasValue, true);
-            Assert.AreEqual(mapped.Value, "1");
+            mapped.HasValue.ShouldBeTrue();
+            mapped.Value.ShouldBe("1");
         }
 
 
@@ -23,7 +24,8 @@ namespace Fun.Tests
             var t = Opt.None<int>();
             var mapped = t.OptMap(n => n.ToString());
 
-            Assert.AreEqual(mapped.HasValue, false);
+            mapped.HasValue.ShouldBeFalse();
+
             Assert.Throws<InvalidOperationException>(() =>
             {
                 var x = mapped.Value;
