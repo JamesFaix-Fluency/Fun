@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fun", "Fun\Fun.csproj", "{A957C2B6-CB4D-4900-91C6-2859BCD9F70E}"
 EndProject
@@ -14,6 +14,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fun.Dapper", "Fun.Dapper\Fun.Dapper.csproj", "{7A40C25D-3383-43FF-A019-25153C91B443}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fun.Tests", "Fun.Tests\Fun.Tests.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QA", "QA", "{578668F9-254A-4287-B4D9-740CAAB96310}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{71812CD9-BD3F-49F1-9624-63DEA389944A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Main", "_Main", "{F0282A5C-57A6-4DBB-B77F-8F3DB4036F16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,5 +54,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A957C2B6-CB4D-4900-91C6-2859BCD9F70E} = {F0282A5C-57A6-4DBB-B77F-8F3DB4036F16}
+		{8D0F4562-7734-4AA6-8552-ED64C9EE465A} = {578668F9-254A-4287-B4D9-740CAAB96310}
+		{95F48B28-9123-46AD-97B4-FEF197474424} = {71812CD9-BD3F-49F1-9624-63DEA389944A}
+		{824BD3E6-0F83-41D9-91B1-3AA8C525BEE2} = {71812CD9-BD3F-49F1-9624-63DEA389944A}
+		{7A40C25D-3383-43FF-A019-25153C91B443} = {71812CD9-BD3F-49F1-9624-63DEA389944A}
+		{8EDF4429-251A-416D-BB68-93F227191BCF} = {578668F9-254A-4287-B4D9-740CAAB96310}
 	EndGlobalSection
 EndGlobal
