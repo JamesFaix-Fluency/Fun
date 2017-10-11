@@ -6,7 +6,7 @@ namespace Fun.Extensions
 {
     public static class ObjectExtensions
     {
-        public static Result<T> AsTry<T>(
+        public static Result<T> AsResult<T>(
             this T @this) =>
             Result.Value(@this);
 
