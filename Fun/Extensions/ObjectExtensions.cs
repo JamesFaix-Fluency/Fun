@@ -6,11 +6,11 @@ namespace Fun.Extensions
 {
     public static class ObjectExtensions
     {
-        public static result<T> AsTry<T>(
+        public static Result<T> AsTry<T>(
             this T @this) =>
             Result.Value(@this);
 
-        public static opt<T> AsOpt<T>(
+        public static Opt<T> AsOpt<T>(
             this T @this) =>
             Opt.Some(@this);
 

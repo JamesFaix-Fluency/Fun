@@ -5,13 +5,13 @@ namespace Fun
     public static partial class Result
     {
         /// <summary>
-        /// Creates a new <see cref="result{T}"/> with the given value.
+        /// Creates a new <see cref="Result{T}"/> with the given value.
         /// </summary>
-        public static result<T> Value<T>(T value) => new result<T>(value);
+        public static Result<T> Value<T>(T value) => new Result<T>(value);
 
         /// <summary>
-        /// Creates a new <see cref="result{T}"/> with the given error.
+        /// Creates a new <see cref="Result{T}"/> with the given error.
         /// </summary>
-        public static result<T> Error<T>(Exception error) => new result<T>(error);
+        public static Result<T> Error<T>(Exception error) => new Result<T>(error);
     }
 }

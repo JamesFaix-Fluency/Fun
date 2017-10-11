@@ -4,7 +4,7 @@ namespace Fun
 {
     public static partial class Result
     {
-        public static result<unit> Assert(
+        public static Result<unit> Assert(
             bool predicate,
             Func<Exception> errorGenerator)
         {
@@ -19,7 +19,7 @@ namespace Fun
                 : Error<unit>(errorGenerator());
         }
 
-        public static result<unit> Assert(
+        public static Result<unit> Assert(
             Func<bool> predicate,
             Func<Exception> errorGenerator)
         {
@@ -34,8 +34,8 @@ namespace Fun
                 : Error<unit>(errorGenerator());
         }
 
-        public static result<T> Assert<T>(
-            this result<T> @this,
+        public static Result<T> Assert<T>(
+            this Result<T> @this,
             Func<T, bool> predicate,
             Func<Exception> errorGenerator)
         {
@@ -55,8 +55,8 @@ namespace Fun
                     : @this);
         }
 
-        public static result<T> ThrowIf<T>( //Opposite of Assert for convenience
-            this result<T> @this,
+        public static Result<T> ThrowIf<T>( //Opposite of Assert for convenience
+            this Result<T> @this,
             Func<T, bool> predicate,
             Func<Exception> errorGenerator)
         {

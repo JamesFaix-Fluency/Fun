@@ -7,7 +7,7 @@ namespace Fun.Dapper
 {
     public static partial class IDbConnectionExtensions
     {
-        public static Task<result<int>> TryExecuteAsync(
+        public static Task<Result<int>> TryExecuteAsync(
             this IDbConnection connection,
             string sql,
             object param = null,
@@ -20,7 +20,7 @@ namespace Fun.Dapper
                     transaction, commandTimeout, commandType));
         }
 
-        public static Task<result<IDataReader>> TryExecuteReaderAsync(
+        public static Task<Result<IDataReader>> TryExecuteReaderAsync(
             this IDbConnection connection,
             string sql,
             object param = null,
@@ -33,7 +33,7 @@ namespace Fun.Dapper
                     transaction, commandTimeout, commandType));
         }
 
-        public static Task<result<T>> TryExecuteScalarAsync<T>(
+        public static Task<Result<T>> TryExecuteScalarAsync<T>(
             this IDbConnection connection,
             string sql,
             object param = null,
@@ -46,7 +46,7 @@ namespace Fun.Dapper
                     transaction, commandTimeout, commandType));
         }
 
-        public static Task<result<IEnumerable<T>>> TryQueryAsync<T>(
+        public static Task<Result<IEnumerable<T>>> TryQueryAsync<T>(
             this IDbConnection connection,
             string sql,
             object param = null,
@@ -60,7 +60,7 @@ namespace Fun.Dapper
                     transaction, commandTimeout, commandType));
         }
 
-        public static Task<result<T>> TryQueryFirstAsync<T>(
+        public static Task<Result<T>> TryQueryFirstAsync<T>(
             this IDbConnection connection,
             string sql,
             object param = null,
@@ -73,7 +73,7 @@ namespace Fun.Dapper
                     transaction, commandTimeout, commandType));
         }
 
-        public static Task<result<T>> TryQueryFirstOrDefaultAsync<T>(
+        public static Task<Result<T>> TryQueryFirstOrDefaultAsync<T>(
             this IDbConnection connection,
             string sql,
             object param = null,
@@ -86,7 +86,7 @@ namespace Fun.Dapper
                     transaction, commandTimeout, commandType));
         }
 
-        public static Task<result<T>> TryQuerySingleAsync<T>(
+        public static Task<Result<T>> TryQuerySingleAsync<T>(
             this IDbConnection connection,
             string sql,
             object param = null,
@@ -99,7 +99,7 @@ namespace Fun.Dapper
                     transaction, commandTimeout, commandType));
         }
 
-        public static Task<result<T>> TryQuerySingleOrDefaultAsync<T>(
+        public static Task<Result<T>> TryQuerySingleOrDefaultAsync<T>(
             this IDbConnection connection,
             string sql,
             object param = null,

@@ -5,8 +5,8 @@ namespace Fun
 {
     public static partial class Result
     {
-        public static result<T> Catch<T>(
-            this result<T> @this,
+        public static Result<T> Catch<T>(
+            this Result<T> @this,
             Func<Exception, T> projection)
         {
             if (Equals(@this, null))
@@ -21,9 +21,9 @@ namespace Fun
                     : Value(projection(@this.Error)));
         }
 
-        public static result<T> Catch<T>(
-            this result<T> @this,
-            Func<Exception, result<T>> projection)
+        public static Result<T> Catch<T>(
+            this Result<T> @this,
+            Func<Exception, Result<T>> projection)
         {
             if (Equals(@this, null))
                 return Error<T>(new ArgumentNullException(nameof(@this)));
@@ -37,10 +37,10 @@ namespace Fun
                     : projection(@this.Error));
         }
 
-        public static result<T> Catch<T>(
-            this result<T> @this,
+        public static Result<T> Catch<T>(
+            this Result<T> @this,
             Type exceptionType,
-            Func<Exception, result<T>> projection)
+            Func<Exception, Result<T>> projection)
         {
             if (Equals(@this, null))
                 return Error<T>(new ArgumentNullException(nameof(@this)));
@@ -61,10 +61,10 @@ namespace Fun
                     : @this);
         }
 
-        public static result<T> Catch<T>(
-            this result<T> @this,
+        public static Result<T> Catch<T>(
+            this Result<T> @this,
             Func<Exception, bool> errorPredicate,
-            Func<Exception, result<T>> projection)
+            Func<Exception, Result<T>> projection)
         {
             if (Equals(@this, null))
                 return Error<T>(new ArgumentNullException(nameof(@this)));

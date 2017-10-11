@@ -12,7 +12,7 @@ namespace TestApp.DataLayer
 {
     public class StuffRepository : IStuffRepository
     {
-        public Task<result<Stuff>> CreateStuff(Stuff stuff)
+        public Task<Result<Stuff>> CreateStuff(Stuff stuff)
         {
             const string query = @"
                 INSERT INTO Stuff ([Name], [Count])
@@ -29,7 +29,7 @@ namespace TestApp.DataLayer
                 .MapAsync(createdId => GetStuff(createdId));
         }
 
-        public Task<result<unit>> DeleteStuff(int id)
+        public Task<Result<unit>> DeleteStuff(int id)
         {
             const string query = @"
                 DELETE FROM Stuff 
@@ -45,7 +45,7 @@ namespace TestApp.DataLayer
                 .IgnoreAsync();
         }
 
-        public Task<result<Stuff>> GetStuff(int id)
+        public Task<Result<Stuff>> GetStuff(int id)
         {
             const string query = @"
                 SELECT Id, [Name], [Count]
@@ -68,7 +68,7 @@ namespace TestApp.DataLayer
                 });
         }
         
-        public Task<result<IEnumerable<Stuff>>> GetAllStuffs()
+        public Task<Result<IEnumerable<Stuff>>> GetAllStuffs()
         {
             const string query = @"
                 SELECT Id, [Name], [Count]
@@ -85,7 +85,7 @@ namespace TestApp.DataLayer
                 });
         }
 
-        public Task<result<Stuff>> UpdateStuff(Stuff stuff)
+        public Task<Result<Stuff>> UpdateStuff(Stuff stuff)
         {
             const string query = @"
                 UPDATE Stuff

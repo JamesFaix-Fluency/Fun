@@ -16,7 +16,12 @@ namespace Fun
          * which means null is a possible value, so no other values can be allowed.
          */
         private unit() { }
-                
+        
+        /// <summary>
+        /// Gets an instance of <see cref="unit"/>. (The only possible value is <c>null</c>.)
+        /// </summary>
+        public static unit Value => default(unit);
+
         public override string ToString() => "Unit";
 
         #region Equality

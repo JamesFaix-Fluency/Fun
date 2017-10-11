@@ -6,8 +6,8 @@ namespace Fun
 {
     public static partial class Result
     {
-        public static result<T> Do<T>(
-           this result<T> @this,
+        public static Result<T> Do<T>(
+           this Result<T> @this,
            Func<unit> action)
         {
             if (Equals(@this, null))
@@ -26,8 +26,8 @@ namespace Fun
             });
         }
 
-        public static result<T> Do<T>(
-            this result<T> @this,
+        public static Result<T> Do<T>(
+            this Result<T> @this,
             Func<T, unit> action)
         {
             if (Equals(@this, null))
@@ -46,8 +46,8 @@ namespace Fun
             });
         }
 
-        public static result<T> Do<T>(
-            this result<T> @this,
+        public static Result<T> Do<T>(
+            this Result<T> @this,
             Action action)
         {
             if (Equals(@this, null))
@@ -66,8 +66,8 @@ namespace Fun
             });
         }
 
-        public static result<T> Do<T>(
-            this result<T> @this,
+        public static Result<T> Do<T>(
+            this Result<T> @this,
             Action<T> action)
         {
             if (Equals(@this, null))
@@ -86,8 +86,8 @@ namespace Fun
             });
         }
 
-        public static Task<result<T>> DoAsync<T>(
-            this result<T> @this,
+        public static Task<Result<T>> DoAsync<T>(
+            this Result<T> @this,
             Func<Task<unit>> getTask)
         {
             if (Equals(@this, null))
@@ -106,8 +106,8 @@ namespace Fun
             });
         }
 
-        public static Task<result<T>> DoAsync<T>(
-            this result<T> @this,
+        public static Task<Result<T>> DoAsync<T>(
+            this Result<T> @this,
             Func<T, Task> getTask)
         {
             if (Equals(@this, null))
@@ -126,8 +126,8 @@ namespace Fun
             });
         }
 
-        public static Task<result<T>> DoAsync<T>(
-            this result<T> @this,
+        public static Task<Result<T>> DoAsync<T>(
+            this Result<T> @this,
             Task task)
         {
             if (Equals(@this, null))
@@ -146,8 +146,8 @@ namespace Fun
             });
         }
 
-        public static Task<result<T>> DoAsync<T>(
-            this result<T> @this,
+        public static Task<Result<T>> DoAsync<T>(
+            this Result<T> @this,
             Task<unit> task)
         {
             if (Equals(@this, null))
@@ -166,8 +166,8 @@ namespace Fun
             });
         }
 
-        public static Task<result<T>> DoAsync<T>(
-            this result<T> @this,
+        public static Task<Result<T>> DoAsync<T>(
+            this Result<T> @this,
             Func<T, Task<unit>> getTask)
         {
             if (Equals(@this, null))
@@ -186,8 +186,8 @@ namespace Fun
             });
         }
 
-        public static Task<result<T>> DoAsync<T>(
-           this Task<result<T>> @this,
+        public static Task<Result<T>> DoAsync<T>(
+           this Task<Result<T>> @this,
            Func<Task<unit>> getTask)
         {
             if (Equals(@this, null))
@@ -207,8 +207,8 @@ namespace Fun
             });
         }
 
-        public static Task<result<T>> DoAsync<T>(
-            this Task<result<T>> @this,
+        public static Task<Result<T>> DoAsync<T>(
+            this Task<Result<T>> @this,
             Func<T, Task> getTask)
         {
             if (Equals(@this, null))
@@ -228,8 +228,8 @@ namespace Fun
             });
         }
 
-        public static Task<result<T>> DoAsync<T>(
-            this Task<result<T>> @this,
+        public static Task<Result<T>> DoAsync<T>(
+            this Task<Result<T>> @this,
             Task task)
         {
             if (Equals(@this, null))
@@ -249,8 +249,8 @@ namespace Fun
             });
         }
 
-        public static Task<result<T>> DoAsync<T>(
-            this Task<result<T>> @this,
+        public static Task<Result<T>> DoAsync<T>(
+            this Task<Result<T>> @this,
             Task<unit> task)
         {
             if (Equals(@this, null))
@@ -270,8 +270,8 @@ namespace Fun
             });
         }
 
-        public static Task<result<T>> DoAsync<T>(
-            this Task<result<T>> @this,
+        public static Task<Result<T>> DoAsync<T>(
+            this Task<Result<T>> @this,
             Func<T, Task<unit>> getTask)
         {
             if (Equals(@this, null))

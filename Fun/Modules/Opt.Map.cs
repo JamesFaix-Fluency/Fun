@@ -5,8 +5,8 @@ namespace Fun
     public static partial class Opt
     {
         //Functor map
-        public static opt<T2> Map<T1, T2>(
-            this opt<T1> @this,
+        public static Opt<T2> Map<T1, T2>(
+            this Opt<T1> @this,
             Func<T1, T2> projection)
         {
             if (Equals(@this, null))
@@ -21,9 +21,9 @@ namespace Fun
         }
 
         //Monad bind
-        public static opt<T2> Map<T1, T2>(
-            this opt<T1> @this,
-            Func<T1, opt<T2>> projection)
+        public static Opt<T2> Map<T1, T2>(
+            this Opt<T1> @this,
+            Func<T1, Opt<T2>> projection)
         {
             if (Equals(@this, null))
                 throw new ArgumentNullException(nameof(@this));

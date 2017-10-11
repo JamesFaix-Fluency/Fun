@@ -8,7 +8,7 @@ namespace Fun.Extensions
     {
         #region Conversions
 
-        public static opt<T> AsOpt<T>(
+        public static Opt<T> AsOpt<T>(
             this Nullable<T> @this)
             where T : struct =>
             @this.HasValue

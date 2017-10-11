@@ -11,7 +11,7 @@ namespace Fun.Tests.Linq
     [TestFixture]
     public class TaskTryQueryExpressionTests
     {
-        private static Task<result<int>> GetLongRunningTask(int n)
+        private static Task<Result<int>> GetLongRunningTask(int n)
         {
             return Task.Run(() =>
             {
@@ -20,7 +20,7 @@ namespace Fun.Tests.Linq
             });
         }
 
-        private static Task<result<int>> GetErrorTask()
+        private static Task<Result<int>> GetErrorTask()
         {
             return Task.Run(() =>
             {

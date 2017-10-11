@@ -4,8 +4,8 @@ namespace Fun
 {
     public static partial class Opt
     {
-        public static opt<T> Do<T>(
-            this opt<T> @this,
+        public static Opt<T> Do<T>(
+            this Opt<T> @this,
             Func<unit> action)
         {
             if (Equals(@this, null))
@@ -21,8 +21,8 @@ namespace Fun
             return @this;
         }
 
-        public static opt<T> Do<T>(
-            this opt<T> @this,
+        public static Opt<T> Do<T>(
+            this Opt<T> @this,
             Func<T, unit> action)
         {
             if (Equals(@this, null))
@@ -38,8 +38,8 @@ namespace Fun
             return @this;
         }
 
-        public static opt<T> Do<T>(
-            this opt<T> @this,
+        public static Opt<T> Do<T>(
+            this Opt<T> @this,
             Action action)
         {
             if (Equals(@this, null))
@@ -55,8 +55,8 @@ namespace Fun
             return @this;
         }
 
-        public static opt<T> Do<T>(
-            this opt<T> @this,
+        public static Opt<T> Do<T>(
+            this Opt<T> @this,
             Action<T> action)
         {
             if (Equals(@this, null))

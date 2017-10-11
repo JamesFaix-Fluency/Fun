@@ -9,8 +9,8 @@ namespace Fun
     public static partial class Result
     {
         //Functor map
-        public static result<T2> Map<T1, T2>(
-            this result<T1> @this,
+        public static Result<T2> Map<T1, T2>(
+            this Result<T1> @this,
             Func<T1, T2> projection)
         {
             if (Equals(@this, null))
@@ -26,9 +26,9 @@ namespace Fun
         }
 
         //Monad bind
-        public static result<T2> Map<T1, T2>(
-            this result<T1> @this,
-            Func<T1, result<T2>> projection)
+        public static Result<T2> Map<T1, T2>(
+            this Result<T1> @this,
+            Func<T1, Result<T2>> projection)
         {
             if (Equals(@this, null))
                 return Error<T2>(new ArgumentNullException(nameof(@this)));
@@ -42,10 +42,10 @@ namespace Fun
                     : Error<T2>(@this.Error));
         }
 
-        public static result<T2> Map<T1, T2>(
-            this result<T1> @this,
-            Func<T1, result<T2>> valueProjection,
-            Func<Exception, result<T2>> errorProjection)
+        public static Result<T2> Map<T1, T2>(
+            this Result<T1> @this,
+            Func<T1, Result<T2>> valueProjection,
+            Func<Exception, Result<T2>> errorProjection)
         {
             if (Equals(@this, null))
                 return Error<T2>(new ArgumentNullException(nameof(@this)));
@@ -62,8 +62,8 @@ namespace Fun
                     : errorProjection(@this.Error));
         }
 
-        public static Task<result<T2>> MapAsync<T1, T2>(
-            this result<T1> @this,
+        public static Task<Result<T2>> MapAsync<T1, T2>(
+            this Result<T1> @this,
             Func<T1, Task<T2>> projection)
         {
             if (Equals(@this, null))
@@ -78,9 +78,9 @@ namespace Fun
                     : Error<T2>(@this.Error));
         }
 
-        public static Task<result<T2>> MapAsync<T1, T2>(
-            this result<T1> @this,
-            Func<T1, Task<result<T2>>> projection)
+        public static Task<Result<T2>> MapAsync<T1, T2>(
+            this Result<T1> @this,
+            Func<T1, Task<Result<T2>>> projection)
         {
             if (Equals(@this, null))
                 return Error<T2>(new ArgumentNullException(nameof(@this))).AsTask();
@@ -94,9 +94,9 @@ namespace Fun
                     : Error<T2>(@this.Error));
         }
 
-        public static Task<result<T2>> MapAsync<T1, T2>(
-            this Task<result<T1>> @this,
-            Func<T1, Task<result<T2>>> projection)
+        public static Task<Result<T2>> MapAsync<T1, T2>(
+            this Task<Result<T1>> @this,
+            Func<T1, Task<Result<T2>>> projection)
         {
             if (Equals(@this, null))
                 return Error<T2>(new ArgumentNullException(nameof(@this))).AsTask();
@@ -113,8 +113,8 @@ namespace Fun
             });
         }
 
-        public static Task<result<T2>> MapAsync<T1, T2>(
-            this Task<result<T1>> @this,
+        public static Task<Result<T2>> MapAsync<T1, T2>(
+            this Task<Result<T1>> @this,
             Func<T1, T2> projection)
         {
             if (Equals(@this, null))
@@ -132,8 +132,8 @@ namespace Fun
             });
         }
 
-        public static result<IEnumerable<T2>> MapEach<T1, T2>(
-            this result<IEnumerable<T1>> @this,
+        public static Result<IEnumerable<T2>> MapEach<T1, T2>(
+            this Result<IEnumerable<T1>> @this,
             Func<T1, T2> projection)
         {
             if (Equals(@this, null))
@@ -148,8 +148,8 @@ namespace Fun
                     : Error<IEnumerable<T2>>(@this.Error));
         }
 
-        public static Task<result<IEnumerable<T2>>> MapEachAsync<T1, T2>(
-            this Task<result<IEnumerable<T1>>> @this,
+        public static Task<Result<IEnumerable<T2>>> MapEachAsync<T1, T2>(
+            this Task<Result<IEnumerable<T1>>> @this,
             Func<T1, T2> projection)
         {
             if (Equals(@this, null))

@@ -19,7 +19,7 @@ namespace TestApp.DomainLayer
             _fileSystem = fileSystem;
         }
 
-        public Task<result<Stuff>> CreateStuff(Stuff stuff)
+        public Task<Result<Stuff>> CreateStuff(Stuff stuff)
         {
             return stuff.AsTry()
                 .Assert(s => s.Id == 0, () => new ValidationException($"{nameof(stuff.Id)} cannot be assigned by clients."))
@@ -29,7 +29,7 @@ namespace TestApp.DomainLayer
                 .DoAsync(s => LogAsync($"Created stuff '{stuff.Name}'."));
         }
 
-        public Task<result<unit>> DeleteStuff(int id)
+        public Task<Result<unit>> DeleteStuff(int id)
         {
             return id.AsTry()
                 .Assert(n => n >= 0, () => new ValidationException($"{nameof(id)} cannot be negative."))
@@ -38,14 +38,14 @@ namespace TestApp.DomainLayer
                     .DoAsync(_ => LogAsync($"Deleted stuff `{s.Name}`.")));
         }
 
-        public Task<result<Stuff>> GetStuff(int id)
+        public Task<Result<Stuff>> GetStuff(int id)
         {
             return id.AsTry()
                 .Assert(n => n >= 0, () => new ValidationException($"{nameof(id)} cannot be negative."))
                 .MapAsync(_repository.GetStuff);
         }
 
-        public Task<result<Stuff>> UpdateStuff(Stuff stuff)
+        public Task<Result<Stuff>> UpdateStuff(Stuff stuff)
         {
             return stuff.AsTry()
                 .Assert(s => s.Id >= 0, () => new ValidationException($"{nameof(stuff.Id)} cannot be negative."))
@@ -55,7 +55,7 @@ namespace TestApp.DomainLayer
                 .DoAsync(s => LogAsync($"Updated stuff '{s.Name}'."));
         }
 
-        private Task<result<unit>> LogAsync(string message)
+        private Task<Result<unit>> LogAsync(string message)
         {
             var logPath = ConfigurationManager.AppSettings["LogFilePath"];
             ;

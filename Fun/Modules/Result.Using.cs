@@ -5,7 +5,7 @@ namespace Fun
 {
     public static partial class Result
     {
-        public static result<T> Using<T, TDisposable>(
+        public static Result<T> Using<T, TDisposable>(
             Func<TDisposable> getDisposable,
             Func<TDisposable, T> getResult)
             where TDisposable : IDisposable
@@ -33,9 +33,9 @@ namespace Fun
             }
         }
 
-        public static result<T> Using<T, TDisposable>(
+        public static Result<T> Using<T, TDisposable>(
             Func<TDisposable> getDisposable,
-            Func<TDisposable, result<T>> getResult)
+            Func<TDisposable, Result<T>> getResult)
             where TDisposable : IDisposable
         {
             if (Equals(getDisposable, null))
@@ -61,7 +61,7 @@ namespace Fun
             }
         }
 
-        public static async Task<result<T>> UsingAsync<T, TDisposable>(
+        public static async Task<Result<T>> UsingAsync<T, TDisposable>(
             Func<Task<TDisposable>> getDisposable,
             Func<TDisposable, Task<T>> getResult)
             where TDisposable : IDisposable
@@ -89,9 +89,9 @@ namespace Fun
             }
         }
 
-        public static async Task<result<T>> UsingAsync<T, TDisposable>(
+        public static async Task<Result<T>> UsingAsync<T, TDisposable>(
             Func<Task<TDisposable>> getDisposable,
-            Func<TDisposable, Task<result<T>>> getResult)
+            Func<TDisposable, Task<Result<T>>> getResult)
             where TDisposable : IDisposable
         {
             if (Equals(getDisposable, null))

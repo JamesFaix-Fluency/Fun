@@ -4,8 +4,8 @@ namespace Fun
 {
     public static partial class Result
     {
-        public static opt<T> AsOpt<T>(
-               this result<T> @this)
+        public static Opt<T> AsOpt<T>(
+               this Result<T> @this)
         {
             if (Equals(@this, null))
                 throw new ArgumentNullException(nameof(@this));
@@ -16,7 +16,7 @@ namespace Fun
         }
 
         public static T Force<T>(
-        this result<T> @this)
+        this Result<T> @this)
         {
             if (Equals(@this, null))
                 throw new ArgumentNullException(nameof(@this));

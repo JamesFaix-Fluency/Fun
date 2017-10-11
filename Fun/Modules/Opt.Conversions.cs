@@ -7,7 +7,7 @@ namespace Fun
     public static partial class Opt
     {
         public static Nullable<T> AsNullable<T>(
-                 this opt<T> @this)
+                 this Opt<T> @this)
                  where T : struct
         {
             if (Equals(@this, null))
@@ -19,7 +19,7 @@ namespace Fun
         }
 
         public static IEnumerable<T> AsSingleOrEmptySeq<T>(
-            this opt<T> @this)
+            this Opt<T> @this)
             where T : struct
         {
             if (Equals(@this, null))
@@ -30,8 +30,8 @@ namespace Fun
                 : Enumerable.Empty<T>();
         }
 
-        public static result<T> AsResult<T>(
-            this opt<T> @this,
+        public static Result<T> AsResult<T>(
+            this Opt<T> @this,
             Func<Exception> errorGenerator)
         {
             if (Equals(@this, null))

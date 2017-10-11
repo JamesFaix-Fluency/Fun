@@ -5,7 +5,7 @@ namespace Fun.Extensions
 {
     public static class TaskExtensions
     {
-        public static Task<result<T>> AsTryAsync<T>(
+        public static Task<Result<T>> AsTryAsync<T>(
             this Task<T> @this)
         {
             if (Equals(@this, null))

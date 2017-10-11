@@ -6,17 +6,17 @@ namespace Fun
     /// An object that may contain a value or an error.
     /// </summary>
     /// <typeparam name="T">Type of possible value.</typeparam>
-    public class result<T> : IEquatable<result<T>>
+    public class Result<T> : IEquatable<Result<T>>
     {
         private readonly T _value;
         private readonly Exception _error;
 
-        internal result(T value)
+        internal Result(T value)
         {
             _value = value;
         }
 
-        internal result(Exception error)
+        internal Result(Exception error)
         {
             _error = error;
         }
@@ -33,7 +33,7 @@ namespace Fun
             HasValue
                 ? _value
                 : throw new InvalidOperationException(
-                    $"Cannot get {nameof(Value)} of {nameof(result<T>)} when {nameof(HasValue)} is false.");
+                    $"Cannot get {nameof(Value)} of {nameof(Result<T>)} when {nameof(HasValue)} is false.");
 
         /// <summary>
         /// Gets the error if <c>HasValue == false</c>, otherwise throws exception.
@@ -41,7 +41,7 @@ namespace Fun
         public Exception Error =>
             HasValue
                 ? throw new InvalidOperationException(
-                    $"Cannot get {nameof(Error)} of {nameof(result<T>)} when {nameof(HasValue)} is false.")
+                    $"Cannot get {nameof(Error)} of {nameof(Result<T>)} when {nameof(HasValue)} is false.")
                 : _error;
 
         public override string ToString() =>
@@ -51,29 +51,29 @@ namespace Fun
 
         #region Equality
 
-        public bool Equals(result<T> other) =>
+        public bool Equals(Result<T> other) =>
             !Equals(other, null)
             && EqualsInner(this, other);
 
         public override bool Equals(object obj) =>
-            Equals(obj as result<T>);
+            Equals(obj as Result<T>);
 
         public override int GetHashCode() =>
             HasValue
                 ? _value.GetHashCode()
                 : 0;
 
-        public static bool operator ==(result<T> a, result<T> b) =>
+        public static bool operator ==(Result<T> a, Result<T> b) =>
             Equals(a, null)
                 ? Equals(b, null)
                 : EqualsInner(a, b);
 
-        public static bool operator !=(result<T> a, result<T> b) =>
+        public static bool operator !=(Result<T> a, Result<T> b) =>
            !(Equals(a, null)
                 ? Equals(b, null)
                 : EqualsInner(a, b));
 
-        private static bool EqualsInner(result<T> a, result<T> b) =>
+        private static bool EqualsInner(Result<T> a, Result<T> b) =>
             a.HasValue
                 ? b.HasValue && Equals(a._value, b._value)
                 : !b.HasValue && Equals(a._error, b._error);

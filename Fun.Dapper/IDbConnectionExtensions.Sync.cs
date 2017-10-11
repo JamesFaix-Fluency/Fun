@@ -6,7 +6,7 @@ namespace Fun.Dapper
 {
     public static partial class IDbConnectionExtensions
     {
-        public static result<int> TryExecute(
+        public static Result<int> TryExecute(
             this IDbConnection connection,
             string sql,
             object param = null,
@@ -19,7 +19,7 @@ namespace Fun.Dapper
                     transaction, commandTimeout, commandType));
         }
 
-        public static result<IDataReader> TryExecuteReader(
+        public static Result<IDataReader> TryExecuteReader(
             this IDbConnection connection,
             string sql,
             object param = null,
@@ -32,7 +32,7 @@ namespace Fun.Dapper
                     transaction, commandTimeout, commandType));
         }
 
-        public static result<T> TryExecuteScalar<T>(
+        public static Result<T> TryExecuteScalar<T>(
             this IDbConnection connection,
             string sql,
             object param = null,
@@ -45,7 +45,7 @@ namespace Fun.Dapper
                     transaction, commandTimeout, commandType));
         }
 
-        public static result<IEnumerable<T>> TryQuery<T>(
+        public static Result<IEnumerable<T>> TryQuery<T>(
             this IDbConnection connection,
             string sql,
             object param = null,
@@ -59,7 +59,7 @@ namespace Fun.Dapper
                     transaction, buffered, commandTimeout, commandType));
         }
 
-        public static result<T> TryQueryFirst<T>(
+        public static Result<T> TryQueryFirst<T>(
             this IDbConnection connection,
             string sql,
             object param = null,
@@ -72,7 +72,7 @@ namespace Fun.Dapper
                     transaction, commandTimeout, commandType));
         }
 
-        public static result<T> TryQueryFirstOrDefault<T>(
+        public static Result<T> TryQueryFirstOrDefault<T>(
             this IDbConnection connection,
             string sql,
             object param = null,
@@ -85,7 +85,7 @@ namespace Fun.Dapper
                     transaction, commandTimeout, commandType));
         }
 
-        public static result<T> TryQuerySingle<T>(
+        public static Result<T> TryQuerySingle<T>(
             this IDbConnection connection,
             string sql,
             object param = null,
@@ -98,7 +98,7 @@ namespace Fun.Dapper
                     transaction, commandTimeout, commandType));
         }
 
-        public static result<T> TryQuerySingleOrDefault<T>(
+        public static Result<T> TryQuerySingleOrDefault<T>(
             this IDbConnection connection,
             string sql,
             object param = null,

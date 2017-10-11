@@ -4,8 +4,8 @@ namespace Fun
 {
     public static partial class Opt
     {
-        public static opt<unit> Ignore<T>(
-            this opt<T> @this)
+        public static Opt<unit> Ignore<T>(
+            this Opt<T> @this)
         {
             if (Equals(@this, null))
                 throw new ArgumentNullException(nameof(@this));
