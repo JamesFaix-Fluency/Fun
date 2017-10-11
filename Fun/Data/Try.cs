@@ -6,31 +6,32 @@ namespace Fun
     /// An object that may contain a value or an error.
     /// </summary>
     /// <typeparam name="T">Type of possible value.</typeparam>
-    public class Try<T> : 
-        Or<T, Exception>,
-        IEquatable<Try<T>>
+    public class Try<T> : IEquatable<Try<T>>
     {
-        private static readonly IOr2Factory _factory = new TryFactory();
+        private readonly T _value;
+        private readonly Exception _error;
 
         internal Try(T value)
-            : base(1, value, null)
-        { }
+        {
+            _value = value;
+        }
 
         internal Try(Exception error)
-            : base(2, default(T), error)
-        { }
+        {
+            _error = error;
+        }
 
         /// <summary>
         /// Gets whether the instance contains a value or not.
         /// </summary>
-        public bool HasValue => _tag == 1;
+        public bool HasValue => _error == null;
 
         /// <summary>
         /// Gets the value if <c>HasValue == true</c>, otherwise throws exception.
         /// </summary>
         public T Value =>
             HasValue
-                ? _item1
+                ? _value
                 : throw new InvalidOperationException(
                     $"Cannot get {nameof(Value)} of {nameof(Try<T>)} when {nameof(HasValue)} is false.");
 
@@ -41,27 +42,42 @@ namespace Fun
             HasValue
                 ? throw new InvalidOperationException(
                     $"Cannot get {nameof(Error)} of {nameof(Try<T>)} when {nameof(HasValue)} is false.")
-                : _item2;
-
-        /// <summary>
-        /// Gets a factory object that can produce <see cref="Or{,}"/> instances.
-        /// For any type <c>TOr{,}</c> derived from <see cref="Or{,}"/> this property can be overridden to 
-        /// provide a way to create a <c>TOr{,}</c> instance from another <c>TOr{,}</c> instance.
-        /// </summary>
-        /// <remarks>
-        /// Basically this is a way to get around not being able to include parameterized constructors in generic constraints.
-        /// This allows extension methods to be written for a generic type <c>TOr{,} where TOr{,} : Or{,}</c>
-        /// which means monadic workflows can be created for different derived types using the same extension methods,
-        /// rather than defining separate extension methods per derived type, or having extension methods that just return the base class.
-        /// </remarks>
-        internal override IOr2Factory Factory => _factory;
-
-        public bool Equals(Try<T> other) =>
-            base.Equals(other);
+                : _error;
 
         public override string ToString() =>
             HasValue
-                ? $"Value({_item1})"
-                : $"Error({_item2})";
+                ? $"Value({_value})"
+                : $"Error({_error})";
+
+        #region Equality
+
+        public bool Equals(Try<T> other) =>
+            !Equals(other, null)
+            && EqualsInner(this, other);
+
+        public override bool Equals(object obj) =>
+            Equals(obj as Try<T>);
+
+        public override int GetHashCode() =>
+            HasValue
+                ? _value.GetHashCode()
+                : 0;
+
+        public static bool operator ==(Try<T> a, Try<T> b) =>
+            Equals(a, null)
+                ? Equals(b, null)
+                : EqualsInner(a, b);
+
+        public static bool operator !=(Try<T> a, Try<T> b) =>
+           !(Equals(a, null)
+                ? Equals(b, null)
+                : EqualsInner(a, b));
+
+        private static bool EqualsInner(Try<T> a, Try<T> b) =>
+            a.HasValue
+                ? b.HasValue && Equals(a._value, b._value)
+                : !b.HasValue && Equals(a._error, b._error);
+
+        #endregion
     }
 }

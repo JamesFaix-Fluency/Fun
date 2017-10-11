@@ -21,6 +21,8 @@ namespace Fun
         /// Gets an instance of <see cref="Unit"/>. (The only possible value is <c>null</c>.)
         /// </summary>
         public static Unit Value => default(Unit);
+        
+        public override string ToString() => "Unit";
 
         #region Equality
 
@@ -35,7 +37,5 @@ namespace Fun
         public static bool operator != (Unit a, Unit b) => false;
 
         #endregion
-
-        public override string ToString() => "Unit";
     }   
 }

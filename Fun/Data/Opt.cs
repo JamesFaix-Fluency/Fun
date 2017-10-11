@@ -10,62 +10,74 @@ namespace Fun
     /// and very similar to <see cref="System.Nullable{T}"/>.
     /// </remarks>
     /// <typeparam name="T">Type of possible value</typeparam>
-    public class Opt<T> :
-        Or<T, Unit>,
-        IEquatable<Opt<T>>
+    public class Opt<T> : IEquatable<Opt<T>>
     {
-        //Singleton instance of None per type
-        private static readonly Opt<T> _none = new Opt<T>();
+        private readonly bool _hasValue;
+        private readonly T _value;
 
-        private static readonly IOr2Factory _factory = new OptFactory();
-        
         //Consumers must use the static Opt class to instantiate.
         internal Opt(T value)
-            : base(1, value, Unit.Value)
-        { }
+        {
+            _hasValue = true;
+            _value = value;
+        }
 
         //A singleton object is used for None, so additional instances cannot be instantiated.
         private Opt()
-            : base(2, default(T), Unit.Value)
         { }
         
         /// <summary>
         /// Gets whether the instance contains a value or not.
         /// </summary>
-        public bool HasValue => _tag == 1;
+        public bool HasValue => _hasValue;
 
         /// <summary>
         /// Gets the value if <c>HasValue == true</c>, otherwise throws exception.
         /// </summary>
         public T Value =>
-            HasValue
-                ? _item1
+            _hasValue
+                ? _value
                 : throw new InvalidOperationException($"Cannot get {nameof(Value)} of {nameof(Opt<T>)} when {nameof(HasValue)} is false.");
-
-        /// <summary>
-        /// Gets a factory object that can produce <see cref="Or{,}"/> instances.
-        /// For any type <c>TOr{,}</c> derived from <see cref="Or{,}"/> this property can be overridden to 
-        /// provide a way to create a <c>TOr{,}</c> instance from another <c>TOr{,}</c> instance.
-        /// </summary>
-        /// <remarks>
-        /// Basically this is a way to get around not being able to include parameterized constructors in generic constraints.
-        /// This allows extension methods to be written for a generic type <c>TOr{,} where TOr{,} : Or{,}</c>
-        /// which means monadic workflows can be created for different derived types using the same extension methods,
-        /// rather than defining separate extension methods per derived type, or having extension methods that just return the base class.
-        /// </remarks>
-        internal override IOr2Factory Factory => _factory;
 
         /// <summary>
         /// Singleton instance per generic type.
         /// Internal so static <see cref="Opt"/> class must be used by consumers.
         /// </summary>
-        internal static Opt<T> None => _none;
-
-        public bool Equals(Opt<T> other) => base.Equals(other);
+        internal static Opt<T> None { get; } = new Opt<T>();
 
         public override string ToString() =>
-            HasValue
-                ? $"Just {_item1}"
+            _hasValue
+                ? $"Just {_value}"
                 : $"Nothing{{{typeof(T)}}}";
+
+        #region Equality
+
+        public bool Equals(Opt<T> other) =>
+            !Equals(other, null)
+            && EqualsInner(this, other);
+
+        public override bool Equals(object obj) =>
+            Equals(obj as Opt<T>);
+
+        public override int GetHashCode() =>
+            _hasValue
+                ? _value.GetHashCode()
+                : 0;
+
+        public static bool operator == (Opt<T> a, Opt<T> b) =>
+            Equals(a, null)
+                ? Equals(b, null)
+                : EqualsInner(a, b);
+
+        public static bool operator != (Opt<T> a, Opt<T> b) =>
+           !(Equals(a, null)
+                ? Equals(b, null)
+                : EqualsInner(a, b));
+
+        private static bool EqualsInner(Opt<T> a, Opt<T> b) =>
+            a._hasValue == b._hasValue
+            && Equals(a._value, b._value);
+
+        #endregion
     }
 }
