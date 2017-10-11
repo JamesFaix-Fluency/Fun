@@ -12,8 +12,8 @@ namespace Fun.Tests
         [Test]
         public void TryMapShouldReturnMappedValue()
         {
-            var t = Try.Some(1);
-            var mapped = t.TryMap(n => n.ToString());
+            var t = Result.Value(1);
+            var mapped = t.Map(n => n.ToString());
 
             mapped.HasValue.ShouldBeTrue();
             mapped.Value.ShouldBe("1");
@@ -27,8 +27,8 @@ namespace Fun.Tests
         [Test]
         public void TryMapShouldReturnInputError()
         {
-            var t = Try.Error<int>(new Exception());
-            var mapped = t.TryMap(n => n.ToString());
+            var t = Result.Error<int>(new Exception());
+            var mapped = t.Map(n => n.ToString());
 
             mapped.HasValue.ShouldBeFalse();
 
@@ -41,8 +41,8 @@ namespace Fun.Tests
         [Test]
         public void TryMapEachShouldReturnMappedValues()
         {
-            var t = Try.Some(new[] { 1, 2, 3 } as IEnumerable<int>);
-            var mapped = t.TryMapEach(n => n.ToString());
+            var t = Result.Value(new[] { 1, 2, 3 } as IEnumerable<int>);
+            var mapped = t.MapEach(n => n.ToString());
 
             mapped.HasValue.ShouldBeTrue();
 

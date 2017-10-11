@@ -15,15 +15,15 @@ namespace TestApp
     {
         static void Main(string[] args)
         {
-            var x = Try.Get(() => File.ReadAllText("file.txt"))
+            var x = Result.Get(() => File.ReadAllText("file.txt"))
                 .ThrowIf(String.IsNullOrEmpty, () => new InvalidOperationException("Requires non-empty string."))
-                .TryMap(text => text.ToUpper())
-                .TryDo(text => Console.Write(text));
+                .Map(text => text.ToUpper())
+                .Do(text => Console.Write(text));
 
 
-            var y = Try.Using(() => new SqlConnection("asdfas"),
+            var y = Result.Using(() => new SqlConnection("asdfas"),
                     cn => cn.QuerySingle<string>("SELECT * FROM Stuff"))
-                .Catch(typeof(TimeoutException), ex => Try.Some(""));
+                .Catch(typeof(TimeoutException), ex => Result.Value(""));
         }
 
         private static void Compose()

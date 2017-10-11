@@ -14,7 +14,7 @@ namespace Fun.Tests
         [Test]
         public void FromSelect_ShouldMapInputValue()
         {
-            var result = from x in Try.Some(1)
+            var result = from x in Result.Value(1)
                          select x.ToString();
 
             result.HasValue.ShouldBeTrue();
@@ -24,7 +24,7 @@ namespace Fun.Tests
         [Test]
         public void FromSelect_ShouldPassInputError()
         {
-            var result = from x in Try.Error<int>(new Exception())
+            var result = from x in Result.Error<int>(new Exception())
                          select x.ToString();
 
             result.HasValue.ShouldBeFalse();
@@ -37,8 +37,8 @@ namespace Fun.Tests
         [Test]
         public void FromFromSelect_ShouldMapInputValues()
         {
-            var result = from x in Try.Some(1)
-                         from y in Try.Some(2)
+            var result = from x in Result.Value(1)
+                         from y in Result.Value(2)
                          select x + y;
 
             result.HasValue.ShouldBeTrue();
@@ -48,8 +48,8 @@ namespace Fun.Tests
         [Test]
         public void FromFromSelect_ShouldPassFirstError()
         {
-            var result = from x in Try.Error<int>(new Exception())
-                         from y in Try.Some(2)
+            var result = from x in Result.Error<int>(new Exception())
+                         from y in Result.Value(2)
                          select x + y;
 
             result.HasValue.ShouldBeFalse();
@@ -58,8 +58,8 @@ namespace Fun.Tests
         [Test]
         public void FromFromSelect_ShouldPassSecondError()
         {
-            var result = from x in Try.Some(1)
-                         from y in Try.Error<int>(new Exception())
+            var result = from x in Result.Value(1)
+                         from y in Result.Error<int>(new Exception())
                          select x + y;
 
             result.HasValue.ShouldBeFalse();
@@ -68,10 +68,10 @@ namespace Fun.Tests
         [Test]
         public void ManyFroms_ShouldMapInputValues()
         {
-            var result = from w in Try.Some(1)
-                         from x in Try.Some(2)
-                         from y in Try.Some(3)
-                         from z in Try.Some(2)
+            var result = from w in Result.Value(1)
+                         from x in Result.Value(2)
+                         from y in Result.Value(3)
+                         from z in Result.Value(2)
                          select (w + x + y + z) / 4;
 
             result.HasValue.ShouldBeTrue();

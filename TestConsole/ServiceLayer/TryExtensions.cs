@@ -5,7 +5,7 @@ namespace TestApp.ServiceLayer
 {
     internal static class TryExtensions
     {
-        public static async Task<string> JsonSerializeAsync<T>(this Task<Try<T>> @this)
+        public static async Task<string> JsonSerializeAsync<T>(this Task<result<T>> @this)
         {
             return JsonSerialize(await @this);
         }

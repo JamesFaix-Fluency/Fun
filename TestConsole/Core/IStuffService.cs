@@ -6,12 +6,12 @@ namespace TestApp.Core
 {
     public interface IStuffService
     {
-        Task<Try<Stuff>> CreateStuff(Stuff stuff);
+        Task<result<Stuff>> CreateStuff(Stuff stuff);
 
-        Task<Try<Unit>> DeleteStuff(int id);
+        Task<result<unit>> DeleteStuff(int id);
 
-        Task<Try<Stuff>> GetStuff(int id);
+        Task<result<Stuff>> GetStuff(int id);
 
-        Task<Try<Stuff>> UpdateStuff(Stuff stuff);
+        Task<result<Stuff>> UpdateStuff(Stuff stuff);
     }
 }

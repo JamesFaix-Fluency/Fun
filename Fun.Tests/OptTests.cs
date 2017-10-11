@@ -11,7 +11,7 @@ namespace Fun.Tests
         public void OptMapShouldReturnMappedValue()
         {
             var t = Opt.Some(1);
-            var mapped = t.OptMap(n => n.ToString());
+            var mapped = t.Map(n => n.ToString());
 
             mapped.HasValue.ShouldBeTrue();
             mapped.Value.ShouldBe("1");
@@ -22,7 +22,7 @@ namespace Fun.Tests
         public void OptMapShouldReturnInputNone()
         {
             var t = Opt.None<int>();
-            var mapped = t.OptMap(n => n.ToString());
+            var mapped = t.Map(n => n.ToString());
 
             mapped.HasValue.ShouldBeFalse();
 

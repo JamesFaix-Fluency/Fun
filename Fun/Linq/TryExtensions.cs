@@ -4,17 +4,17 @@ namespace Fun.Linq
 {
     public static class TryExtensions
     {
-        public static Try<T2> Select<T1, T2>(
-            this Try<T1> @this,
+        public static result<T2> Select<T1, T2>(
+            this result<T1> @this,
             Func<T1, T2> projection) =>
-            @this.TryMap(projection);
+            @this.Map(projection);
 
-        public static Try<T3> SelectMany<T1, T2, T3>(
-            this Try<T1> @this,
-            Func<T1, Try<T2>> projection,
+        public static result<T3> SelectMany<T1, T2, T3>(
+            this result<T1> @this,
+            Func<T1, result<T2>> projection,
             Func<T1, T2, T3> resultSelector) =>
-            @this.TryMap(t1 =>
-                projection(t1).TryMap(t2 =>
+            @this.Map(t1 =>
+                projection(t1).Map(t2 =>
                     resultSelector(t1, t2)));
     }
 }

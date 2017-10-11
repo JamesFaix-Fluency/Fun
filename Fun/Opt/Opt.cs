@@ -10,20 +10,20 @@ namespace Fun
     /// and very similar to <see cref="System.Nullable{T}"/>.
     /// </remarks>
     /// <typeparam name="T">Type of possible value</typeparam>
-    public class Opt<T> : IEquatable<Opt<T>>
+    public class opt<T> : IEquatable<opt<T>>
     {
         private readonly bool _hasValue;
         private readonly T _value;
 
         //Consumers must use the static Opt class to instantiate.
-        internal Opt(T value)
+        internal opt(T value)
         {
             _hasValue = true;
             _value = value;
         }
 
         //A singleton object is used for None, so additional instances cannot be instantiated.
-        private Opt()
+        private opt()
         { }
         
         /// <summary>
@@ -37,13 +37,13 @@ namespace Fun
         public T Value =>
             _hasValue
                 ? _value
-                : throw new InvalidOperationException($"Cannot get {nameof(Value)} of {nameof(Opt<T>)} when {nameof(HasValue)} is false.");
+                : throw new InvalidOperationException($"Cannot get {nameof(Value)} of {nameof(opt<T>)} when {nameof(HasValue)} is false.");
 
         /// <summary>
         /// Singleton instance per generic type.
         /// Internal so static <see cref="Opt"/> class must be used by consumers.
         /// </summary>
-        internal static Opt<T> None { get; } = new Opt<T>();
+        internal static opt<T> None { get; } = new opt<T>();
 
         public override string ToString() =>
             _hasValue
@@ -52,29 +52,29 @@ namespace Fun
 
         #region Equality
 
-        public bool Equals(Opt<T> other) =>
+        public bool Equals(opt<T> other) =>
             !Equals(other, null)
             && EqualsInner(this, other);
 
         public override bool Equals(object obj) =>
-            Equals(obj as Opt<T>);
+            Equals(obj as opt<T>);
 
         public override int GetHashCode() =>
             _hasValue
                 ? _value.GetHashCode()
                 : 0;
 
-        public static bool operator == (Opt<T> a, Opt<T> b) =>
+        public static bool operator == (opt<T> a, opt<T> b) =>
             Equals(a, null)
                 ? Equals(b, null)
                 : EqualsInner(a, b);
 
-        public static bool operator != (Opt<T> a, Opt<T> b) =>
+        public static bool operator != (opt<T> a, opt<T> b) =>
            !(Equals(a, null)
                 ? Equals(b, null)
                 : EqualsInner(a, b));
 
-        private static bool EqualsInner(Opt<T> a, Opt<T> b) =>
+        private static bool EqualsInner(opt<T> a, opt<T> b) =>
             a._hasValue == b._hasValue
             && Equals(a._value, b._value);
 

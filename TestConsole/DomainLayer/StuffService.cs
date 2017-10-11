@@ -19,47 +19,47 @@ namespace TestApp.DomainLayer
             _fileSystem = fileSystem;
         }
 
-        public Task<Try<Stuff>> CreateStuff(Stuff stuff)
+        public Task<result<Stuff>> CreateStuff(Stuff stuff)
         {
             return stuff.AsTry()
                 .Assert(s => s.Id == 0, () => new ValidationException($"{nameof(stuff.Id)} cannot be assigned by clients."))
                 .Assert(s => s.Name != null, () => new ValidationException($"{nameof(stuff.Name)} cannot be null."))
                 .Assert(s => s.Count >= 0, () => new ValidationException($"{nameof(stuff.Count)} cannot be negative."))
-                .TryMapAsync(_repository.CreateStuff)
-                .TryDoAsync(s => LogAsync($"Created stuff '{stuff.Name}'."));
+                .MapAsync(_repository.CreateStuff)
+                .DoAsync(s => LogAsync($"Created stuff '{stuff.Name}'."));
         }
 
-        public Task<Try<Unit>> DeleteStuff(int id)
+        public Task<result<unit>> DeleteStuff(int id)
         {
             return id.AsTry()
                 .Assert(n => n >= 0, () => new ValidationException($"{nameof(id)} cannot be negative."))
-                .TryMapAsync(_repository.GetStuff)
-                .TryMapAsync(s => _repository.DeleteStuff(id)
-                    .TryDoAsync(_ => LogAsync($"Deleted stuff `{s.Name}`.")));
+                .MapAsync(_repository.GetStuff)
+                .MapAsync(s => _repository.DeleteStuff(id)
+                    .DoAsync(_ => LogAsync($"Deleted stuff `{s.Name}`.")));
         }
 
-        public Task<Try<Stuff>> GetStuff(int id)
+        public Task<result<Stuff>> GetStuff(int id)
         {
             return id.AsTry()
                 .Assert(n => n >= 0, () => new ValidationException($"{nameof(id)} cannot be negative."))
-                .TryMapAsync(_repository.GetStuff);
+                .MapAsync(_repository.GetStuff);
         }
 
-        public Task<Try<Stuff>> UpdateStuff(Stuff stuff)
+        public Task<result<Stuff>> UpdateStuff(Stuff stuff)
         {
             return stuff.AsTry()
                 .Assert(s => s.Id >= 0, () => new ValidationException($"{nameof(stuff.Id)} cannot be negative."))
                 .Assert(s => s.Name.Length <= 100, () => new ValidationException($"{nameof(stuff.Name)}.{nameof(stuff.Name.Length)} cannot exceed 100 characters."))
                 .Assert(s => s.Count >= 0, () => new ValidationException($"{nameof(stuff.Count)} cannot be negative."))
-                .TryMapAsync(_repository.UpdateStuff)
-                .TryDoAsync(s => LogAsync($"Updated stuff '{s.Name}'."));
+                .MapAsync(_repository.UpdateStuff)
+                .DoAsync(s => LogAsync($"Updated stuff '{s.Name}'."));
         }
 
-        private Task<Try<Unit>> LogAsync(string message)
+        private Task<result<unit>> LogAsync(string message)
         {
             var logPath = ConfigurationManager.AppSettings["LogFilePath"];
             ;
-            return Try.GetAsync(() =>
+            return Result.GetAsync(() =>
                 _fileSystem.AppendLineAsync(Session.CurrentUser, logPath, message));
         }
     }

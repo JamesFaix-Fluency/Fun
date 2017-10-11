@@ -12,7 +12,7 @@ namespace TestApp.DataLayer
 {
     public class StuffRepository : IStuffRepository
     {
-        public Task<Try<Stuff>> CreateStuff(Stuff stuff)
+        public Task<result<Stuff>> CreateStuff(Stuff stuff)
         {
             const string query = @"
                 INSERT INTO Stuff ([Name], [Count])
@@ -24,12 +24,12 @@ namespace TestApp.DataLayer
                 Count = stuff.Count
             };
 
-            return Try
+            return Result
                 .UsingAsync(OpenConnection, cn => cn.TryQuerySingleAsync<int>(query, param))
-                .TryMapAsync(createdId => GetStuff(createdId));
+                .MapAsync(createdId => GetStuff(createdId));
         }
 
-        public Task<Try<Unit>> DeleteStuff(int id)
+        public Task<result<unit>> DeleteStuff(int id)
         {
             const string query = @"
                 DELETE FROM Stuff 
@@ -40,12 +40,12 @@ namespace TestApp.DataLayer
                 Id = id
             };
 
-            return Try
+            return Result
                 .UsingAsync(OpenConnection, cn => cn.TryExecuteAsync(query, param))
                 .IgnoreAsync();
         }
 
-        public Task<Try<Stuff>> GetStuff(int id)
+        public Task<result<Stuff>> GetStuff(int id)
         {
             const string query = @"
                 SELECT Id, [Name], [Count]
@@ -58,9 +58,9 @@ namespace TestApp.DataLayer
                 Id = id
             };
 
-            return Try
+            return Result
                 .UsingAsync(OpenConnection, cn => cn.TryQuerySingleAsync<dynamic>(query, param))
-                .TryMapAsync(d => new Stuff
+                .MapAsync(d => new Stuff
                 {
                     Id = d.Id,
                     Name = d.Name,
@@ -68,16 +68,16 @@ namespace TestApp.DataLayer
                 });
         }
         
-        public Task<Try<IEnumerable<Stuff>>> GetAllStuffs()
+        public Task<result<IEnumerable<Stuff>>> GetAllStuffs()
         {
             const string query = @"
                 SELECT Id, [Name], [Count]
                 FROM Stuff
                 WHERE IsDeleted = 0";
             
-            return Try
+            return Result
                 .UsingAsync(OpenConnection, cn => cn.TryQueryAsync<dynamic>(query))
-                .TryMapEachAsync(d => new Stuff
+                .MapEachAsync(d => new Stuff
                 {
                     Id = d.Id,
                     Name = d.Name,
@@ -85,7 +85,7 @@ namespace TestApp.DataLayer
                 });
         }
 
-        public Task<Try<Stuff>> UpdateStuff(Stuff stuff)
+        public Task<result<Stuff>> UpdateStuff(Stuff stuff)
         {
             const string query = @"
                 UPDATE Stuff
@@ -100,9 +100,9 @@ namespace TestApp.DataLayer
                 Coutn = stuff.Count
             };
 
-            return Try
+            return Result
                 .UsingAsync(OpenConnection, cn => cn.TryExecuteAsync(query, param))
-                .TryMapAsync(_ => GetStuff(stuff.Id));
+                .MapAsync(_ => GetStuff(stuff.Id));
         }
         
         private async Task<IDbConnection> OpenConnection()

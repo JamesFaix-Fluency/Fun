@@ -6,11 +6,11 @@ using Fun.Extensions;
 
 namespace Fun
 {
-    public static partial class Try
+    public static partial class Result
     {
         //Functor map
-        public static Try<T2> TryMap<T1, T2>(
-            this Try<T1> @this,
+        public static result<T2> Map<T1, T2>(
+            this result<T1> @this,
             Func<T1, T2> projection)
         {
             if (Equals(@this, null))
@@ -21,14 +21,14 @@ namespace Fun
 
             return Get(() =>
                 @this.HasValue
-                    ? Some(projection(@this.Value))
+                    ? Value(projection(@this.Value))
                     : Error<T2>(@this.Error));
         }
 
         //Monad bind
-        public static Try<T2> TryMap<T1, T2>(
-            this Try<T1> @this,
-            Func<T1, Try<T2>> projection)
+        public static result<T2> Map<T1, T2>(
+            this result<T1> @this,
+            Func<T1, result<T2>> projection)
         {
             if (Equals(@this, null))
                 return Error<T2>(new ArgumentNullException(nameof(@this)));
@@ -42,10 +42,10 @@ namespace Fun
                     : Error<T2>(@this.Error));
         }
 
-        public static Try<T2> TryMap<T1, T2>(
-            this Try<T1> @this,
-            Func<T1, Try<T2>> valueProjection,
-            Func<Exception, Try<T2>> errorProjection)
+        public static result<T2> Map<T1, T2>(
+            this result<T1> @this,
+            Func<T1, result<T2>> valueProjection,
+            Func<Exception, result<T2>> errorProjection)
         {
             if (Equals(@this, null))
                 return Error<T2>(new ArgumentNullException(nameof(@this)));
@@ -62,8 +62,8 @@ namespace Fun
                     : errorProjection(@this.Error));
         }
 
-        public static Task<Try<T2>> TryMapAsync<T1, T2>(
-            this Try<T1> @this,
+        public static Task<result<T2>> MapAsync<T1, T2>(
+            this result<T1> @this,
             Func<T1, Task<T2>> projection)
         {
             if (Equals(@this, null))
@@ -74,13 +74,13 @@ namespace Fun
 
             return GetAsync(async () =>
                 @this.HasValue
-                    ? Some(await projection(@this.Value))
+                    ? Value(await projection(@this.Value))
                     : Error<T2>(@this.Error));
         }
 
-        public static Task<Try<T2>> TryMapAsync<T1, T2>(
-            this Try<T1> @this,
-            Func<T1, Task<Try<T2>>> projection)
+        public static Task<result<T2>> MapAsync<T1, T2>(
+            this result<T1> @this,
+            Func<T1, Task<result<T2>>> projection)
         {
             if (Equals(@this, null))
                 return Error<T2>(new ArgumentNullException(nameof(@this))).AsTask();
@@ -94,9 +94,9 @@ namespace Fun
                     : Error<T2>(@this.Error));
         }
 
-        public static Task<Try<T2>> TryMapAsync<T1, T2>(
-            this Task<Try<T1>> @this,
-            Func<T1, Task<Try<T2>>> projection)
+        public static Task<result<T2>> MapAsync<T1, T2>(
+            this Task<result<T1>> @this,
+            Func<T1, Task<result<T2>>> projection)
         {
             if (Equals(@this, null))
                 return Error<T2>(new ArgumentNullException(nameof(@this))).AsTask();
@@ -113,8 +113,8 @@ namespace Fun
             });
         }
 
-        public static Task<Try<T2>> TryMapAsync<T1, T2>(
-            this Task<Try<T1>> @this,
+        public static Task<result<T2>> MapAsync<T1, T2>(
+            this Task<result<T1>> @this,
             Func<T1, T2> projection)
         {
             if (Equals(@this, null))
@@ -127,13 +127,13 @@ namespace Fun
             {
                 var result = await @this;
                 return result.HasValue
-                    ? Some(projection(result.Value))
+                    ? Value(projection(result.Value))
                     : Error<T2>(result.Error);
             });
         }
 
-        public static Try<IEnumerable<T2>> TryMapEach<T1, T2>(
-            this Try<IEnumerable<T1>> @this,
+        public static result<IEnumerable<T2>> MapEach<T1, T2>(
+            this result<IEnumerable<T1>> @this,
             Func<T1, T2> projection)
         {
             if (Equals(@this, null))
@@ -144,12 +144,12 @@ namespace Fun
 
             return Get(() =>
                 @this.HasValue
-                    ? Some(@this.Value.Select(projection))
+                    ? Value(@this.Value.Select(projection))
                     : Error<IEnumerable<T2>>(@this.Error));
         }
 
-        public static Task<Try<IEnumerable<T2>>> TryMapEachAsync<T1, T2>(
-            this Task<Try<IEnumerable<T1>>> @this,
+        public static Task<result<IEnumerable<T2>>> MapEachAsync<T1, T2>(
+            this Task<result<IEnumerable<T1>>> @this,
             Func<T1, T2> projection)
         {
             if (Equals(@this, null))
@@ -162,7 +162,7 @@ namespace Fun
             {
                 var result = await @this;
                 return result.HasValue
-                    ? Some(result.Value.Select(projection))
+                    ? Value(result.Value.Select(projection))
                     : Error<IEnumerable<T2>>(result.Error);
             });
         }

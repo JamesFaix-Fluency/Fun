@@ -4,7 +4,7 @@ namespace Fun.Extensions
 {
     public static class ExceptionExtensions
     {
-        public static Try<T> AsTry<T>(this Exception @this) =>
-            Try.Error<T>(@this);
+        public static result<T> AsTry<T>(this Exception @this) =>
+            Result.Error<T>(@this);
     }
 }

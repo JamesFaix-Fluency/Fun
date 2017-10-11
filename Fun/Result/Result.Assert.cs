@@ -2,40 +2,40 @@
 
 namespace Fun
 {
-    public static partial class Try
+    public static partial class Result
     {
-        public static Try<Unit> Assert(
+        public static result<unit> Assert(
             bool predicate,
             Func<Exception> errorGenerator)
         {
             if (Equals(predicate, null))
-                return Error<Unit>(new ArgumentNullException(nameof(predicate)));
+                return Error<unit>(new ArgumentNullException(nameof(predicate)));
 
             if (Equals(errorGenerator, null))
-                return Error<Unit>(new ArgumentNullException(nameof(errorGenerator)));
+                return Error<unit>(new ArgumentNullException(nameof(errorGenerator)));
 
             return predicate
-                ? Some(Unit.Value)
-                : Error<Unit>(errorGenerator());
+                ? Value(unit.Value)
+                : Error<unit>(errorGenerator());
         }
 
-        public static Try<Unit> Assert(
+        public static result<unit> Assert(
             Func<bool> predicate,
             Func<Exception> errorGenerator)
         {
             if (Equals(predicate, null))
-                return Error<Unit>(new ArgumentNullException(nameof(predicate)));
+                return Error<unit>(new ArgumentNullException(nameof(predicate)));
 
             if (Equals(errorGenerator, null))
-                return Error<Unit>(new ArgumentNullException(nameof(errorGenerator)));
+                return Error<unit>(new ArgumentNullException(nameof(errorGenerator)));
 
             return predicate()
-                ? Some(Unit.Value)
-                : Error<Unit>(errorGenerator());
+                ? Value(unit.Value)
+                : Error<unit>(errorGenerator());
         }
 
-        public static Try<T> Assert<T>(
-            this Try<T> @this,
+        public static result<T> Assert<T>(
+            this result<T> @this,
             Func<T, bool> predicate,
             Func<Exception> errorGenerator)
         {
@@ -55,8 +55,8 @@ namespace Fun
                     : @this);
         }
 
-        public static Try<T> ThrowIf<T>( //Opposite of Assert for convenience
-            this Try<T> @this,
+        public static result<T> ThrowIf<T>( //Opposite of Assert for convenience
+            this result<T> @this,
             Func<T, bool> predicate,
             Func<Exception> errorGenerator)
         {

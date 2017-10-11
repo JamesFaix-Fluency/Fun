@@ -5,13 +5,13 @@ namespace Fun.Extensions
 {
     public static class TaskExtensions
     {
-        public static Task<Try<T>> AsTryAsync<T>(
+        public static Task<result<T>> AsTryAsync<T>(
             this Task<T> @this)
         {
             if (Equals(@this, null))
                 throw new ArgumentNullException(nameof(@this));
 
-            return Try.GetAsync(async () => await @this);
+            return Result.GetAsync(async () => await @this);
         }   
     }
 }

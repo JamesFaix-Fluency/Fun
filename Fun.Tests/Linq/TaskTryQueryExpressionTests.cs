@@ -11,21 +11,21 @@ namespace Fun.Tests.Linq
     [TestFixture]
     public class TaskTryQueryExpressionTests
     {
-        private static Task<Try<int>> GetLongRunningTask(int n)
+        private static Task<result<int>> GetLongRunningTask(int n)
         {
             return Task.Run(() =>
             {
                 Thread.Sleep(TimeSpan.FromSeconds(1));
-                return Try.Some(n);
+                return Result.Value(n);
             });
         }
 
-        private static Task<Try<int>> GetErrorTask()
+        private static Task<result<int>> GetErrorTask()
         {
             return Task.Run(() =>
             {
                 Thread.Sleep(TimeSpan.FromSeconds(1));
-                return Try.Error<int>(new Exception());
+                return Result.Error<int>(new Exception());
             });
         }
 
@@ -36,7 +36,7 @@ namespace Fun.Tests.Linq
         {
             var result = await
                          from x in GetLongRunningTask(2)
-                         select x.TryMap(n => n * 3);
+                         select x.Map(n => n * 3);
 
             result.HasValue.ShouldBeTrue();
             result.Value.ShouldBe(6);
@@ -47,7 +47,7 @@ namespace Fun.Tests.Linq
         {
             var result = await
                          from x in GetErrorTask()
-                         select x.TryMap(n => n * 3);
+                         select x.Map(n => n * 3);
 
             result.HasValue.ShouldBeFalse();
         }

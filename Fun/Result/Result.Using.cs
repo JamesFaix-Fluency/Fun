@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 
 namespace Fun
 {
-    public static partial class Try
+    public static partial class Result
     {
-        public static Try<T> Using<T, TDisposable>(
+        public static result<T> Using<T, TDisposable>(
             Func<TDisposable> getDisposable,
             Func<TDisposable, T> getResult)
             where TDisposable : IDisposable
@@ -21,7 +21,7 @@ namespace Fun
             try
             {
                 d = getDisposable();
-                return Some(getResult(d));
+                return Value(getResult(d));
             }
             catch (Exception e)
             {
@@ -33,9 +33,9 @@ namespace Fun
             }
         }
 
-        public static Try<T> Using<T, TDisposable>(
+        public static result<T> Using<T, TDisposable>(
             Func<TDisposable> getDisposable,
-            Func<TDisposable, Try<T>> getResult)
+            Func<TDisposable, result<T>> getResult)
             where TDisposable : IDisposable
         {
             if (Equals(getDisposable, null))
@@ -61,7 +61,7 @@ namespace Fun
             }
         }
 
-        public static async Task<Try<T>> UsingAsync<T, TDisposable>(
+        public static async Task<result<T>> UsingAsync<T, TDisposable>(
             Func<Task<TDisposable>> getDisposable,
             Func<TDisposable, Task<T>> getResult)
             where TDisposable : IDisposable
@@ -77,7 +77,7 @@ namespace Fun
             try
             {
                 d = await getDisposable();
-                return Some(await getResult(d));
+                return Value(await getResult(d));
             }
             catch (Exception e)
             {
@@ -89,9 +89,9 @@ namespace Fun
             }
         }
 
-        public static async Task<Try<T>> UsingAsync<T, TDisposable>(
+        public static async Task<result<T>> UsingAsync<T, TDisposable>(
             Func<Task<TDisposable>> getDisposable,
-            Func<TDisposable, Task<Try<T>>> getResult)
+            Func<TDisposable, Task<result<T>>> getResult)
             where TDisposable : IDisposable
         {
             if (Equals(getDisposable, null))

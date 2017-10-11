@@ -3,10 +3,10 @@ using System.Reflection;
 
 namespace Fun
 {
-    public static partial class Try
+    public static partial class Result
     {
-        public static Try<T> Catch<T>(
-            this Try<T> @this,
+        public static result<T> Catch<T>(
+            this result<T> @this,
             Func<Exception, T> projection)
         {
             if (Equals(@this, null))
@@ -18,12 +18,12 @@ namespace Fun
             return Get(() =>
                 @this.HasValue
                     ? @this
-                    : Some(projection(@this.Error)));
+                    : Value(projection(@this.Error)));
         }
 
-        public static Try<T> Catch<T>(
-            this Try<T> @this,
-            Func<Exception, Try<T>> projection)
+        public static result<T> Catch<T>(
+            this result<T> @this,
+            Func<Exception, result<T>> projection)
         {
             if (Equals(@this, null))
                 return Error<T>(new ArgumentNullException(nameof(@this)));
@@ -37,10 +37,10 @@ namespace Fun
                     : projection(@this.Error));
         }
 
-        public static Try<T> Catch<T>(
-            this Try<T> @this,
+        public static result<T> Catch<T>(
+            this result<T> @this,
             Type exceptionType,
-            Func<Exception, Try<T>> projection)
+            Func<Exception, result<T>> projection)
         {
             if (Equals(@this, null))
                 return Error<T>(new ArgumentNullException(nameof(@this)));
@@ -61,10 +61,10 @@ namespace Fun
                     : @this);
         }
 
-        public static Try<T> Catch<T>(
-            this Try<T> @this,
+        public static result<T> Catch<T>(
+            this result<T> @this,
             Func<Exception, bool> errorPredicate,
-            Func<Exception, Try<T>> projection)
+            Func<Exception, result<T>> projection)
         {
             if (Equals(@this, null))
                 return Error<T>(new ArgumentNullException(nameof(@this)));

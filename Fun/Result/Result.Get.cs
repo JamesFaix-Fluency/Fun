@@ -3,20 +3,20 @@ using System.Threading.Tasks;
 
 namespace Fun
 {
-    public static partial class Try
+    public static partial class Result
     {
         /// <summary>
         /// Calls <paramref name="generator"/> and returns <c>Some(x)</c> where <c>x</c> is the returned value of <paramref name="generator"/>. 
         /// Returns <c>Error(e)</c> if an exception is thrown, where <c>e</c> is the thrown exception.
         /// </summary>
-        public static Try<T> Get<T>(Func<T> generator)
+        public static result<T> Get<T>(Func<T> generator)
         {
             if (Equals(generator, null))
                 return Error<T>(new ArgumentNullException(nameof(generator)));
 
             try
             {
-                return Some(generator());
+                return Value(generator());
             }
             catch (Exception e)
             {
@@ -28,7 +28,7 @@ namespace Fun
         /// Calls <paramref name="generator"/> and returns the result.
         /// Returns <c>Error(e)</c> if an exception is thrown, where <c>e</c> is the thrown exception.
         /// </summary>
-        public static Try<T> Get<T>(Func<Try<T>> generator)
+        public static result<T> Get<T>(Func<result<T>> generator)
         {
             if (Equals(generator, null))
                 return Error<T>(new ArgumentNullException(nameof(generator)));
@@ -47,19 +47,19 @@ namespace Fun
         /// Calls <paramref name="action"/> and returns <c>Some(Unit)</c>.
         /// Returns <c>Error(e)</c> if an exception is thrown, where <c>e</c> is the thrown exception.
         /// </summary>
-        public static Try<Unit> Get(Action action)
+        public static result<unit> Get(Action action)
         {
             if (Equals(action, null))
-                return Error<Unit>(new ArgumentNullException(nameof(action)));
+                return Error<unit>(new ArgumentNullException(nameof(action)));
 
             try
             {
                 action();
-                return Some(Unit.Value);
+                return Value(unit.Value);
             }
             catch (Exception e)
             {
-                return Error<Unit>(e);
+                return Error<unit>(e);
             }
         }
 
@@ -67,14 +67,14 @@ namespace Fun
         /// Awaits <paramref name="task"/>, and then returns <c>Some(x)</c> where <c>x</c> is the result of <paramref name="task"/>.
         /// Returns <c>Error(e)</c> if an exception is thrown, where <c>e</c> is the thrown exception.
         /// </summary>
-        public static async Task<Try<T>> Get<T>(Task<T> task)
+        public static async Task<result<T>> Get<T>(Task<T> task)
         {
             if (Equals(task, null))
                 return Error<T>(new ArgumentNullException(nameof(task)));
 
             try
             {
-                return Some(await task);
+                return Value(await task);
             }
             catch (Exception e)
             {
@@ -87,14 +87,14 @@ namespace Fun
         /// is the result of the task.
         /// Returns <c>Error(e)</c> if an exception is thrown, where <c>e</c> is the thrown exception.
         /// </summary>
-        public static async Task<Try<T>> GetAsync<T>(Func<Task<T>> generator)
+        public static async Task<result<T>> GetAsync<T>(Func<Task<T>> generator)
         {
             if (Equals(generator, null))
                 return Error<T>(new ArgumentNullException(nameof(generator)));
 
             try
             {
-                return Some(await generator());
+                return Value(await generator());
             }
             catch (Exception e)
             {
@@ -106,7 +106,7 @@ namespace Fun
         /// Awaits the task created by <paramref name="generator"/>, and then returns the result.
         /// Returns <c>Error(e)</c> if an exception is thrown, where <c>e</c> is the thrown exception.
         /// </summary>
-        public static async Task<Try<T>> GetAsync<T>(Func<Task<Try<T>>> generator)
+        public static async Task<result<T>> GetAsync<T>(Func<Task<result<T>>> generator)
         {
             if (Equals(generator, null))
                 return Error<T>(new ArgumentNullException(nameof(generator)));
@@ -125,19 +125,19 @@ namespace Fun
         /// Awaits <paramref name="task"/>, and then returns <c>Some(Unit)</c>.
         /// Returns <c>Error(e)</c> if an exception is thrown, where <c>e</c> is the thrown exception.
         /// </summary>
-        public static async Task<Try<Unit>> GetAsync(Task task)
+        public static async Task<result<unit>> GetAsync(Task task)
         {
             if (Equals(task, null))
-                return Error<Unit>(new ArgumentNullException(nameof(task)));
+                return Error<unit>(new ArgumentNullException(nameof(task)));
 
             try
             {
                 await task;
-                return Some(Unit.Value);
+                return Value(unit.Value);
             }
             catch (Exception e)
             {
-                return Error<Unit>(e);
+                return Error<unit>(e);
             }
         }
 
@@ -145,19 +145,19 @@ namespace Fun
         /// Awaits the task created by <paramref name="generator"/>, and then returns <c>Some(Unit)</c>.
         /// Returns <c>Error(e)</c> if an exception is thrown, where <c>e</c> is the thrown exception.
         /// </summary>
-        public static async Task<Try<Unit>> GetAsync(Func<Task> generator)
+        public static async Task<result<unit>> GetAsync(Func<Task> generator)
         {
             if (Equals(generator, null))
-                return Error<Unit>(new ArgumentNullException(nameof(generator)));
+                return Error<unit>(new ArgumentNullException(nameof(generator)));
 
             try
             {
                 await generator();
-                return Some(Unit.Value);
+                return Value(unit.Value);
             }
             catch (Exception e)
             {
-                return Error<Unit>(e);
+                return Error<unit>(e);
             }
         }
     }

@@ -4,9 +4,9 @@ namespace Fun
 {
     public static partial class Opt
     {
-        public static Opt<T> OptDo<T>(
-            this Opt<T> @this,
-            Func<Unit> action)
+        public static opt<T> Do<T>(
+            this opt<T> @this,
+            Func<unit> action)
         {
             if (Equals(@this, null))
                 throw new ArgumentNullException(nameof(@this));
@@ -21,9 +21,9 @@ namespace Fun
             return @this;
         }
 
-        public static Opt<T> OptDo<T>(
-            this Opt<T> @this,
-            Func<T, Unit> action)
+        public static opt<T> Do<T>(
+            this opt<T> @this,
+            Func<T, unit> action)
         {
             if (Equals(@this, null))
                 throw new ArgumentNullException(nameof(@this));
@@ -38,8 +38,8 @@ namespace Fun
             return @this;
         }
 
-        public static Opt<T> OptDo<T>(
-            this Opt<T> @this,
+        public static opt<T> Do<T>(
+            this opt<T> @this,
             Action action)
         {
             if (Equals(@this, null))
@@ -55,8 +55,8 @@ namespace Fun
             return @this;
         }
 
-        public static Opt<T> OptDo<T>(
-            this Opt<T> @this,
+        public static opt<T> Do<T>(
+            this opt<T> @this,
             Action<T> action)
         {
             if (Equals(@this, null))
@@ -70,15 +70,6 @@ namespace Fun
                 action(@this.Value);
             }
             return @this;
-        }
-
-        public static Opt<Unit> Ignore<T>(
-            this Opt<T> @this)
-        {
-            if (Equals(@this, null))
-                throw new ArgumentNullException(nameof(@this));
-
-            return Some(Unit.Value);
         }
     }
 }

@@ -2,10 +2,10 @@
 
 namespace Fun
 {
-    public static partial class Try
+    public static partial class Result
     {
-        public static Opt<T> AsOpt<T>(
-               this Try<T> @this)
+        public static opt<T> AsOpt<T>(
+               this result<T> @this)
         {
             if (Equals(@this, null))
                 throw new ArgumentNullException(nameof(@this));
@@ -15,8 +15,8 @@ namespace Fun
                 : Opt.None<T>();
         }
 
-        public static T Extract<T>(
-        this Try<T> @this)
+        public static T Force<T>(
+        this result<T> @this)
         {
             if (Equals(@this, null))
                 throw new ArgumentNullException(nameof(@this));

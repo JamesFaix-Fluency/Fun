@@ -4,11 +4,11 @@ using Fun.Extensions;
 
 namespace Fun
 {
-    public static partial class Try
+    public static partial class Result
     {
-        public static Try<T> TryDo<T>(
-           this Try<T> @this,
-           Func<Unit> action)
+        public static result<T> Do<T>(
+           this result<T> @this,
+           Func<unit> action)
         {
             if (Equals(@this, null))
                 return Error<T>(new ArgumentNullException(nameof(@this)));
@@ -26,9 +26,9 @@ namespace Fun
             });
         }
 
-        public static Try<T> TryDo<T>(
-            this Try<T> @this,
-            Func<T, Unit> action)
+        public static result<T> Do<T>(
+            this result<T> @this,
+            Func<T, unit> action)
         {
             if (Equals(@this, null))
                 return Error<T>(new ArgumentNullException(nameof(@this)));
@@ -46,8 +46,8 @@ namespace Fun
             });
         }
 
-        public static Try<T> TryDo<T>(
-            this Try<T> @this,
+        public static result<T> Do<T>(
+            this result<T> @this,
             Action action)
         {
             if (Equals(@this, null))
@@ -66,8 +66,8 @@ namespace Fun
             });
         }
 
-        public static Try<T> TryDo<T>(
-            this Try<T> @this,
+        public static result<T> Do<T>(
+            this result<T> @this,
             Action<T> action)
         {
             if (Equals(@this, null))
@@ -86,9 +86,9 @@ namespace Fun
             });
         }
 
-        public static Task<Try<T>> TryDoAsync<T>(
-            this Try<T> @this,
-            Func<Task<Unit>> getTask)
+        public static Task<result<T>> DoAsync<T>(
+            this result<T> @this,
+            Func<Task<unit>> getTask)
         {
             if (Equals(@this, null))
                 return Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
@@ -106,8 +106,8 @@ namespace Fun
             });
         }
 
-        public static Task<Try<T>> TryDoAsync<T>(
-            this Try<T> @this,
+        public static Task<result<T>> DoAsync<T>(
+            this result<T> @this,
             Func<T, Task> getTask)
         {
             if (Equals(@this, null))
@@ -126,8 +126,8 @@ namespace Fun
             });
         }
 
-        public static Task<Try<T>> TryDoAsync<T>(
-            this Try<T> @this,
+        public static Task<result<T>> DoAsync<T>(
+            this result<T> @this,
             Task task)
         {
             if (Equals(@this, null))
@@ -146,9 +146,9 @@ namespace Fun
             });
         }
 
-        public static Task<Try<T>> TryDoAsync<T>(
-            this Try<T> @this,
-            Task<Unit> task)
+        public static Task<result<T>> DoAsync<T>(
+            this result<T> @this,
+            Task<unit> task)
         {
             if (Equals(@this, null))
                 return Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
@@ -166,9 +166,9 @@ namespace Fun
             });
         }
 
-        public static Task<Try<T>> TryDoAsync<T>(
-            this Try<T> @this,
-            Func<T, Task<Unit>> getTask)
+        public static Task<result<T>> DoAsync<T>(
+            this result<T> @this,
+            Func<T, Task<unit>> getTask)
         {
             if (Equals(@this, null))
                 return Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
@@ -186,9 +186,9 @@ namespace Fun
             });
         }
 
-        public static Task<Try<T>> TryDoAsync<T>(
-           this Task<Try<T>> @this,
-           Func<Task<Unit>> getTask)
+        public static Task<result<T>> DoAsync<T>(
+           this Task<result<T>> @this,
+           Func<Task<unit>> getTask)
         {
             if (Equals(@this, null))
                 return Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
@@ -207,8 +207,8 @@ namespace Fun
             });
         }
 
-        public static Task<Try<T>> TryDoAsync<T>(
-            this Task<Try<T>> @this,
+        public static Task<result<T>> DoAsync<T>(
+            this Task<result<T>> @this,
             Func<T, Task> getTask)
         {
             if (Equals(@this, null))
@@ -228,8 +228,8 @@ namespace Fun
             });
         }
 
-        public static Task<Try<T>> TryDoAsync<T>(
-            this Task<Try<T>> @this,
+        public static Task<result<T>> DoAsync<T>(
+            this Task<result<T>> @this,
             Task task)
         {
             if (Equals(@this, null))
@@ -249,9 +249,9 @@ namespace Fun
             });
         }
 
-        public static Task<Try<T>> TryDoAsync<T>(
-            this Task<Try<T>> @this,
-            Task<Unit> task)
+        public static Task<result<T>> DoAsync<T>(
+            this Task<result<T>> @this,
+            Task<unit> task)
         {
             if (Equals(@this, null))
                 return Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
@@ -270,9 +270,9 @@ namespace Fun
             });
         }
 
-        public static Task<Try<T>> TryDoAsync<T>(
-            this Task<Try<T>> @this,
-            Func<T, Task<Unit>> getTask)
+        public static Task<result<T>> DoAsync<T>(
+            this Task<result<T>> @this,
+            Func<T, Task<unit>> getTask)
         {
             if (Equals(@this, null))
                 return Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
@@ -288,28 +288,6 @@ namespace Fun
                     await getTask(result.Value);
                 }
                 return result;
-            });
-        }
-
-        public static Try<Unit> Ignore<T>(
-            this Try<T> @this)
-        {
-            if (Equals(@this, null))
-                return Error<Unit>(new ArgumentNullException(nameof(@this)));
-
-            return Some(Unit.Value);
-        }
-
-        public static Task<Try<Unit>> IgnoreAsync<T>(
-            this Task<Try<T>> @this)
-        {
-            if (Equals(@this, null))
-                return Error<Unit>(new ArgumentNullException(nameof(@this))).AsTask();
-
-            return GetAsync(async () =>
-            {
-                await @this;
-                return Some(Unit.Value);
             });
         }
     }
