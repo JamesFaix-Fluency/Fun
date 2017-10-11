@@ -6,7 +6,7 @@ namespace Fun
     {
         public static Opt<T> Do<T>(
             this Opt<T> @this,
-            Func<unit> action)
+            Func<Unit> action)
         {
             if (Equals(@this, null))
                 throw new ArgumentNullException(nameof(@this));
@@ -23,7 +23,7 @@ namespace Fun
 
         public static Opt<T> Do<T>(
             this Opt<T> @this,
-            Func<T, unit> action)
+            Func<T, Unit> action)
         {
             if (Equals(@this, null))
                 throw new ArgumentNullException(nameof(@this));

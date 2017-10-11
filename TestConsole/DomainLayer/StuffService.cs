@@ -29,7 +29,7 @@ namespace TestApp.DomainLayer
                 .DoAsync(s => LogAsync($"Created stuff '{stuff.Name}'."));
         }
 
-        public Task<Result<unit>> DeleteStuff(int id)
+        public Task<Result<Unit>> DeleteStuff(int id)
         {
             return id.AsTry()
                 .Assert(n => n >= 0, () => new ValidationException($"{nameof(id)} cannot be negative."))
@@ -55,7 +55,7 @@ namespace TestApp.DomainLayer
                 .DoAsync(s => LogAsync($"Updated stuff '{s.Name}'."));
         }
 
-        private Task<Result<unit>> LogAsync(string message)
+        private Task<Result<Unit>> LogAsync(string message)
         {
             var logPath = ConfigurationManager.AppSettings["LogFilePath"];
             ;

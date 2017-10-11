@@ -8,7 +8,7 @@ namespace TestApp.Core
     {
         Task<Result<Stuff>> CreateStuff(Stuff stuff);
 
-        Task<Result<unit>> DeleteStuff(int id);
+        Task<Result<Unit>> DeleteStuff(int id);
 
         Task<Result<Stuff>> GetStuff(int id);
 

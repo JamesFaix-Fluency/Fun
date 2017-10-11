@@ -6,25 +6,25 @@ namespace Fun
 {
     public static partial class Result
     {
-        public static Result<unit> Ignore<T>(
+        public static Result<Unit> Ignore<T>(
                this Result<T> @this)
         {
             if (Equals(@this, null))
-                return Error<unit>(new ArgumentNullException(nameof(@this)));
+                return Error<Unit>(new ArgumentNullException(nameof(@this)));
 
-            return Value(unit.Value);
+            return Value(Unit.Value);
         }
 
-        public static Task<Result<unit>> IgnoreAsync<T>(
+        public static Task<Result<Unit>> IgnoreAsync<T>(
             this Task<Result<T>> @this)
         {
             if (Equals(@this, null))
-                return Error<unit>(new ArgumentNullException(nameof(@this))).AsTask();
+                return Error<Unit>(new ArgumentNullException(nameof(@this))).AsTask();
 
             return GetAsync(async () =>
             {
                 await @this;
-                return Value(unit.Value);
+                return Value(Unit.Value);
             });
         }
     }

@@ -4,34 +4,34 @@ namespace Fun
 {
     public static partial class Result
     {
-        public static Result<unit> Assert(
+        public static Result<Unit> Assert(
             bool predicate,
             Func<Exception> errorGenerator)
         {
             if (Equals(predicate, null))
-                return Error<unit>(new ArgumentNullException(nameof(predicate)));
+                return Error<Unit>(new ArgumentNullException(nameof(predicate)));
 
             if (Equals(errorGenerator, null))
-                return Error<unit>(new ArgumentNullException(nameof(errorGenerator)));
+                return Error<Unit>(new ArgumentNullException(nameof(errorGenerator)));
 
             return predicate
-                ? Value(unit.Value)
-                : Error<unit>(errorGenerator());
+                ? Value(Unit.Value)
+                : Error<Unit>(errorGenerator());
         }
 
-        public static Result<unit> Assert(
+        public static Result<Unit> Assert(
             Func<bool> predicate,
             Func<Exception> errorGenerator)
         {
             if (Equals(predicate, null))
-                return Error<unit>(new ArgumentNullException(nameof(predicate)));
+                return Error<Unit>(new ArgumentNullException(nameof(predicate)));
 
             if (Equals(errorGenerator, null))
-                return Error<unit>(new ArgumentNullException(nameof(errorGenerator)));
+                return Error<Unit>(new ArgumentNullException(nameof(errorGenerator)));
 
             return predicate()
-                ? Value(unit.Value)
-                : Error<unit>(errorGenerator());
+                ? Value(Unit.Value)
+                : Error<Unit>(errorGenerator());
         }
 
         public static Result<T> Assert<T>(

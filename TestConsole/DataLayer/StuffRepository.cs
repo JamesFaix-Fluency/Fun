@@ -29,7 +29,7 @@ namespace TestApp.DataLayer
                 .MapAsync(createdId => GetStuff(createdId));
         }
 
-        public Task<Result<unit>> DeleteStuff(int id)
+        public Task<Result<Unit>> DeleteStuff(int id)
         {
             const string query = @"
                 DELETE FROM Stuff 

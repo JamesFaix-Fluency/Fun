@@ -8,7 +8,7 @@ namespace Fun
     {
         public static Result<T> Do<T>(
            this Result<T> @this,
-           Func<unit> action)
+           Func<Unit> action)
         {
             if (Equals(@this, null))
                 return Error<T>(new ArgumentNullException(nameof(@this)));
@@ -28,7 +28,7 @@ namespace Fun
 
         public static Result<T> Do<T>(
             this Result<T> @this,
-            Func<T, unit> action)
+            Func<T, Unit> action)
         {
             if (Equals(@this, null))
                 return Error<T>(new ArgumentNullException(nameof(@this)));
@@ -88,7 +88,7 @@ namespace Fun
 
         public static Task<Result<T>> DoAsync<T>(
             this Result<T> @this,
-            Func<Task<unit>> getTask)
+            Func<Task<Unit>> getTask)
         {
             if (Equals(@this, null))
                 return Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
@@ -148,7 +148,7 @@ namespace Fun
 
         public static Task<Result<T>> DoAsync<T>(
             this Result<T> @this,
-            Task<unit> task)
+            Task<Unit> task)
         {
             if (Equals(@this, null))
                 return Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
@@ -168,7 +168,7 @@ namespace Fun
 
         public static Task<Result<T>> DoAsync<T>(
             this Result<T> @this,
-            Func<T, Task<unit>> getTask)
+            Func<T, Task<Unit>> getTask)
         {
             if (Equals(@this, null))
                 return Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
@@ -188,7 +188,7 @@ namespace Fun
 
         public static Task<Result<T>> DoAsync<T>(
            this Task<Result<T>> @this,
-           Func<Task<unit>> getTask)
+           Func<Task<Unit>> getTask)
         {
             if (Equals(@this, null))
                 return Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
@@ -251,7 +251,7 @@ namespace Fun
 
         public static Task<Result<T>> DoAsync<T>(
             this Task<Result<T>> @this,
-            Task<unit> task)
+            Task<Unit> task)
         {
             if (Equals(@this, null))
                 return Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
@@ -272,7 +272,7 @@ namespace Fun
 
         public static Task<Result<T>> DoAsync<T>(
             this Task<Result<T>> @this,
-            Func<T, Task<unit>> getTask)
+            Func<T, Task<Unit>> getTask)
         {
             if (Equals(@this, null))
                 return Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
