@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Fun
+namespace Fun.Extensions
 {
     public static class NullableExtensions
     {

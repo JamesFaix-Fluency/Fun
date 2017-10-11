@@ -55,10 +55,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Fun.Linq\Fun.Linq.csproj">
-      <Project>{824bd3e6-0f83-41d9-91b1-3aa8c525bee2}</Project>
-      <Name>Fun.Linq</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Fun\Fun.csproj">
       <Project>{a957c2b6-cb4d-4900-91c6-2859bcd9f70e}</Project>
       <Name>Fun</Name>

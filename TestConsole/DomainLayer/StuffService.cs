@@ -1,10 +1,10 @@
-﻿using System;
+﻿using System.Configuration;
 using System.Threading.Tasks;
 using Fun;
+using Fun.Extensions;
 using TestApp.Core;
-using TestApp.Model;
 using TestApp.ExternalFileIOPackage;
-using System.Configuration;
+using TestApp.Model;
 
 namespace TestApp.DomainLayer
 {

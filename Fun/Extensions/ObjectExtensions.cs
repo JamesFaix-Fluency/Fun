@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Fun
+namespace Fun.Extensions
 {
     public static class ObjectExtensions
     {
