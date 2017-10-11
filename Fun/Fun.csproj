@@ -11,13 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Or2.cs" />
-    <Compile Remove="Data\Or3.cs" />
-    <Compile Remove="Extensions\OrExtensions.cs" />
-    <Compile Remove="Modules\Or.Module.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.4.0" />
   </ItemGroup>
 

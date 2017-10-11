@@ -7,7 +7,8 @@ namespace Fun
     public static class OptExtensions
     {
         #region Projections
-
+        
+        //Functor map
         public static Opt<T2> OptMap<T1, T2>(
             this Opt<T1> @this,
             Func<T1, T2> projection)
@@ -18,9 +19,12 @@ namespace Fun
             if (Equals(projection, null))
                 throw new ArgumentNullException(nameof(projection));
 
-            return @this.Map1<T1, T2, Unit, Opt<T1>, Opt<T2>>(projection);
+            return @this.HasValue
+                ? Opt.Some(projection(@this.Value))
+                : Opt.None<T2>();
         }
 
+        //Monad bind
         public static Opt<T2> OptMap<T1, T2>(
             this Opt<T1> @this,
             Func<T1, Opt<T2>> projection)
@@ -31,7 +35,9 @@ namespace Fun
             if (Equals(projection, null))
                 throw new ArgumentNullException(nameof(projection));
 
-            return @this.Map1<T1, T2, Unit, Opt<T1>, Opt<T2>>(projection);
+            return @this.HasValue
+                ? projection(@this.Value)
+                : Opt.None<T2>();
         }
 
         #endregion
@@ -48,7 +54,11 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            return @this.Do1<T, Unit, Opt<T>>(action);
+            if (@this.HasValue)
+            {
+                action();
+            }
+            return @this;
         }
 
         public static Opt<T> OptDo<T>(
@@ -61,7 +71,11 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            return @this.Do1<T, Unit, Opt<T>>(action);
+            if (@this.HasValue)
+            {
+                action(@this.Value);
+            }
+            return @this;
         }
 
         public static Opt<T> OptDo<T>(
@@ -74,7 +88,11 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            return @this.Do1<T, Unit, Opt<T>>(action);
+            if (@this.HasValue)
+            {
+                action();
+            }
+            return @this;
         }
 
         public static Opt<T> OptDo<T>(
@@ -87,7 +105,11 @@ namespace Fun
             if (Equals(action, null))
                 throw new ArgumentNullException(nameof(action));
 
-            return @this.Do1<T, Unit, Opt<T>>(action);
+            if (@this.HasValue)
+            {
+                action(@this.Value);
+            }
+            return @this;
         }
 
         public static Opt<Unit> Ignore<T>(

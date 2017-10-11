@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -9,6 +10,7 @@ namespace Fun
     {
         #region Projections
 
+        //Functor map
         public static Try<T2> TryMap<T1, T2>(
             this Try<T1> @this,
             Func<T1, T2> projection)
@@ -20,9 +22,12 @@ namespace Fun
                 return Try.Error<T2>(new ArgumentNullException(nameof(projection)));
 
             return Try.Get(() =>
-                @this.Map1<T1, T2, Exception, Try<T1>, Try<T2>>(projection));
+                @this.HasValue
+                    ? Try.Some(projection(@this.Value))
+                    : Try.Error<T2>(@this.Error));
         }
 
+        //Monad bind
         public static Try<T2> TryMap<T1, T2>(
             this Try<T1> @this,
             Func<T1, Try<T2>> projection)
@@ -34,7 +39,9 @@ namespace Fun
                 return Try.Error<T2>(new ArgumentNullException(nameof(projection)));
 
             return Try.Get(() =>
-                @this.Map1<T1, T2, Exception, Try<T1>, Try<T2>>(projection));
+                @this.HasValue
+                    ? projection(@this.Value)
+                    : Try.Error<T2>(@this.Error));
         }
 
         public static Try<T2> TryMap<T1, T2>(
@@ -52,7 +59,9 @@ namespace Fun
                 return Try.Error<T2>(new ArgumentNullException(nameof(errorProjection)));
 
             return Try.Get(() =>
-                @this.Map<T1, T2, Exception, Exception, Try<T1>, Try<T2>>(valueProjection, errorProjection));
+                @this.HasValue
+                    ? valueProjection(@this.Value)
+                    : errorProjection(@this.Error));
         }
 
         public static Task<Try<T2>> TryMapAsync<T1, T2>(
@@ -65,8 +74,10 @@ namespace Fun
             if (Equals(projection, null))
                 return Try.Error<T2>(new ArgumentNullException(nameof(projection))).AsTask();
 
-            return Try.GetAsync(() =>
-                @this.Map1Async<T1, T2, Exception, Try<T1>, Try<T2>>(projection));
+            return Try.GetAsync(async () =>
+                @this.HasValue
+                    ? Try.Some(await projection(@this.Value))
+                    : Try.Error<T2>(@this.Error));
         }
 
         public static Task<Try<T2>> TryMapAsync<T1, T2>(
@@ -79,8 +90,10 @@ namespace Fun
             if (Equals(projection, null))
                 return Try.Error<T2>(new ArgumentNullException(nameof(projection))).AsTask();
 
-            return Try.GetAsync(() =>
-                @this.Map1Async<T1, T2, Exception, Try<T1>, Try<T2>>(projection));
+            return Try.GetAsync(async () =>
+                @this.HasValue
+                    ? await projection(@this.Value)
+                    : Try.Error<T2>(@this.Error));
         }
 
         public static Task<Try<T2>> TryMapAsync<T1, T2>(
@@ -93,8 +106,13 @@ namespace Fun
             if (Equals(projection, null))
                 return Try.Error<T2>(new ArgumentNullException(nameof(projection))).AsTask();
 
-            return Try.GetAsync(async () => await
-                (await @this).Map1Async<T1, T2, Exception, Try<T1>, Try<T2>>(projection));
+            return Try.GetAsync(async () =>
+            {
+                var result = await @this;
+                return result.HasValue
+                    ? await projection(result.Value)
+                    : Try.Error<T2>(result.Error);
+            });
         }
 
         public static Task<Try<T2>> TryMapAsync<T1, T2>(
@@ -108,7 +126,12 @@ namespace Fun
                 return Try.Error<T2>(new ArgumentNullException(nameof(projection))).AsTask();
 
             return Try.GetAsync(async () =>
-                (await @this).Map1<T1, T2, Exception, Try<T1>, Try<T2>>(projection));
+            {
+                var result = await @this;
+                return result.HasValue
+                    ? Try.Some(projection(result.Value))
+                    : Try.Error<T2>(result.Error);
+            });
         }
 
         public static Try<IEnumerable<T2>> TryMapEach<T1, T2>(
@@ -121,8 +144,10 @@ namespace Fun
             if (Equals(projection, null))
                 return Try.Error<IEnumerable<T2>>(new ArgumentNullException(nameof(projection)));
 
-            return Try.Get(() => @this
-                .MapEach1<T1, T2, Exception, Try<IEnumerable<T1>>, Try<IEnumerable<T2>>>(projection));
+            return Try.Get(() =>
+                @this.HasValue
+                    ? Try.Some(@this.Value.Select(projection))
+                    : Try.Error<IEnumerable<T2>>(@this.Error));
         }
 
         public static Task<Try<IEnumerable<T2>>> TryMapEachAsync<T1, T2>(
@@ -136,7 +161,12 @@ namespace Fun
                 return Try.Error<IEnumerable<T2>>(new ArgumentNullException(nameof(projection))).AsTask();
 
             return Try.GetAsync(async () =>
-                (await @this).MapEach1<T1, T2, Exception, Try<IEnumerable<T1>>, Try<IEnumerable<T2>>>(projection));
+            {
+                var result = await @this;
+                return result.HasValue
+                    ? Try.Some(result.Value.Select(projection))
+                    : Try.Error<IEnumerable<T2>>(result.Error);
+            });
         }
 
         #region Error handling
@@ -152,7 +182,9 @@ namespace Fun
                 return Try.Error<T>(new ArgumentNullException(nameof(projection)));
 
             return Try.Get(() =>
-                @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(Try.Some, ex => Try.Some(projection(ex))));
+                @this.HasValue
+                    ? @this
+                    : Try.Some(projection(@this.Error)));
         }
 
         public static Try<T> Catch<T>(
@@ -166,7 +198,9 @@ namespace Fun
                 return Try.Error<T>(new ArgumentNullException(nameof(projection)));
 
             return Try.Get(() =>
-                @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(Try.Some, projection));
+                @this.HasValue
+                    ? @this
+                    : projection(@this.Error));
         }
 
         public static Try<T> Catch<T>(
@@ -187,11 +221,10 @@ namespace Fun
                 return Try.Error<T>(new ArgumentException($"Exception type must extend {nameof(System)}.{nameof(Exception)}.", nameof(exceptionType)));
 
             return Try.Get(() =>
-                @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(
-                    Try.Some,
-                    ex => ex.GetType().IsAssignableFrom(exceptionType)
-                        ? Try.Get(() => projection(@this.Error))
-                        : @this));
+                !@this.HasValue 
+                && @this.Error.GetType().IsAssignableFrom(exceptionType)
+                    ? projection(@this.Error)
+                    : @this);
         }
 
         public static Try<T> Catch<T>(
@@ -209,11 +242,10 @@ namespace Fun
                 return Try.Error<T>(new ArgumentNullException(nameof(projection)));
 
             return Try.Get(() =>
-                @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(
-                    Try.Some,
-                    ex => errorPredicate(ex)
-                        ? Try.Get(() => projection(@this.Error))
-                        : @this));
+                !@this.HasValue
+                && errorPredicate(@this.Error)
+                    ? projection(@this.Error)
+                    : @this);
         }
 
         #endregion
@@ -235,11 +267,10 @@ namespace Fun
                 return Try.Error<T>(new ArgumentNullException(nameof(errorGenerator)));
 
             return Try.Get(() =>
-                @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(
-                    val => predicate(val)
-                        ? Try.Error<T>(errorGenerator())
-                        : @this,
-                    ex => @this));
+                @this.HasValue
+                && ! predicate(@this.Value)
+                    ? Try.Error<T>(errorGenerator())
+                    : @this);
         }
 
         public static Try<T> ThrowIf<T>( //Opposite of Assert for convenience
@@ -257,11 +288,10 @@ namespace Fun
                 return Try.Error<T>(new ArgumentNullException(nameof(errorGenerator)));
 
             return Try.Get(() =>
-                @this.Map<T, T, Exception, Exception, Try<T>, Try<T>>(
-                    val => !predicate(val)
-                        ? Try.Error<T>(errorGenerator())
-                        : @this,
-                    ex => @this));
+                 @this.HasValue
+                 && predicate(@this.Value)
+                     ? Try.Error<T>(errorGenerator())
+                     : @this);
         }
 
         #endregion
@@ -280,7 +310,14 @@ namespace Fun
             if (Equals(action, null))
                 return Try.Error<T>(new ArgumentNullException(nameof(action)));
 
-            return Try.Get(() => @this.Do1<T, Exception, Try<T>>(action));
+            return Try.Get(() =>
+            {
+                if (@this.HasValue)
+                {
+                    action();
+                }
+                return @this;
+            });
         }
 
         public static Try<T> TryDo<T>(
@@ -293,7 +330,14 @@ namespace Fun
             if (Equals(action, null))
                 return Try.Error<T>(new ArgumentNullException(nameof(action)));
 
-            return Try.Get(() => @this.Do1<T, Exception, Try<T>>(action));
+            return Try.Get(() =>
+            {
+                if (@this.HasValue)
+                {
+                    action(@this.Value);
+                }
+                return @this;
+            });
         }
 
         public static Try<T> TryDo<T>(
@@ -306,7 +350,14 @@ namespace Fun
             if (Equals(action, null))
                 return Try.Error<T>(new ArgumentNullException(nameof(action)));
 
-            return Try.Get(() => @this.Do1<T, Exception, Try<T>>(action));
+            return Try.Get(() =>
+            {
+                if (@this.HasValue)
+                {
+                    action();
+                }
+                return @this;
+            });
         }
 
         public static Try<T> TryDo<T>(
@@ -319,7 +370,14 @@ namespace Fun
             if (Equals(action, null))
                 return Try.Error<T>(new ArgumentNullException(nameof(action)));
 
-            return Try.Get(() => @this.Do1<T, Exception, Try<T>>(action));
+            return Try.Get(() =>
+            {
+                if (@this.HasValue)
+                {
+                    action(@this.Value);
+                }
+                return @this;
+            });
         }
         
         public static Task<Try<T>> TryDoAsync<T>(
@@ -332,8 +390,14 @@ namespace Fun
             if (Equals(getTask, null))
                 return Try.Error<T>(new ArgumentNullException(nameof(getTask))).AsTask();
             
-            return Try.GetAsync(() => 
-                @this.Do1Async<T, Exception, Try<T>>(getTask));
+            return Try.GetAsync(async () =>
+            {
+                if (@this.HasValue)
+                {
+                    await getTask();
+                }
+                return @this;
+            });
         }
 
         public static Task<Try<T>> TryDoAsync<T>(
@@ -346,8 +410,14 @@ namespace Fun
             if (Equals(getTask, null))
                 return Try.Error<T>(new ArgumentNullException(nameof(getTask))).AsTask();
 
-            return Try.GetAsync(() => 
-                @this.Do1Async<T, Exception, Try<T>>(getTask));
+            return Try.GetAsync(async () =>
+            {
+                if (@this.HasValue)
+                {
+                    await getTask(@this.Value);
+                }
+                return @this;
+            });
         }
 
         public static Task<Try<T>> TryDoAsync<T>(
@@ -360,8 +430,14 @@ namespace Fun
             if (Equals(task, null))
                 return Try.Error<T>(new ArgumentNullException(nameof(task))).AsTask();
 
-            return Try.GetAsync(() => 
-                @this.Do1Async<T, Exception, Try<T>>(task));
+            return Try.GetAsync(async () =>
+            {
+                if (@this.HasValue)
+                {
+                    await task;
+                }
+                return @this;
+            });
         }
 
         public static Task<Try<T>> TryDoAsync<T>(
@@ -374,8 +450,14 @@ namespace Fun
             if (Equals(task, null))
                 return Try.Error<T>(new ArgumentNullException(nameof(task))).AsTask();
 
-            return Try.GetAsync(() => 
-                @this.Do1Async<T, Exception, Try<T>>(task));
+            return Try.GetAsync(async () =>
+            {
+                if (@this.HasValue)
+                {
+                    await task;
+                }
+                return @this;
+            });
         }
 
         public static Task<Try<T>> TryDoAsync<T>(
@@ -388,8 +470,14 @@ namespace Fun
             if (Equals(getTask, null))
                 return Try.Error<T>(new ArgumentNullException(nameof(getTask))).AsTask();
 
-            return Try.GetAsync(() =>
-                @this.Do1Async<T, Exception, Try<T>>(getTask));
+            return Try.GetAsync(async () =>
+            {
+                if (@this.HasValue)
+                {
+                    await getTask(@this.Value);
+                }
+                return @this;
+            });
         }
         
         public static Task<Try<T>> TryDoAsync<T>(
@@ -402,8 +490,15 @@ namespace Fun
             if (Equals(getTask, null))
                 return Try.Error<T>(new ArgumentNullException(nameof(getTask))).AsTask();
 
-            return Try.GetAsync(async () => await
-                (await @this).Do1Async<T, Exception, Try<T>>(getTask));
+            return Try.GetAsync(async () =>
+            {
+                var result = await @this;
+                if (result.HasValue)
+                {
+                    await getTask();
+                }
+                return result;
+            });
         }
 
         public static Task<Try<T>> TryDoAsync<T>(
@@ -416,8 +511,15 @@ namespace Fun
             if (Equals(getTask, null))
                 return Try.Error<T>(new ArgumentNullException(nameof(getTask))).AsTask();
 
-            return Try.GetAsync(async () => await
-                (await @this).Do1Async<T, Exception, Try<T>>(getTask));
+            return Try.GetAsync(async () =>
+            {
+                var result = await @this;
+                if (result.HasValue)
+                {
+                    await getTask(result.Value);
+                }
+                return result;
+            });
         }
 
         public static Task<Try<T>> TryDoAsync<T>(
@@ -430,8 +532,15 @@ namespace Fun
             if (Equals(task, null))
                 return Try.Error<T>(new ArgumentNullException(nameof(task))).AsTask();
 
-            return Try.GetAsync(async () => await
-                (await @this).Do1Async<T, Exception, Try<T>>(task));
+            return Try.GetAsync(async () =>
+            {
+                var result = await @this;
+                if (result.HasValue)
+                {
+                    await task;
+                }
+                return result;
+            });
         }
 
         public static Task<Try<T>> TryDoAsync<T>(
@@ -444,8 +553,15 @@ namespace Fun
             if (Equals(task, null))
                 return Try.Error<T>(new ArgumentNullException(nameof(task))).AsTask();
 
-            return Try.GetAsync(async () => await
-                (await @this).Do1Async<T, Exception, Try<T>>(task));
+            return Try.GetAsync(async () =>
+            {
+                var result = await @this;
+                if (result.HasValue)
+                {
+                    await task;
+                }
+                return result;
+            });
         }
 
         public static Task<Try<T>> TryDoAsync<T>(
@@ -458,8 +574,15 @@ namespace Fun
             if (Equals(getTask, null))
                 return Try.Error<T>(new ArgumentNullException(nameof(getTask))).AsTask();
 
-            return Try.GetAsync(async () => await
-                (await @this).Do1Async<T, Exception, Try<T>>(getTask));
+            return Try.GetAsync(async () =>
+            {
+                var result = await @this;
+                if (result.HasValue)
+                {
+                    await getTask(result.Value);
+                }
+                return result;
+            });
         }
 
         public static Try<Unit> Ignore<T>(
