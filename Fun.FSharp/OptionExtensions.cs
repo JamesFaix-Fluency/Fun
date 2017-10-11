@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.FSharp.Core;
+﻿using Microsoft.FSharp.Core;
 
 namespace Fun.FSharp
 {
