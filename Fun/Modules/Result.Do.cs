@@ -16,7 +16,7 @@ namespace Fun
             if (Equals(action, null))
                 return Error<T>(new ArgumentNullException(nameof(action)));
 
-            return Get(() =>
+            return Try(() =>
             {
                 if (@this.HasValue)
                 {
@@ -36,7 +36,7 @@ namespace Fun
             if (Equals(action, null))
                 return Error<T>(new ArgumentNullException(nameof(action)));
 
-            return Get(() =>
+            return Try(() =>
             {
                 if (@this.HasValue)
                 {
@@ -56,7 +56,7 @@ namespace Fun
             if (Equals(action, null))
                 return Error<T>(new ArgumentNullException(nameof(action)));
 
-            return Get(() =>
+            return Try(() =>
             {
                 if (@this.HasValue)
                 {
@@ -76,7 +76,7 @@ namespace Fun
             if (Equals(action, null))
                 return Error<T>(new ArgumentNullException(nameof(action)));
 
-            return Get(() =>
+            return Try(() =>
             {
                 if (@this.HasValue)
                 {
@@ -96,7 +96,7 @@ namespace Fun
             if (Equals(getTask, null))
                 return Error<T>(new ArgumentNullException(nameof(getTask))).AsTask();
 
-            return GetAsync(async () =>
+            return TryAsync(async () =>
             {
                 if (@this.HasValue)
                 {
@@ -116,7 +116,7 @@ namespace Fun
             if (Equals(getTask, null))
                 return Error<T>(new ArgumentNullException(nameof(getTask))).AsTask();
 
-            return GetAsync(async () =>
+            return TryAsync(async () =>
             {
                 if (@this.HasValue)
                 {
@@ -136,7 +136,7 @@ namespace Fun
             if (Equals(task, null))
                 return Error<T>(new ArgumentNullException(nameof(task))).AsTask();
 
-            return GetAsync(async () =>
+            return TryAsync(async () =>
             {
                 if (@this.HasValue)
                 {
@@ -156,7 +156,7 @@ namespace Fun
             if (Equals(task, null))
                 return Error<T>(new ArgumentNullException(nameof(task))).AsTask();
 
-            return GetAsync(async () =>
+            return TryAsync(async () =>
             {
                 if (@this.HasValue)
                 {
@@ -176,7 +176,7 @@ namespace Fun
             if (Equals(getTask, null))
                 return Error<T>(new ArgumentNullException(nameof(getTask))).AsTask();
 
-            return GetAsync(async () =>
+            return TryAsync(async () =>
             {
                 if (@this.HasValue)
                 {
@@ -196,7 +196,7 @@ namespace Fun
             if (Equals(getTask, null))
                 return Error<T>(new ArgumentNullException(nameof(getTask))).AsTask();
 
-            return GetAsync(async () =>
+            return TryAsync(async () =>
             {
                 var result = await @this;
                 if (result.HasValue)
@@ -217,7 +217,7 @@ namespace Fun
             if (Equals(getTask, null))
                 return Error<T>(new ArgumentNullException(nameof(getTask))).AsTask();
 
-            return GetAsync(async () =>
+            return TryAsync(async () =>
             {
                 var result = await @this;
                 if (result.HasValue)
@@ -238,7 +238,7 @@ namespace Fun
             if (Equals(task, null))
                 return Error<T>(new ArgumentNullException(nameof(task))).AsTask();
 
-            return GetAsync(async () =>
+            return TryAsync(async () =>
             {
                 var result = await @this;
                 if (result.HasValue)
@@ -259,7 +259,7 @@ namespace Fun
             if (Equals(task, null))
                 return Error<T>(new ArgumentNullException(nameof(task))).AsTask();
 
-            return GetAsync(async () =>
+            return TryAsync(async () =>
             {
                 var result = await @this;
                 if (result.HasValue)
@@ -280,7 +280,7 @@ namespace Fun
             if (Equals(getTask, null))
                 return Error<T>(new ArgumentNullException(nameof(getTask))).AsTask();
 
-            return GetAsync(async () =>
+            return TryAsync(async () =>
             {
                 var result = await @this;
                 if (result.HasValue)

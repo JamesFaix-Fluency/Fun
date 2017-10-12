@@ -59,7 +59,7 @@ namespace TestApp.DomainLayer
         {
             var logPath = ConfigurationManager.AppSettings["LogFilePath"];
             ;
-            return Result.GetAsync(() =>
+            return Result.TryAsync(() =>
                 _fileSystem.AppendLineAsync(Session.CurrentUser, logPath, message));
         }
     }

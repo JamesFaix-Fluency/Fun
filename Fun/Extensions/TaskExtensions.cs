@@ -11,7 +11,7 @@ namespace Fun.Extensions
             if (Equals(@this, null))
                 throw new ArgumentNullException(nameof(@this));
 
-            return Result.GetAsync(async () => await @this);
+            return Result.TryAsync(async () => await @this);
         }   
     }
 }

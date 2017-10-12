@@ -15,7 +15,7 @@ namespace Fun
             if (Equals(projection, null))
                 return Error<T>(new ArgumentNullException(nameof(projection)));
 
-            return Get(() =>
+            return Try(() =>
                 @this.HasValue
                     ? @this
                     : Value(projection(@this.Error)));
@@ -31,7 +31,7 @@ namespace Fun
             if (Equals(projection, null))
                 return Error<T>(new ArgumentNullException(nameof(projection)));
 
-            return Get(() =>
+            return Try(() =>
                 @this.HasValue
                     ? @this
                     : projection(@this.Error));
@@ -54,7 +54,7 @@ namespace Fun
             if (!exceptionType.IsAssignableFrom(typeof(Exception)))
                 return Error<T>(new ArgumentException($"Exception type must extend {nameof(System)}.{nameof(Exception)}.", nameof(exceptionType)));
 
-            return Get(() =>
+            return Try(() =>
                 !@this.HasValue
                 && @this.Error.GetType().IsAssignableFrom(exceptionType)
                     ? projection(@this.Error)
@@ -75,7 +75,7 @@ namespace Fun
             if (Equals(projection, null))
                 return Error<T>(new ArgumentNullException(nameof(projection)));
 
-            return Get(() =>
+            return Try(() =>
                 !@this.HasValue
                 && errorPredicate(@this.Error)
                     ? projection(@this.Error)

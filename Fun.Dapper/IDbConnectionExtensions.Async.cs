@@ -15,7 +15,7 @@ namespace Fun.Dapper
             int? commandTimeout = null,
             CommandType? commandType = null)
         {
-            return Result.GetAsync(() =>
+            return Result.TryAsync(() =>
                 connection.ExecuteAsync(sql, param,
                     transaction, commandTimeout, commandType));
         }
@@ -28,7 +28,7 @@ namespace Fun.Dapper
             int? commandTimeout = null,
             CommandType? commandType = null)
         {
-            return Result.GetAsync(() =>
+            return Result.TryAsync(() =>
                 connection.ExecuteReaderAsync(sql, param,
                     transaction, commandTimeout, commandType));
         }
@@ -41,7 +41,7 @@ namespace Fun.Dapper
             int? commandTimeout = null,
             CommandType? commandType = null)
         {
-            return Result.GetAsync(() =>
+            return Result.TryAsync(() =>
                 connection.ExecuteScalarAsync<T>(sql, param,
                     transaction, commandTimeout, commandType));
         }
@@ -55,7 +55,7 @@ namespace Fun.Dapper
             int? commandTimeout = null,
             CommandType? commandType = null)
         {
-            return Result.GetAsync(() =>
+            return Result.TryAsync(() =>
                 connection.QueryAsync<T>(sql, param,
                     transaction, commandTimeout, commandType));
         }
@@ -68,7 +68,7 @@ namespace Fun.Dapper
             int? commandTimeout = null,
             CommandType? commandType = null)
         {
-            return Result.GetAsync(() =>
+            return Result.TryAsync(() =>
                 connection.QueryFirstAsync<T>(sql, param,
                     transaction, commandTimeout, commandType));
         }
@@ -81,7 +81,7 @@ namespace Fun.Dapper
             int? commandTimeout = null,
             CommandType? commandType = null)
         {
-            return Result.GetAsync(() =>
+            return Result.TryAsync(() =>
                 connection.QueryFirstOrDefaultAsync<T>(sql, param,
                     transaction, commandTimeout, commandType));
         }
@@ -94,7 +94,7 @@ namespace Fun.Dapper
             int? commandTimeout = null,
             CommandType? commandType = null)
         {
-            return Result.GetAsync(() =>
+            return Result.TryAsync(() =>
                 connection.QuerySingleAsync<T>(sql, param,
                     transaction, commandTimeout, commandType));
         }
@@ -107,7 +107,7 @@ namespace Fun.Dapper
             int? commandTimeout = null,
             CommandType? commandType = null)
         {
-            return Result.GetAsync(() =>
+            return Result.TryAsync(() =>
                  connection.QuerySingleOrDefaultAsync<T>(sql, param,
                     transaction, commandTimeout, commandType));
         }

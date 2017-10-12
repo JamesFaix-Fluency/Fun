@@ -19,7 +19,7 @@ namespace Fun
             if (Equals(projection, null))
                 return Error<T2>(new ArgumentNullException(nameof(projection)));
 
-            return Get(() =>
+            return Try(() =>
                 @this.HasValue
                     ? Value(projection(@this.Value))
                     : Error<T2>(@this.Error));
@@ -36,7 +36,7 @@ namespace Fun
             if (Equals(projection, null))
                 return Error<T2>(new ArgumentNullException(nameof(projection)));
 
-            return Get(() =>
+            return Try(() =>
                 @this.HasValue
                     ? projection(@this.Value)
                     : Error<T2>(@this.Error));
@@ -56,7 +56,7 @@ namespace Fun
             if (Equals(errorProjection, null))
                 return Error<T2>(new ArgumentNullException(nameof(errorProjection)));
 
-            return Get(() =>
+            return Try(() =>
                 @this.HasValue
                     ? valueProjection(@this.Value)
                     : errorProjection(@this.Error));
@@ -72,7 +72,7 @@ namespace Fun
             if (Equals(projection, null))
                 return Error<T2>(new ArgumentNullException(nameof(projection))).AsTask();
 
-            return GetAsync(async () =>
+            return TryAsync(async () =>
                 @this.HasValue
                     ? Value(await projection(@this.Value))
                     : Error<T2>(@this.Error));
@@ -88,7 +88,7 @@ namespace Fun
             if (Equals(projection, null))
                 return Error<T2>(new ArgumentNullException(nameof(projection))).AsTask();
 
-            return GetAsync(async () =>
+            return TryAsync(async () =>
                 @this.HasValue
                     ? await projection(@this.Value)
                     : Error<T2>(@this.Error));
@@ -104,7 +104,7 @@ namespace Fun
             if (Equals(projection, null))
                 return Error<T2>(new ArgumentNullException(nameof(projection))).AsTask();
 
-            return GetAsync(async () =>
+            return TryAsync(async () =>
             {
                 var result = await @this;
                 return result.HasValue
@@ -123,7 +123,7 @@ namespace Fun
             if (Equals(projection, null))
                 return Error<T2>(new ArgumentNullException(nameof(projection))).AsTask();
 
-            return GetAsync(async () =>
+            return TryAsync(async () =>
             {
                 var result = await @this;
                 return result.HasValue
@@ -142,7 +142,7 @@ namespace Fun
             if (Equals(projection, null))
                 return Error<IEnumerable<T2>>(new ArgumentNullException(nameof(projection)));
 
-            return Get(() =>
+            return Try(() =>
                 @this.HasValue
                     ? Value(@this.Value.Select(projection))
                     : Error<IEnumerable<T2>>(@this.Error));
@@ -158,7 +158,7 @@ namespace Fun
             if (Equals(projection, null))
                 return Error<IEnumerable<T2>>(new ArgumentNullException(nameof(projection))).AsTask();
 
-            return GetAsync(async () =>
+            return TryAsync(async () =>
             {
                 var result = await @this;
                 return result.HasValue

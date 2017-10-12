@@ -48,7 +48,7 @@ namespace Fun
             if (Equals(errorGenerator, null))
                 return Error<T>(new ArgumentNullException(nameof(errorGenerator)));
 
-            return Get(() =>
+            return Try(() =>
                 @this.HasValue
                 && !predicate(@this.Value)
                     ? Error<T>(errorGenerator())
@@ -69,7 +69,7 @@ namespace Fun
             if (Equals(errorGenerator, null))
                 return Error<T>(new ArgumentNullException(nameof(errorGenerator)));
 
-            return Get(() =>
+            return Try(() =>
                  @this.HasValue
                  && predicate(@this.Value)
                      ? Error<T>(errorGenerator())

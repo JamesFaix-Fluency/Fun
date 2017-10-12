@@ -21,7 +21,7 @@ namespace Fun
             if (Equals(@this, null))
                 return Error<Unit>(new ArgumentNullException(nameof(@this))).AsTask();
 
-            return GetAsync(async () =>
+            return TryAsync(async () =>
             {
                 await @this;
                 return Value(Unit.Value);
