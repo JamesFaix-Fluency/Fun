@@ -12,7 +12,9 @@ namespace Fun
             if (Equals(@this, null))
                 return Error<Unit>(new ArgumentNullException(nameof(@this)));
 
-            return Value(Unit.Value);
+            return @this.HasValue
+                ? Value(Unit.Value)
+                : @this.Error.AsError<Unit>();
         }
 
         public static Task<Result<Unit>> IgnoreAsync<T>(
@@ -23,8 +25,10 @@ namespace Fun
 
             return TryAsync(async () =>
             {
-                await @this;
-                return Value(Unit.Value);
+                var result = await @this;
+                return result.HasValue
+                    ? Value(Unit.Value)
+                    : result.Error.AsError<Unit>();
             });
         }
     }
