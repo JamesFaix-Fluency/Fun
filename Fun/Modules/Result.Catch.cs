@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Reflection;
+using System.Threading.Tasks;
+using Fun.Extensions;
 
 namespace Fun
 {
@@ -80,6 +82,26 @@ namespace Fun
                 && errorPredicate(@this.Error)
                     ? projection(@this.Error)
                     : @this);
+        }
+        
+        public static Task<Result<T>> CatchAsync<T>(
+            this Task<Result<T>> @this,
+            Func<Exception, bool> filter,
+            Func<Exception, Result<T>> projection)
+        {
+            if (Equals(@this, null))
+                return Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
+
+            if (Equals(projection, null))
+                return Error<T>(new ArgumentNullException(nameof(projection))).AsTask();
+
+            return TryAsync(async () =>
+            {
+                var result = await @this;
+                return result.HasValue || !filter(result.Error)
+                    ? result
+                    : projection(result.Error);
+            });
         }
     }
 }
