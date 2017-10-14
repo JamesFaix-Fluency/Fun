@@ -41,7 +41,7 @@ namespace Fun
         public Exception Error =>
             HasValue
                 ? throw new InvalidOperationException(
-                    $"Cannot get {nameof(Error)} of {nameof(Result<T>)} when {nameof(HasValue)} is false.")
+                    $"Cannot get {nameof(Error)} of {nameof(Result<T>)} when {nameof(HasValue)} is true.")
                 : _error;
 
         public override string ToString() =>
