@@ -160,5 +160,23 @@ namespace Fun
                 return Error<Unit>(e);
             }
         }
+
+        public static Task<Result<T>> TryAsync<T>(Func<T> generator)
+        {
+            return TryAsync(async () =>
+            {
+                var result = await Task.Run(generator);
+                return Value(result);
+            });
+        }
+
+        public static Task<Result<Unit>> TryAsync(Action action)
+        {
+            return TryAsync(async () =>
+            {
+                await Task.Run(action);
+                return Value(Unit.Value);
+            });
+        }
     }
 }

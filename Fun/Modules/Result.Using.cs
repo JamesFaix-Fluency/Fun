@@ -116,5 +116,35 @@ namespace Fun
                 d?.Dispose();
             }
         }
+
+        public static async Task<Result<Unit>> UsingAsync<TDisposable>(
+            Func<TDisposable> getDisposable,
+            Action<TDisposable> action)
+            where TDisposable : IDisposable
+        {
+            if (Equals(getDisposable, null))
+                return Error<Unit>(new ArgumentNullException(nameof(getDisposable)));
+
+            if (Equals(action, null))
+                return Error<Unit>(new ArgumentNullException(nameof(action)));
+
+            var d = default(TDisposable);
+            
+            try
+            {
+                d = getDisposable();
+                action(d);
+                return Value(Unit.Value);
+            }
+            catch (Exception e)
+            {
+                return Error<Unit>(e);
+            }
+            finally
+            {
+                d?.Dispose();
+            }
+        }
+
     }
 }

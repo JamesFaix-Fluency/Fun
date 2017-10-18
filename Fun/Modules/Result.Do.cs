@@ -290,5 +290,27 @@ namespace Fun
                 return result;
             });
         }
+
+
+        public static Task<Result<T>> DoAsync<T>(
+            this Task<Result<T>> @this,
+            Action<T> action)
+        {
+            if (Equals(@this, null))
+                return Error<T>(new ArgumentNullException(nameof(@this))).AsTask();
+
+            if (Equals(action, null))
+                return Error<T>(new ArgumentNullException(nameof(action))).AsTask();
+
+            return TryAsync(async () =>
+            {
+                var result = await @this;
+                if (result.HasValue)
+                {
+                    action(result.Value);
+                }
+                return result;
+            });
+        }
     }
 }
