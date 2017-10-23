@@ -146,5 +146,32 @@ namespace Fun
             }
         }
 
+        public static async Task<Result<T>> UsingAsync<T, TDisposable>(
+            Func<TDisposable> getDisposable,
+            Func<TDisposable, Task<Result<T>>> getResult)
+            where TDisposable : IDisposable
+        {
+            if (Equals(getDisposable, null))
+                return Error<T>(new ArgumentNullException(nameof(getDisposable)));
+
+            if (Equals(getResult, null))
+                return Error<T>(new ArgumentNullException(nameof(getResult)));
+
+            var d = default(TDisposable);
+
+            try
+            {
+                d = getDisposable();
+                return await getResult(d);
+            }
+            catch (Exception e)
+            {
+                return Error<T>(e);
+            }
+            finally
+            {
+                d?.Dispose();
+            }
+        }
     }
 }
