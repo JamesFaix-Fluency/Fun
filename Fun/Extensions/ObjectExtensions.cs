@@ -21,5 +21,9 @@ namespace Fun.Extensions
         public static IEnumerable<T> AsSingleSeq<T>(
             this T @this) =>
             Enumerable.Repeat(@this, 1);
+
+        public static TBase Upcast<TDerived, TBase>(this TDerived @this)
+          where TDerived : TBase
+          => @this;
     }
 }
