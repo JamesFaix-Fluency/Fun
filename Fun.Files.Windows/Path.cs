@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Fun.Files.Windows
 {
@@ -15,7 +16,17 @@ namespace Fun.Files.Windows
             Type = type;
         }
 
-        public override string ToString() =>
-            System.IO.Path.Combine(_elements);
+        public override string ToString()
+        {
+            if (_elements[0].EndsWith(":"))
+            {
+                var tail = System.IO.Path.Combine(_elements.Skip(1).ToArray());
+                return $"{_elements[0]}\\{tail}";
+            }
+            else
+            {
+                return System.IO.Path.Combine(_elements);
+            }
+        }
     }
 }

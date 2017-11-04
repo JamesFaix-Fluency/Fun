@@ -16,7 +16,7 @@ namespace Fun.Files.Windows
         public Result<IPath> CreatePath(params string[] elements) =>
             Result.Assert(elements?.Count() > 0,
                     () => new ArgumentException(nameof(elements), "Path must have 1 or more elements."))
-                .Map(_ => 
+                .Map(_ =>
                 {
                     elements = SplitElements(elements);
                     return new Path(GetPathType(elements), elements) as IPath;
@@ -61,26 +61,28 @@ namespace Fun.Files.Windows
             {
                 var dir = new DirectoryInfo(query.RootPath.ToString());
                 var dirs = dir.GetDirectories(query.PatternFilter, GetSearchOption(query.IncludeSubfolders));
+
+                foreach (var d in dirs)
+                {
+                    d.Delete(recursive: true);
+                }
+
                 var files = dir.GetFiles(query.PatternFilter, GetSearchOption(query.IncludeSubfolders));
 
                 foreach (var f in files)
                 {
                     f.Delete();
                 }
-                foreach (var d in dirs)
-                {
-                    d.Delete(recursive: true);
-                }
             });
 
         public Task<Result<IPath>> GetApplicationFolder() =>
-            Result.TryAsync(() => 
+            Result.TryAsync(() =>
             {
                 var assembly = Assembly.GetExecutingAssembly();
                 var dir = System.IO.Path.GetDirectoryName(assembly.Location);
                 return CreatePath(dir).AsTask();
             });
-        
+
         private static PathType GetPathType(string[] elements) =>
             System.IO.Path.HasExtension(elements.Last())
                 ? PathType.File
@@ -94,6 +96,7 @@ namespace Fun.Files.Windows
         private static string[] SplitElements(string[] elements) =>
             elements
                 .SelectMany(e => _pathSeparatorRegex.Split(e))
+                .Where(e => e.Length > 0)
                 .ToArray();
     }
 }
