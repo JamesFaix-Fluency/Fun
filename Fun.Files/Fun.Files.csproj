@@ -37,7 +37,6 @@
     <Compile Include="IFileSystem.cs" />
     <Compile Include="IPath.cs" />
     <Compile Include="ITextTransform.cs" />
-    <Compile Include="ObjectExtensions.cs" />
     <Compile Include="PathQuery.cs" />
     <Compile Include="PathType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
