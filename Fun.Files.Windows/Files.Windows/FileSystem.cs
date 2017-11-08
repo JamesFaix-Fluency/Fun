@@ -64,7 +64,7 @@ namespace Fun.Files.Windows
 
                 foreach (var d in dirs)
                 {
-                    d.Delete(recursive: true);
+                    d.Delete(recursive: false);
                 }
 
                 var files = dir.GetFiles(query.PatternFilter, GetSearchOption(query.IncludeSubfolders));
