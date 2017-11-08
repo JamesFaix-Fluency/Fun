@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Fun.Files;
 
-namespace Fun.Files.Windows
+namespace Fun.Windows.Files
 {
     public class Path : IPath
     {

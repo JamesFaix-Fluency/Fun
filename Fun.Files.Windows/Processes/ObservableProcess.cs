@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Fun.Data;
 using Fun.Extensions;
 
-namespace Fun.Processes
+namespace Fun.Windows.Processes
 {
     public class ObservableProcess<T> : PublisherBase<T>, IDisposable
     {

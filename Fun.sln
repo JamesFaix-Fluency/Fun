@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Main", "_Main", "{F0282A5C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fun.Files", "Fun.Files\Fun.Files.csproj", "{253F5016-FBE0-461F-B638-CE5105757EF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fun.Files.Windows", "Fun.Files.Windows\Fun.Files.Windows.csproj", "{C536F64C-B734-4E7A-B557-6FF6B233ADBC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fun.Windows", "Fun.Files.Windows\Fun.Windows.csproj", "{C536F64C-B734-4E7A-B557-6FF6B233ADBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

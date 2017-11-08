@@ -7,7 +7,7 @@
     <ProjectGuid>{C536F64C-B734-4E7A-B557-6FF6B233ADBC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Fun</RootNamespace>
+    <RootNamespace>Fun.Windows</RootNamespace>
     <AssemblyName>Fun.Windows</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -33,8 +33,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Files.Windows\FileSystem.cs" />
-    <Compile Include="Files.Windows\Path.cs" />
+    <Compile Include="Files\FileSystem.cs" />
+    <Compile Include="Files\Path.cs" />
     <Compile Include="Processes\ObservableProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

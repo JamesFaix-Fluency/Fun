@@ -6,8 +6,9 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Fun.Extensions;
+using Fun.Files;
 
-namespace Fun.Files.Windows
+namespace Fun.Windows.Files
 {
     public class FileSystem : IFileSystem
     {
