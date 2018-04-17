@@ -17,6 +17,6 @@ namespace Fun.Files
             _regex = new Regex(find);
         }
 
-        public string Apply(string text) => _regex.Replace(text, m => Replacement);
+        public string Apply(string text) => _regex.Replace(text, Replacement);
     }
 }
