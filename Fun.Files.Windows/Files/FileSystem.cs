@@ -61,18 +61,23 @@ namespace Fun.Windows.Files
             Result.TryAsync(() =>
             {
                 var dir = new DirectoryInfo(query.RootPath.ToString());
-                var dirs = dir.GetDirectories(query.PatternFilter, GetSearchOption(query.IncludeSubfolders));
 
-                foreach (var d in dirs)
+                if (query.TypeFilter.HasFlag(PathType.Folder))
                 {
-                    d.Delete(recursive: false);
+                    var dirs = dir.GetDirectories(query.PatternFilter);
+                    foreach (var d in dirs)
+                    {
+                        d.Delete(recursive: query.IncludeSubfolders);
+                    }
                 }
 
-                var files = dir.GetFiles(query.PatternFilter, GetSearchOption(query.IncludeSubfolders));
-
-                foreach (var f in files)
+                if (query.TypeFilter.HasFlag(PathType.File))
                 {
-                    f.Delete();
+                    var files = dir.GetFiles(query.PatternFilter, GetSearchOption(query.IncludeSubfolders));
+                    foreach (var f in files)
+                    {
+                        f.Delete();
+                    }
                 }
             });
 
