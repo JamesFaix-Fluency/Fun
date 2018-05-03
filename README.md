@@ -2,6 +2,8 @@
 
 Fun is a .NET Standard library that takes functional programming concepts from langauges like Haskell and F#, and implements them in a way that feels natural to consume in a C# codebase, rather than designing from functional first principles.  
 
+[![Build status](https://ci.appveyor.com/api/projects/status/1xxpe6bfmxf5x93a?svg=true)](https://ci.appveyor.com/project/JamesFaix/fun)
+
 #### Can't you just `using Microsoft.FSharp.Core;`?
 
 There is some overlap, but Fun is designed expressly to be practical to use from C#. Implications of this are things like:
