@@ -18,5 +18,7 @@ namespace Fun.Files
         Task<Result<Unit>> CleanFolder(PathQuery query);
 
         Task<Result<IPath>> GetApplicationFolder();
+
+        Task<bool> Exists(IPath path);
     }
 }

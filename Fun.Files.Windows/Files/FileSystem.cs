@@ -84,6 +84,12 @@ namespace Fun.Windows.Files
                 return CreatePath(dir).AsTask();
             });
 
+        public Task<bool> Exists(IPath path) =>
+            Task.Run(() => 
+                path.Type == PathType.File 
+                    ? File.Exists(path.ToString()) 
+                    : Directory.Exists(path.ToString()));
+
         private static PathType GetPathType(string[] elements) =>
             System.IO.Path.HasExtension(elements.Last())
                 ? PathType.File
