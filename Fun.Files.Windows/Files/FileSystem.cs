@@ -95,6 +95,22 @@ namespace Fun.Windows.Files
                     ? File.Exists(path.ToString()) 
                     : Directory.Exists(path.ToString()));
 
+        public Task<Result<Unit>> CreateFolderIfMissing(IPath path) =>
+            Result.TryAsync(() =>
+            {
+                if (path.Type == PathType.File)
+                {
+                    return new ArgumentException("Cannot create folder from file path.").AsError<Unit>().AsTask();
+                }
+
+                if (!Directory.Exists(path.ToString()))
+                {
+                    Directory.CreateDirectory(path.ToString());
+                }
+
+                return Unit.Value.AsResult().AsTask();
+            });
+
         private static PathType GetPathType(string[] elements) =>
             System.IO.Path.HasExtension(elements.Last())
                 ? PathType.File

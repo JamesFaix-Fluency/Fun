@@ -20,5 +20,7 @@ namespace Fun.Files
         Task<Result<IPath>> GetApplicationFolder();
 
         Task<bool> Exists(IPath path);
+
+        Task<Result<Unit>> CreateFolderIfMissing(IPath path);
     }
 }
